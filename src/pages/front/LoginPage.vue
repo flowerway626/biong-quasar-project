@@ -12,9 +12,10 @@
         q-form(style="width: 80%" @submit="login")
           q-input.q-my-xs(v-model="form.account" label="account" counter maxlength="20"
           :rules="[$rules.required('欄位必填'), $rules.maxLength(20, '長度需為 4~20 個字元'), $rules.minLength(4, '長度需為 4~20 個字元')]")
-          q-input.q-my-xs(v-model="form.password" label="password" type="password" counter maxlength="20"
+          q-input.q-my-xs(v-model="form.password" label="password"  :type="isPwd ? 'password' : 'text'" counter maxlength="20"
           :rules="[$rules.required('欄位必填'), $rules.maxLength(20, '長度需為 4~20 個字元'), $rules.minLength(4, '長度需為 4~20 個字元')]")
-
+            template(v-slot:append)
+              q-icon.cursor-pointer(:name="isPwd ? 'visibility_off' : 'visibility'" @click="isPwd = !isPwd")
           .text-center
             q-btn(type="submit" size="large" color="primary") 登入
 </template>
@@ -23,10 +24,10 @@
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
-import Swal from 'sweetalert2'
 
 const user = useUserStore()
 const layout = ref(true)
+const isPwd = ref(true)
 const currentModel = ref('login')
 const router = useRouter()
 const form = reactive({
@@ -43,16 +44,8 @@ const close = () => {
 }
 
 const login = async () => {
-  try {
-    await user.login(form)
-    close()
-  } catch (error) {
-    Swal.fire({
-      icon: 'error',
-      title: '登入失敗',
-      text: error?.response?.data?.message || '登入錯誤！'
-    })
-  }
+  await user.login(form)
+  close()
 }
 
 </script>

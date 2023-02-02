@@ -6,14 +6,16 @@ const routes = [
   {
     path: '/',
     component: MainLayout,
+    meta: {
+      title: 'Biong Biong',
+      isLogin: false,
+      isAdmin: false
+    },
     children: [
       {
         path: '',
         name: 'home',
-        component: () => import('@/pages/IndexPage.vue'),
-        meta: {
-          title: 'Biong Biong'
-        }
+        component: () => import('@/pages/IndexPage.vue')
       },
       {
         path: 'login',
@@ -77,14 +79,16 @@ const routes = [
     path: '/admin',
     name: 'admin',
     component: AdminLayout,
+    meta: {
+      title: 'Biong Biong | admin',
+      isLogin: true,
+      isAdmin: true
+    },
     children: [
       {
         path: '',
         name: 'admin',
-        component: () => import('@/pages/admin/HomePage.vue'),
-        meta: {
-          title: 'Biong Biong | admin'
-        }
+        component: () => import('@/pages/admin/HomePage.vue')
       },
       {
         path: 'product',
@@ -101,7 +105,9 @@ const routes = [
     name: 'setting',
     component: SettingLayout,
     meta: {
-      title: 'Biong Biong | Setting'
+      title: 'Biong Biong | Setting',
+      isLogin: true,
+      isAdmin: false
     },
     children: [
       {

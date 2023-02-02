@@ -1,7 +1,8 @@
 <template lang="pug">
 #home
   q-layout
-    q-header.bg-primary.text-white
+    //- q-header.text-white
+    q-header.bg-grey-10.text-white(style="")
       q-toolbar
         q-btn(round float to="/")
           q-avatar
@@ -10,18 +11,25 @@
         .q-gutter-x-sm
           q-btn(icon="mdi-home-account" flat round to='/about')
             q-tooltip(anchor="bottom middle" self="top middle") ABOUT
+
           q-btn(icon="mdi-newspaper" flat round to='/news')
             q-tooltip(anchor="bottom middle" self="top middle") NEWS
+
           q-btn(icon="mdi-calendar" flat round to='/event')
             q-tooltip(anchor="bottom middle" self="top middle") EVENT
+
           q-btn(icon="mdi-cart" flat round to='/shopping')
             q-tooltip(anchor="bottom middle" self="top middle") SHOPPING
+
           q-btn(v-if="isLogin && !isAdmin" icon="mdi-cog" flat round to='/setting')
             q-tooltip(anchor="bottom middle" self="top middle") SETTING
+
           q-btn(v-if="isLogin && isAdmin" icon="mdi-cog" flat round to='/admin')
             q-tooltip(anchor="bottom middle" self="top middle") SETTING
+
           q-btn(v-if="!isLogin" icon="login" flat round to='/login')
             q-tooltip(anchor="bottom middle" self="top middle") SIGN IN
+
           q-btn.q-mr-sm(v-if="isLogin" icon="logout" flat round @click="logout")
             q-tooltip(anchor="bottom middle" self="top middle") SIGN OUT
         q-space
@@ -42,4 +50,5 @@ const leftDrawerOpen = ref(false)
 const toggleLeftDrawer = () => {
   leftDrawerOpen.value = !leftDrawerOpen.value
 }
+
 </script>

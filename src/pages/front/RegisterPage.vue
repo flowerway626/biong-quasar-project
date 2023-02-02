@@ -20,13 +20,18 @@
               q-input.q-my-xs(label="account" v-model="form.account" counter maxlength="20"
               :rules="[$rules.required('欄位必填'), $rules.maxLength(20, '長度需為 4~20 個字元'), $rules.minLength(4, '長度需為 4~20 個字元')]")
 
-          q-input.q-my-xs(label="password" v-model="form.password" type="password" counter maxlength="20"
+          q-input.q-my-xs(label="password" v-model="form.password" :type="isPwd ? 'password' : 'text'" counter maxlength="20"
           :rules="[$rules.required('欄位必填'), $rules.maxLength(20, '長度需為 4~20 個字元'), $rules.minLength(4, '長度需為 4~20 個字元')]")
-          q-input.q-my-xs(label="passwordConfirm" v-model="form.passwordConfirm" type="password"
+            template(v-slot:append)
+                q-icon.cursor-pointer(:name="isPwd ? 'visibility_off' : 'visibility'" @click="isPwd = !isPwd")
+
+          q-input.q-my-xs(label="passwordConfirm" v-model="form.passwordConfirm" :type="isPwdConfirm ? 'password' : 'text'"
           :rules="[$rules.required('欄位必填'), $rules.is(form.password, '密碼不一致')]" counter maxlength="20")
+            template(v-slot:append)
+                q-icon.cursor-pointer(:name="isPwdConfirm ? 'visibility_off' : 'visibility'" @click="isPwdConfirm = !isPwdConfirm")
 
           .text-center
-            q-btn(type="submit" size="large" color="primary") 註冊
+            q-btn(type="submit" size="large" color="primary" @keydown.enter="login") 註冊
 </template>
 
 <script setup>
@@ -36,6 +41,8 @@ import { useRouter } from 'vue-router'
 import { api } from 'src/boot/axios'
 
 const layout = ref(true)
+const isPwd = ref(true)
+const isPwdConfirm = ref(true)
 const currentModel = ref('register')
 const router = useRouter()
 const form = reactive({

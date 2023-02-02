@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import { api, apiAuth } from 'src/boot/axios'
 import Swal from 'sweetalert2'
+import { Notify } from 'quasar'
 
 export const useCounterStore = defineStore('counter', {
   state: () => ({
@@ -34,16 +35,21 @@ export const useUserStore = defineStore('user', () => {
       cart.value = data.result.cart
       token.value = data.result.token
       role.value = data.result.role
-      Swal.fire({
-        icon: 'success',
-        title: '成功',
-        text: '登入成功！'
+      Notify.create({
+        type: 'positive',
+        color: 'info',
+        message: '登入成功',
+        position: 'top'
       })
     } catch (error) {
       Swal.fire({
+        toast: true,
+        timer: 1000,
+        showConfirmButton: false,
+        background: '#F5ABA5',
         icon: 'error',
-        title: '失敗',
-        text: error?.response?.data?.message || '發生錯誤！'
+        color: 'black',
+        text: error?.response?.data?.message || '登入發生錯誤！'
       })
     }
   }
@@ -57,17 +63,21 @@ export const useUserStore = defineStore('user', () => {
       cart.value = ''
       token.value = ''
       role.value = 0
-      Swal.fire({
-        icon: 'success',
-        title: '成功',
-        text: '登出成功！'
+      Notify.create({
+        type: 'warning',
+        color: 'warning',
+        message: '已登出',
+        position: 'top'
       })
     } catch (error) {
-      console.log(error)
       Swal.fire({
+        toast: true,
+        showConfirmButton: false,
+        timer: 2000,
+        color: 'black',
+        background: '#F5ABA5',
         icon: 'success',
-        title: '失敗',
-        text: error?.data?.response?.message || '發生錯誤！'
+        text: error?.data?.response?.message || '登出發生錯誤！'
       })
     }
   }

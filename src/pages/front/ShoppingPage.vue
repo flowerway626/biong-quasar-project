@@ -21,7 +21,9 @@ import ProductCard from 'src/components/ProductCard.vue'
 import { data } from 'browserslist'
 import Swal from 'sweetalert2'
 
-const products = reactive([]);
+const products = reactive([])
+const currentPage = ref(1)
+const slide = ref(1);
 
 (async () => {
   try {
@@ -35,7 +37,6 @@ const products = reactive([]);
     })
   }
 })()
-const currentPage = ref(1)
 </script>
 
 <style lang="sass" scoped>
