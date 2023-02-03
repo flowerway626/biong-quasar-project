@@ -1,8 +1,7 @@
 <template lang="pug">
 #home
   q-layout
-    //- q-header.text-white
-    q-header.bg-grey-10.text-white(style="")
+    q-header.bg-grey-10.text-white
       q-toolbar
         q-btn(round float to="/")
           q-avatar
@@ -50,5 +49,7 @@ const leftDrawerOpen = ref(false)
 const toggleLeftDrawer = () => {
   leftDrawerOpen.value = !leftDrawerOpen.value
 }
-
 </script>
+
+<style lang="scss">
+</style>

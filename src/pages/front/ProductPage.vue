@@ -10,9 +10,9 @@ h4 product
     q-chip(v-model:selected="myLike" color="#fce5e5" icon="mdi-heart-plus" clickable) 收藏
     q-btn-group(outline)
       q-btn(color="brown" label="-")
-      q-input
+      q-input(v-model.number="quantity" type="number")
       q-btn(color="brown" label="+")
-    q-btn(color="brown" label="加入購物車")
+    q-btn(color="brown" label="加入購物車" @click="submitCart")
 
   </template>
 
@@ -22,9 +22,13 @@ import { useRoute } from 'vue-router'
 import { api } from 'src/boot/axios'
 import Swal from 'sweetalert2'
 import router from 'src/router'
+import { useUserStore } from 'src/stores/user'
 
+const user = useUserStore()
+const { editCart } = user
 const myLike = ref(false)
 const route = useRoute()
+const quantity = ref(0)
 
 const product = reactive({
   _id: '',
@@ -34,7 +38,12 @@ const product = reactive({
   image: '',
   sell: true,
   category: ''
-});
+})
+
+const submitCart = () => {
+  console.log(quantity.value)
+  editCart({ _id: product._id, quantity: quantity.value })
+}
 
 (async () => {
   try {

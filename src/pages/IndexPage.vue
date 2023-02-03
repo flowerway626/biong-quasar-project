@@ -2,17 +2,24 @@
 q-page
   .row
     q-img(fit src="http://img.lifestyler.co.kr/uploads/programtemplate/20220614/f637908113779910034.jpg")
+  .row.q-pa-xl
+    .col-12
+      h5.text-center 周邊商品
+    .col-12.row
+      .col.q-ma-sm(v-for="product in products" :key="product.id")
+        ProductCard(v-bind="product")
 
-  h5.col-12.text-center 活動公告
   .row.flex-center.q-pa-xl
-    .col
+    .col-12
+      h5.text-center 活動公告
+    .col-6
       q-card.eventCard.q-ma-auto
         img(src='https://cdn.quasar.dev/img/mountains.jpg')
         q-card-section
           .text-h6 直播快閃
           .text-subtitle2 2023/2/5 ~ 2023/2/10
         q-card-section.q-pt-none loremloremloremloremloremloremloremloremloremloremloremlorem
-    .col
+    .col-6
       q-table.eventTable.q-ma-auto(title='Events' :rows='rows' :columns='columns' row-key='name')
 
   .row.q-pa-xl
@@ -41,6 +48,9 @@ q-page
 
 <script setup>
 import { reactive } from 'vue'
+import ProductCard from 'src/components/ProductCard.vue'
+import { api } from 'src/boot/axios'
+import Swal from 'sweetalert2'
 
 const form = reactive({
   account: '',
@@ -111,6 +121,22 @@ const rows = reactive([
 const contactUs = () => {
   console.log('表單送出')
 }
+
+const products = reactive([]);
+
+(async () => {
+  try {
+    const { data } = await api.get('/products')
+    products.push(...data.result)
+  } catch (error) {
+    Swal.fire({
+      icon: 'error',
+      title: 'error',
+      text: error?.response?.data.message || '發生錯誤'
+    })
+  }
+})()
+
 </script>
 
 <style lang="scss">

@@ -80,9 +80,7 @@ const routes = [
     name: 'admin',
     component: AdminLayout,
     meta: {
-      title: 'Biong Biong | admin',
-      isLogin: true,
-      isAdmin: true
+      title: 'Biong Biong | admin'
     },
     children: [
       {
@@ -105,9 +103,7 @@ const routes = [
     name: 'setting',
     component: SettingLayout,
     meta: {
-      title: 'Biong Biong | Setting',
-      isLogin: true,
-      isAdmin: false
+      title: 'Biong Biong | Setting'
     },
     children: [
       {

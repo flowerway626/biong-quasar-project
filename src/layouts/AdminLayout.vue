@@ -8,13 +8,7 @@ q-layout.shadow-2.rounded-borders(view="hHh Lpr lff" container style="height: 10
 
   q-drawer(v-model="drawer" show-if-above bordered @mouseover="miniState = false" @mouseout="miniState = true"
     :mini="miniState" mini-to-overlay :width="200" :breakpoint="500")
-    //- q-img.absolute-top(src="https://cdn.quasar.dev/img/material.png" style="height: 150px")
-    .absolute-top.bg-transparent
-      q-avatar.q-mb-sm(size="50px")
-        //- img(src="https://cdn.quasar.dev/img/boy-avatar.png")
-      .d-none
-        //- .text-weight-bold Razvan Stoenescu
-        //- p @rstoenescu
+
     q-scroll-area.fit.absolute-top(:horizontal-thumb-style="{ opacity: 0 }" style="height: calc(100vh - 100px);margin-top: 100px")
       q-list(padding)
         q-item(v-ripple clickable to='/admin')
@@ -48,7 +42,12 @@ q-layout.shadow-2.rounded-borders(view="hHh Lpr lff" container style="height: 10
           q-item-section(avatar)
             q-icon(name="home")
           q-item-section 回首頁
-
+    q-img.absolute-top(src="https://cdn.quasar.dev/img/material.png" style="height: 150px")
+    .absolute-top.bg-transparent
+      q-avatar.q-mb-sm(size="50px")
+        img(src="https://cdn.quasar.dev/img/boy-avatar.png")
+        //- .text-weight-bold Razvan Stoenescu
+        //- p @rstoenescu
   q-page-container
     router-view
 </template>

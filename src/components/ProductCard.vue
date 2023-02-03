@@ -4,7 +4,8 @@ q-card.product-Info.cursor-pointer
     .absolute-bottom.text-h6 {{ name }}
 
   q-card-actions
-    q-btn(icon="mdi-shopping" flat :to="'/shopping/' + _id") 加入購物車
+      q-btn(icon="mdi-shopping" flat :to="'/shopping/' + _id") 加入購物車
+        //- q-skeleton(type="QBtn")
 </template>
 
 <script setup>

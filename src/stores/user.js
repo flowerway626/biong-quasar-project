@@ -3,6 +3,7 @@ import { computed, ref } from 'vue'
 import { api, apiAuth } from 'src/boot/axios'
 import Swal from 'sweetalert2'
 import { Notify } from 'quasar'
+import router from 'src/router'
 
 export const useCounterStore = defineStore('counter', {
   state: () => ({
@@ -22,7 +23,7 @@ export const useUserStore = defineStore('user', () => {
   const account = ref('')
   const name = ref('')
   const email = ref('')
-  const cart = ref('')
+  const cart = ref(0)
   const token = ref('')
   const role = ref(0)
 
@@ -105,6 +106,42 @@ export const useUserStore = defineStore('user', () => {
     return role.value === 1
   })
 
+  const editCart = async (_id, quantity) => {
+    if (token.value.length === 0) {
+      Swal.fire({
+        toast: true,
+        timer: 1000,
+        showConfirmButton: false,
+        background: '#F5ABA5',
+        icon: 'error',
+        color: 'black',
+        text: '請先登入！'
+      })
+      router.push('/login')
+      return
+    }
+    try {
+      const { data } = await apiAuth.post('/users/cart', { p_id: _id, quantity })
+      cart.value = data.result
+      Notify.create({
+        type: 'positive',
+        color: 'info',
+        message: '加入購物車成功',
+        position: 'top'
+      })
+    } catch (error) {
+      Swal.fire({
+        toast: true,
+        timer: 1000,
+        showConfirmButton: false,
+        background: '#F5ABA5',
+        icon: 'error',
+        color: 'black',
+        text: error?.response?.data?.message || '購物車錯誤！'
+      })
+    }
+  }
+
   return {
     account,
     name,
@@ -116,7 +153,8 @@ export const useUserStore = defineStore('user', () => {
     logout,
     isLogin,
     isAdmin,
-    getUser
+    getUser,
+    editCart
   }
 },
 {
