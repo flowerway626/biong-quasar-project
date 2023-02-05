@@ -1,10 +1,11 @@
 import { defineStore } from 'pinia'
-import { computed, ref } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import { api, apiAuth } from 'src/boot/axios'
 import Swal from 'sweetalert2'
 import { Notify } from 'quasar'
-import router from 'src/router'
+import { useRoute } from 'vue-router'
 
+const route = useRoute()
 export const useCounterStore = defineStore('counter', {
   state: () => ({
     counter: 0
@@ -93,7 +94,15 @@ export const useUserStore = defineStore('user', () => {
       cart.value = data.result.cart
       role.value = data.result.role
     } catch (error) {
-      console.log(error)
+      Swal.fire({
+        toast: true,
+        timer: 1000,
+        showConfirmButton: false,
+        background: '#F5ABA5',
+        icon: 'error',
+        color: 'black',
+        text: '資料取得失敗！'
+      })
       logout()
     }
   }
@@ -104,6 +113,10 @@ export const useUserStore = defineStore('user', () => {
 
   const isAdmin = computed(() => {
     return role.value === 1
+  })
+
+  const avatar = computed(() => {
+    return `https://source.boringavatars.com/beam/256/${account.value}?colors=53C2BA,C0538A,F4C752,060614,F5F5F4`
   })
 
   const editCart = async (_id, quantity) => {
@@ -117,7 +130,7 @@ export const useUserStore = defineStore('user', () => {
         color: 'black',
         text: '請先登入！'
       })
-      router.push('/login')
+      // router.push('/login')
       return
     }
     try {
@@ -154,7 +167,8 @@ export const useUserStore = defineStore('user', () => {
     isLogin,
     isAdmin,
     getUser,
-    editCart
+    editCart,
+    avatar
   }
 },
 {

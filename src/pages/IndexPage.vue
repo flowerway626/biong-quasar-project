@@ -6,7 +6,7 @@ q-page
     .col-12
       h5.text-center 周邊商品
     .col-12.row
-      .col.q-ma-sm(v-for="product in products" :key="product.id")
+      .col.q-mx-lg(v-for="product in products" :key="product.id")
         ProductCard(v-bind="product")
 
   .row.flex-center.q-pa-xl
