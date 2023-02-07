@@ -1,6 +1,6 @@
 <template lang="pug">
 //- .q-pa-md
-q-layout.shadow-2.rounded-borders(view="hHh Lpr lff" container style="height: 100vh")
+q-layout.shadow-2.rounded-borders(view="hHh LpR lff" style="height: 100vh")
   q-header.bg-black
     q-toolbar
       q-btn(flat round dense icon="menu" @click="drawer = !drawer")

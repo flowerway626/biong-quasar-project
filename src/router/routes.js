@@ -8,8 +8,8 @@ const routes = [
     component: MainLayout,
     meta: {
       title: 'Biong Biong',
-      isLogin: false,
-      isAdmin: false
+      login: false,
+      admin: false
     },
     children: [
       {
@@ -30,7 +30,9 @@ const routes = [
         name: 'register',
         component: () => import('@/pages/front/RegisterPage.vue'),
         meta: {
-          title: 'Biong Biong | Register'
+          title: 'Biong Biong | Register',
+          login: false,
+          admin: false
         }
       },
       {
@@ -80,7 +82,9 @@ const routes = [
     name: 'admin',
     component: AdminLayout,
     meta: {
-      title: 'Biong Biong | admin'
+      title: 'Biong Biong | admin',
+      login: true,
+      admin: true
     },
     children: [
       {
@@ -95,6 +99,14 @@ const routes = [
         meta: {
           title: 'Biong Biong | admin - product'
         }
+      },
+      {
+        path: 'create',
+        name: 'admin-create',
+        component: () => import('@/pages/admin/CreatePage.vue'),
+        meta: {
+          title: 'Biong Biong | admin - product'
+        }
       }
     ]
   },
@@ -103,7 +115,9 @@ const routes = [
     name: 'setting',
     component: SettingLayout,
     meta: {
-      title: 'Biong Biong | Setting'
+      title: 'Biong Biong | Setting',
+      login: true,
+      admin: false
     },
     children: [
       {

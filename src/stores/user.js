@@ -3,9 +3,8 @@ import { computed, reactive, ref } from 'vue'
 import { api, apiAuth } from 'src/boot/axios'
 import Swal from 'sweetalert2'
 import { Notify } from 'quasar'
-import { useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
 
-const route = useRoute()
 export const useCounterStore = defineStore('counter', {
   state: () => ({
     counter: 0
@@ -28,7 +27,8 @@ export const useUserStore = defineStore('user', () => {
   const token = ref('')
   const role = ref(0)
 
-  const login = async (form) => {
+  // 登入
+  async function login (form) {
     try {
       const { data } = await api.post('/users/login', form)
       account.value = data.result.account
@@ -43,6 +43,7 @@ export const useUserStore = defineStore('user', () => {
         message: '登入成功',
         position: 'top'
       })
+      this.router.push('/')
     } catch (error) {
       Swal.fire({
         toast: true,
@@ -56,6 +57,7 @@ export const useUserStore = defineStore('user', () => {
     }
   }
 
+  // 登出
   const logout = async () => {
     try {
       await apiAuth.delete('/users/logout')
@@ -84,6 +86,7 @@ export const useUserStore = defineStore('user', () => {
     }
   }
 
+  // 取得使用者資料
   const getUser = async () => {
     if (token.value.length === 0) return
     try {
@@ -107,19 +110,23 @@ export const useUserStore = defineStore('user', () => {
     }
   }
 
+  // 判斷是否登入
   const isLogin = computed(() => {
     return token.value.length > 0
   })
 
+  // 判斷是否為管理者
   const isAdmin = computed(() => {
     return role.value === 1
   })
 
+  // 頭貼
   const avatar = computed(() => {
     return `https://source.boringavatars.com/beam/256/${account.value}?colors=53C2BA,C0538A,F4C752,060614,F5F5F4`
   })
 
-  const editCart = async (_id, quantity) => {
+  // 使用者 編輯 / 加入購物車
+  async function editCart ({ _id, quantity }) {
     if (token.value.length === 0) {
       Swal.fire({
         toast: true,
@@ -130,18 +137,12 @@ export const useUserStore = defineStore('user', () => {
         color: 'black',
         text: '請先登入！'
       })
-      // router.push('/login')
+      this.router.push('/login')
       return
     }
     try {
       const { data } = await apiAuth.post('/users/cart', { p_id: _id, quantity })
       cart.value = data.result
-      Notify.create({
-        type: 'positive',
-        color: 'info',
-        message: '加入購物車成功',
-        position: 'top'
-      })
     } catch (error) {
       Swal.fire({
         toast: true,

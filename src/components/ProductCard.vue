@@ -4,11 +4,13 @@ q-card.product-Info.cursor-pointer
     .absolute-bottom.text-h6 {{ name }}
 
   q-card-actions
-      q-btn(icon="mdi-shopping" flat :to="'/shopping/' + _id") 加入購物車
-        //- q-skeleton(type="QBtn")
+    //- q-skeleton(type="QBtn")
+    q-btn(icon="mdi-shopping" flat :to="'/shopping/' + _id" @click="editCart({_id, quantity: 1})") 加入購物車
 </template>
 
 <script setup>
+import { useUserStore } from '@/stores/user'
+
 defineProps({
   /* eslint-disable */
   _id: {
@@ -42,4 +44,8 @@ defineProps({
   }
 
 })
+
+const user = useUserStore()
+const { editCart } = user
+
 </script>

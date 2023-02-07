@@ -1,5 +1,4 @@
 <template lang="pug">
-h4 product
 .row
   .col
     q-img(style="height: 500px;width:500px" :src="product.image")
@@ -9,25 +8,27 @@ h4 product
     p {{ product.description }}
     q-chip(v-model:selected="myLike" color="#fce5e5" icon="mdi-heart-plus" clickable) 收藏
     q-btn-group(outline)
-      q-btn(color="brown" label="-")
-      q-input(v-model.number="quantity" type="number")
-      q-btn(color="brown" label="+")
+      q-btn(color="brown" label="-" @click="quantity--")
+      q-input(v-model.number="quantity" type="number" style="width: 100px;font-size: 16px" input-class="text-center text-weight-bold")
+      q-btn(color="brown" label="+" @click="quantity++")
     q-btn(color="brown" label="加入購物車" @click="submitCart")
 
   </template>
 
 <script setup>
 import { ref, reactive } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { api } from 'src/boot/axios'
 import Swal from 'sweetalert2'
-import router from 'src/router'
 import { useUserStore } from 'src/stores/user'
+import { useQuasar } from 'quasar'
 
+const $q = useQuasar()
 const user = useUserStore()
 const { editCart } = user
 const myLike = ref(false)
 const route = useRoute()
+const router = useRouter()
 const quantity = ref(0)
 
 const product = reactive({
@@ -41,8 +42,26 @@ const product = reactive({
 })
 
 const submitCart = () => {
-  console.log(quantity.value)
-  editCart({ _id: product._id, quantity: quantity.value })
+  if (quantity.value === 0) {
+    Swal.fire({
+      toast: true,
+      timer: 1000,
+      showConfirmButton: false,
+      background: '#F5ABA5',
+      icon: 'error',
+      color: 'black',
+      text: '請選擇商品數量！'
+    })
+  } else {
+    editCart({ _id: product._id, quantity: quantity.value })
+    quantity.value = 0
+    $q.notify({
+      type: 'positive',
+      color: 'pink',
+      message: '加入購物車完成',
+      position: 'top'
+    })
+  }
 }
 
 (async () => {

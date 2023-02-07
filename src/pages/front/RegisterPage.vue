@@ -1,7 +1,7 @@
 <template lang="pug">
 #register
   q-dialog(v-model="layout" persistent transition-show="fade" @before-hide="close")
-    q-layout.bg-black
+    q-layout(container )
       q-btn(icon="close" round v-close-popup style="height: 24px;z-index: 7000;position: absolute;right: 0" to="/")
 
       q-header.bg-black.flex.justify-center
@@ -10,28 +10,28 @@
 
       q-page-container.flex.justify-center
         q-form(style="width: 80%" @submit="register")
-          q-input.q-my-xs(label="email" v-model="form.email" :rules="[$rules.required('欄位必填'), $rules.email('email 格式錯誤')]")
+          q-input(label="email" v-model="form.email" :rules="[$rules.required('欄位必填'), $rules.email('email 格式錯誤')]")
 
           .row.justify-between
             .col-5
-              q-input.q-my-xs(label="name" v-model="form.name" counter maxlength="20"
+              q-input(label="name" v-model="form.name" counter maxlength="20"
               :rules="[$rules.required('欄位必填'), $rules.maxLength(20, '長度需為 4~20 個字元'), $rules.minLength(4, '長度需為 4~20 個字元')]")
             .col-5
-              q-input.q-my-xs(label="account" v-model="form.account" counter maxlength="20"
+              q-input(label="account" v-model="form.account" counter maxlength="20"
               :rules="[$rules.required('欄位必填'), $rules.maxLength(20, '長度需為 4~20 個字元'), $rules.minLength(4, '長度需為 4~20 個字元')]")
 
-          q-input.q-my-xs(label="password" v-model="form.password" :type="isPwd ? 'password' : 'text'" counter maxlength="20"
+          q-input(label="password" v-model="form.password" :type="isPwd ? 'password' : 'text'" counter maxlength="20"
           :rules="[$rules.required('欄位必填'), $rules.maxLength(20, '長度需為 4~20 個字元'), $rules.minLength(4, '長度需為 4~20 個字元')]")
             template(v-slot:append)
                 q-icon.cursor-pointer(:name="isPwd ? 'visibility_off' : 'visibility'" @click="isPwd = !isPwd")
 
-          q-input.q-my-xs(label="passwordConfirm" v-model="form.passwordConfirm" :type="isPwdConfirm ? 'password' : 'text'"
+          q-input(label="passwordConfirm" v-model="form.passwordConfirm" :type="isPwdConfirm ? 'password' : 'text'"
           :rules="[$rules.required('欄位必填'), $rules.is(form.password, '密碼不一致')]" counter maxlength="20")
             template(v-slot:append)
                 q-icon.cursor-pointer(:name="isPwdConfirm ? 'visibility_off' : 'visibility'" @click="isPwdConfirm = !isPwdConfirm")
 
           .text-center
-            q-btn(type="submit" size="large" color="primary" @keydown.enter="login") 註冊
+            q-btn.full-width.q-my-lg(type="submit" size="md" color="pink" @keydown.enter="login") 註冊
 </template>
 
 <script setup>
@@ -39,12 +39,14 @@ import { ref, reactive } from 'vue'
 import Swal from 'sweetalert2'
 import { useRouter } from 'vue-router'
 import { api } from 'src/boot/axios'
+import { useQuasar } from 'quasar'
 
 const layout = ref(true)
 const isPwd = ref(true)
 const isPwdConfirm = ref(true)
 const currentModel = ref('register')
 const router = useRouter()
+const $q = useQuasar()
 const form = reactive({
   email: '',
   name: '',
@@ -64,17 +66,22 @@ const isLogin = () => {
 const register = async () => {
   try {
     await api.post('/users/register', form)
-    await Swal.fire({
-      icon: 'success',
-      title: '成功',
-      text: '註冊成功！'
+    $q.notify({
+      type: 'positive',
+      color: 'info',
+      message: '註冊成功',
+      position: 'top'
     })
     await router.push('/login')
   } catch (error) {
     Swal.fire({
+      toast: true,
+      timer: 1000,
+      showConfirmButton: false,
+      background: '#F5ABA5',
       icon: 'error',
-      title: '失敗',
-      text: error?.response?.data?.message || '註冊錯誤'
+      color: 'black',
+      text: error?.response?.data?.message || '註冊錯誤！'
     })
   }
 }
