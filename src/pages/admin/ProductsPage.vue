@@ -1,6 +1,7 @@
 <template lang="pug">
 .q-pa-md
-  q-table.cart-table(title="商品管理" :rows='products' :columns='columns' row-key="_id" :filter="filter" virtual-scroll flat :loading="loading")
+  q-table.product-table(title="商品管理" :rows='products' :columns='columns' row-key="_id"
+          :filter="filter" virtual-scroll flat :loading="loading")
     template(v-slot:body-cell-image='props')
       q-td
         img(:src="props.row.image" :width="130" :height="100")
@@ -12,7 +13,7 @@
 
     template(v-slot:body-cell-other='props')
       q-td.q-gutter-sm
-        q-btn(v-if="!edit" icon="edit" round unelevated size="sm" color='pink' @click="edit = !edit")
+        q-btn(v-if="!edit" icon="edit" round unelevated size="sm" color='pink' @click="dialogEdit(props.row._id)")
         q-btn(v-if="edit" icon="check" round unelevated size="sm" color='pink' @click="edit = !edit")
         q-btn(icon="delete" color="pink" size="sm" round @click="delProduct(props.row._id)")
 
@@ -20,26 +21,134 @@
       q-input.q-mr-md(borderless dense debounce='300' v-model='filter' placeholder='Search')
         template(v-slot:append)
           q-icon(name="search")
-      q-btn(icon="mdi-shopping" label="新增商品" color="secondary" outline unelevated to='/admin/create')
+      q-btn(icon="mdi-shopping" label="新增商品" color="secondary" outline unelevated @click="dialogEdit(-1)")
+
+q-dialog#admin-product(v-model="layout" persistent transition-show="fade" transition-hide="fade")
+  q-card.my-card.text-white
+    q-form(@submit="editProduct")
+      q-card-section(align="center")
+        .text-h5.q-ma-sm.text-weight-bold {{ form._id.length > 0 ? '編輯商品' : '新增商品' }}
+        .row
+          .col.q-px-md
+            q-input.q-my-xs(v-model="form.name" label="名稱" type="text" color="warning"  :rules="[$rules.required('欄位必填')]")
+            q-select.q-my-xs(v-model="form.category" label="分類" color="warning"  :options="caterogies")
+            .flex.q-pt-md
+              q-input.q-my-xs(v-model.number="form.price" label="價格" type="number" color="warning"  :rules="[$rules.required('欄位必填')]")
+              q-checkbox.q-my-xs(v-model="form.sell" label="上架" color="warning")
+          .col.q-px-md
+            q-input.q-my-xs(v-model="form.description" label="說明" type="textarea" color="warning" rows="4"
+              :rules="[$rules.required('欄位必填')]")
+            q-file.q-my-xs(v-model="form.image" outlined use-chips)
+
+      q-card-actions(align="center")
+        q-btn(type="submit" size="md" color="secondary" ) 確定
+        q-btn(size="md" color="pink" v-close-popup) 取消
+
 </template>
 
 <script setup>
 import { reactive, ref } from 'vue'
 import { apiAuth } from 'src/boot/axios'
-import Swal from 'sweetalert2'
 import { useQuasar } from 'quasar'
+import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/user'
+import Swal from 'sweetalert2'
 
-const $q = useQuasar()
 const filter = ref('')
 const edit = ref(false)
+const layout = ref(false)
 const loading = ref(false)
-const products = reactive([]);
+const $q = useQuasar()
+const user = useUserStore()
+const router = useRouter()
+const products = reactive([])
+const caterogies = ['服飾', '飾品', '食品', '其他']
+const form = reactive({
+  _id: '',
+  name: '',
+  price: 0,
+  description: '',
+  image: undefined,
+  category: '',
+  sell: false,
+  idx: -1
+})
+
+const dialogEdit = (_id) => {
+  const idx = products.findIndex((product) => product._id === _id)
+  if (idx === -1) {
+    form._id = ''
+    form.name = ''
+    form.price = 0
+    form.description = ''
+    form.image = undefined
+    form.category = ''
+    form.sell = false
+  } else {
+    form._id = products[idx]._id
+    form.name = products[idx].name
+    form.price = products[idx].price
+    form.description = products[idx].description
+    form.image = undefined
+    form.category = products[idx].category
+    form.sell = products[idx].sell
+    form.idx = idx
+  }
+  layout.value = true
+}
+
+const editProduct = async () => {
+  layout.value = true
+  edit.value = true
+  const fd = new FormData()
+  fd.append('name', form.name)
+  fd.append('price', form.price)
+  fd.append('description', form.description)
+  fd.append('image', form.image)
+  fd.append('category', form.category)
+  fd.append('sell', form.sell)
+  try {
+    if (form._id.length === 0) {
+      const { data } = await apiAuth.post('/products', fd)
+      products.push(data.result)
+      $q.notify({
+        type: 'positive',
+        color: 'pink',
+        message: '新增成功',
+        position: 'top'
+      })
+    } else {
+      const { data } = await apiAuth.patch('/products/' + form._id, fd)
+      products[form.idx] = data.result
+      $q.notify({
+        type: 'positive',
+        color: 'secondary',
+        message: '編輯成功',
+        position: 'top'
+      })
+    }
+  } catch (error) {
+    Swal.fire({
+      toast: true,
+      timer: 1000,
+      showConfirmButton: false,
+      background: '#F5ABA5',
+      icon: 'error',
+      color: 'black',
+      text: error?.response?.data?.message || '發生錯誤！'
+    })
+  }
+  edit.value = false
+  layout.value = false
+}
 
 (async () => {
   try {
     loading.value = true
     const { data } = await apiAuth.get('/products/all')
     products.push(...data.result)
+    loading.value = false
+    layout.value = false
   } catch (error) {
     Swal.fire({
       toast: true,
@@ -92,7 +201,7 @@ const columns = [
   {
     name: 'sell',
     required: true,
-    label: '狀態',
+    label: '上架狀態',
     align: 'center',
     field: row => row.sell,
     format: val => `${val}`,
@@ -107,33 +216,41 @@ const columns = [
   }
 ]
 
-// 傳入的是商品 _id 和 數量
+// 刪除商品
 const delProduct = async (_id) => {
-  await apiAuth.delete('/products' + _id)
-  // 商品數量 <= 0 時，把該項商品移出商品陣列
-  // if (products[productsIndex].quantity <= 0) {
-  //   products.splice(productsIndex, 1)
+  const idx = products.findIndex((product) => product._id === _id)
+  loading.value = true
+  try {
+    await apiAuth.delete('/products/' + _id)
+    products.splice([idx], 1)
+    loading.value = false
 
-  $q.notify({
-    type: 'positive',
-    color: 'pink',
-    message: '成功刪除商品',
-    position: 'top'
-  })
+    $q.notify({
+      type: 'positive',
+      color: 'pink',
+      message: '成功刪除商品',
+      position: 'top'
+    })
+  } catch (error) {
+    Swal.fire({
+      toast: true,
+      timer: 1000,
+      showConfirmButton: false,
+      background: '#F5ABA5',
+      icon: 'error',
+      color: 'black',
+      text: error?.response?.data?.message || '發生錯誤！'
+    })
+  }
 }
+
 </script>
 
 <style lang="sass">
-.cart-table
-  /* height or max-height is important */
+.product-table
   max-height: calc(100vh - 100px)
 
-  /* specifying max-width so the example can
-    highlight the sticky column on any browser window */
-  // max-width: 600px
-
   td:first-child
-    /* bg color is important for td; just specify one */
     background-color: #555 !important
   tr td
     text-align: center
@@ -141,25 +258,19 @@ const delProduct = async (_id) => {
 
   tr th
     position: sticky
-    /* higher than z-index for td below */
     z-index: 2
-    /* bg color is important; just specify one */
     background: #333
     font-size: 14px
     font-weight: bold
     text-align: center
 
-  /* this will be the loading indicator */
   thead tr:last-child th
-    /* height of all previous header rows */
     top: 48px
-    /* highest z-index */
     z-index: 3
   thead tr:first-child th
     top: 0
     z-index: 1
   tr:first-child th:first-child
-    /* highest z-index */
     z-index: 3
 
   td:first-child
@@ -168,4 +279,8 @@ const delProduct = async (_id) => {
   td:first-child, th:first-child
     position: sticky
     left: 0
+
+.my-card
+  width: 100%
+  max-width: 700px
 </style>

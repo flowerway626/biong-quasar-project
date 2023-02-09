@@ -1,6 +1,6 @@
 <template lang="pug">
 //- .q-pa-md
-q-layout.shadow-2.rounded-borders(view="hHh LpR lff" style="height: 100vh")
+q-layout.shadow-2.rounded-borders(view="hHh LpR lff")
   q-header.bg-black
     q-toolbar
       q-btn(flat round dense icon="menu" @click="drawer = !drawer")
@@ -15,7 +15,7 @@ q-layout.shadow-2.rounded-borders(view="hHh LpR lff" style="height: 100vh")
             q-icon(name="settings")
           q-item-section 會員管理
 
-        q-item(v-ripple clickable :active="link === 'shop'" @click="link = 'shop'" active-class="menu-link" to='/admin/page')
+        q-item(v-ripple clickable :active="link === 'shop'" @click="link = 'shop'" active-class="menu-link" to='/admin/view')
           q-item-section(avatar)
             q-icon(name="shop")
           q-item-section 頁面管理

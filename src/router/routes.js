@@ -93,17 +93,17 @@ const routes = [
         component: () => import('@/pages/admin/HomePage.vue')
       },
       {
-        path: 'product',
-        name: 'admin-product',
-        component: () => import('@/pages/admin/ProductsPage.vue'),
+        path: 'view',
+        name: 'admin-view',
+        component: () => import('@/pages/admin/ViewPage.vue'),
         meta: {
-          title: 'Biong Biong | admin - product'
+          title: 'Biong Biong | admin - view'
         }
       },
       {
-        path: 'create',
-        name: 'admin-create',
-        component: () => import('@/pages/admin/CreatePage.vue'),
+        path: 'product',
+        name: 'admin-product',
+        component: () => import('@/pages/admin/ProductsPage.vue'),
         meta: {
           title: 'Biong Biong | admin - product'
         }

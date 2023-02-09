@@ -1,7 +1,7 @@
 <template lang="pug">
 #login
   q-dialog(v-model="layout" persistent transition-show="fade" @before-hide="() => router.push('/')")
-    q-layout(container )
+    q-layout
       q-btn(icon="close" round v-close-popup style="height: 24px;z-index: 7000;position: absolute;right: 0" to="/")
 
       q-header.bg-black.flex.justify-center

@@ -32,7 +32,7 @@
 
   .flex.justify-around.items-center.q-mt-md.q-gutter-md
     .text-h5.text-weight-bold TOTAL： {{ totalPrice }} 元
-    q-btn(icon="money" label="結帳 go" unelevated size="lg" color='warning' text-color="black")
+    q-btn(icon="money" label="結帳 go" unelevated size="lg" color='warning' text-color="black" @click="createOrder")
 </template>
 
 <script setup>
@@ -55,7 +55,6 @@ const carts = reactive([]);
     loading.value = true
     const { data } = await apiAuth.get('/users/cart')
     carts.push(...data.result)
-    console.log(data)
     console.log(carts)
     loading.value = false
   } catch (error) {
@@ -171,6 +170,31 @@ const updateCart = async (_id, quantity) => {
 const totalPrice = computed(() => {
   return carts.reduce((total, current) => total + (current.p_id.price * current.quantity), 0)
 })
+
+const createOrder = async () => {
+  loading.value = true
+  try {
+    const result = await apiAuth.post('/orders')
+    console.log(result)
+    $q.notify({
+      type: 'positive',
+      color: 'pink',
+      message: '訂單建立成功',
+      position: 'top'
+    })
+  } catch (error) {
+    Swal.fire({
+      toast: true,
+      timer: 1000,
+      showConfirmButton: false,
+      background: '#F5ABA5',
+      icon: 'error',
+      color: 'black',
+      text: error?.response?.data?.message || '購物車錯誤！'
+    })
+  }
+  loading.value = false
+}
 </script>
 
 <style lang="sass">

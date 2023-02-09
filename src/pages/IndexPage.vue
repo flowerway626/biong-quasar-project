@@ -130,9 +130,13 @@ const products = reactive([]);
     products.push(...data.result)
   } catch (error) {
     Swal.fire({
+      toast: true,
+      timer: 1000,
+      showConfirmButton: false,
+      background: '#F5ABA5',
       icon: 'error',
-      title: 'error',
-      text: error?.response?.data.message || '發生錯誤'
+      color: 'black',
+      text: error?.response?.data?.message || '發生錯誤！'
     })
   }
 })()
