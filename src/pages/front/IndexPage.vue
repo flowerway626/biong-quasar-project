@@ -1,28 +1,45 @@
 <template lang="pug">
 q-page
-  .row
+  section#section1.row
     q-img(fit src="http://img.lifestyler.co.kr/uploads/programtemplate/20220614/f637908113779910034.jpg")
-  .row.q-pa-xl
+
+  section#section2.row.q-pa-xl.q-mx-auto
     .col-12
       h5.text-center 周邊商品
     .col-12.row
-      .col.q-mx-lg(v-for="product in products" :key="product.id")
-        ProductCard(v-bind="product")
+      .col-xs-12.col-sm-4.col-md-3.q-mx-lg(v-for="product in products" :key="product.id")
+          q-img(:src="product.image")
+            .mask.flex.flex-center.column.absolute
+              q-btn.q-ma-xs(label="詳情" outline color="secondary" :to="'/shopping/' + product._id")
+              q-btn.q-ma-xs(label="購物車" outline color="pink" @click="editCart({_id: product._id, quantity: 1})")
+                //- q-skeleton(type="QBtn")
 
-  .row.flex-center.q-pa-xl
+  section.q-pa-xl
+    .text-h5.text-center 最新消息
+    ul
+      li(v-for="eventInfo in events")
+        q-btn(flat :to="'/event/' + eventInfo._id").flex.justify-between
+          .text-h6.q-mr-xl {{ new Date(eventInfo.date).toLocaleDateString() }}
+          .text-h6.q-ml-xl {{ eventInfo.name }}
+          q-icon.q-ml-xl(name="mdi-arrow-top-right-bottom-left-bold")
+
+  section.row.flex-center.q-pa-xl
     .col-12
       h5.text-center 活動公告
     .col-6
-      q-card.eventCard.q-ma-auto
-        img(src='https://cdn.quasar.dev/img/mountains.jpg')
-        q-card-section
-          .text-h6 直播快閃
-          .text-subtitle2 2023/2/5 ~ 2023/2/10
-        q-card-section.q-pt-none loremloremloremloremloremloremloremloremloremloremloremlorem
-    .col-6
-      q-table.eventTable.q-ma-auto(title='Events' :rows='rows' :columns='columns' row-key='name')
+      swiper(:modules="modules" :slides-per-view="3" :space-between="50" navigation
+      :pagination="{ clickable: true }" :scrollbar="{ draggable: true }")
+        swiper-slide(v-for="eventInfo in events")
+          q-card
+            img(:src="eventInfo.image")
+            q-card-section
+              .text-h6 {{ eventInfo.name }}
+              .text-subtitle2 {{ new Date(eventInfo.date).toLocaleDateString() }}
+            //- q-card-section.q-pt-none
+              .text-subtitle2 2023/2/5 ~ 2023/2/10
+              .text- loremloremloremloremloremloremloremloremloremloremloremlorem
 
-  .row.q-pa-xl
+  section.row.q-pa-xl
     .col
       .text-h6.text-center Contact Us
       q-form.q-mx-auto(style="width: 80%" @submit="contactUs")
@@ -47,11 +64,21 @@ q-page
 </template>
 
 <script setup>
-import { reactive } from 'vue'
-import ProductCard from 'src/components/ProductCard.vue'
+import { reactive, ref } from 'vue'
 import { api } from 'src/boot/axios'
 import Swal from 'sweetalert2'
+import { useUserStore } from 'src/stores/user'
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import { Navigation, Pagination, Scrollbar } from 'swiper'
 
+import 'swiper/css/bundle'
+
+const modules = [Navigation, Pagination, Scrollbar]
+
+const user = useUserStore()
+const { editCart } = user
+const products = reactive([])
+const events = reactive([])
 const form = reactive({
   account: '',
   email: '',
@@ -122,12 +149,12 @@ const contactUs = () => {
   console.log('表單送出')
 }
 
-const products = reactive([]);
-
 (async () => {
   try {
-    const { data } = await api.get('/products')
-    products.push(...data.result)
+    const { data: productData } = await api.get('/products')
+    const { data: eventsData } = await api.get('/events')
+    products.push(...productData.result)
+    events.push(...eventsData.result)
   } catch (error) {
     Swal.fire({
       toast: true,
@@ -187,6 +214,29 @@ const products = reactive([]);
   th:first-child {
     position: sticky;
     left: 0;
+  }
+}
+
+li {
+  list-style: none;
+  }
+
+  section#section2 .q-img {
+  height: 200px;
+  border-radius: 10px;
+
+  .mask {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background: transparent;
+    opacity: 0;
+  }
+  &:hover {
+    .mask {
+      background: #3339;
+      opacity: 1;
+    }
   }
 }
 </style>

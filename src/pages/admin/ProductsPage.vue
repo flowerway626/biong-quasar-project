@@ -6,6 +6,10 @@
       q-td
         img(:src="props.row.image" :width="130" :height="100")
 
+    template(v-slot:body-cell-category='props')
+      q-td
+        q-btn(:label="props.row.category" rounded)
+
     template(v-slot:body-cell-sell='props')
       q-td
         q-toggle(v-if="edit" v-model='props.row.sell' checked-icon='check' color='warning' unchecked-icon='clear')
@@ -113,7 +117,7 @@ const editProduct = async () => {
       products.push(data.result)
       $q.notify({
         type: 'positive',
-        color: 'pink',
+        color: 'secondary',
         message: '新增成功',
         position: 'top'
       })
@@ -122,7 +126,7 @@ const editProduct = async () => {
       products[form.idx] = data.result
       $q.notify({
         type: 'positive',
-        color: 'secondary',
+        color: 'pink',
         message: '編輯成功',
         position: 'top'
       })
@@ -209,6 +213,14 @@ const columns = [
     sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
   },
   {
+    name: 'category',
+    required: true,
+    label: '類別',
+    align: 'center',
+    field: row => row.category,
+    sortable: true
+  },
+  {
     name: 'other',
     required: true,
     label: '操作',
@@ -227,7 +239,7 @@ const delProduct = async (_id) => {
 
     $q.notify({
       type: 'positive',
-      color: 'pink',
+      color: 'secondary',
       message: '成功刪除商品',
       position: 'top'
     })

@@ -1,75 +1,69 @@
 <template lang="pug">
-h4.text-center 訂單管理
-q-table(:columns="columns" :rows="orders" row-key="_id")
+.q-ma-md
+  q-table(title="訂單管理" :columns="columns" :rows="orders" row-key="_id")
+
+    template(v-slot:top-right)
+        q-input.q-mr-md(borderless dense debounce='300' v-model='filter' placeholder='Search')
+          template(v-slot:append)
+            q-icon(name="search")
+
+  //- template(v-slot:body-cell-name="props")
+    q-td
+      span {{ props.row.products }}
 </template>
 
 <script setup>
 import { apiAuth } from 'src/boot/axios'
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import Swal from 'sweetalert2'
 
 const orders = reactive([])
-
+const filter = ref('')
 const columns = [
-  {
-    name: 'name',
-    required: true,
-    label: '商品名稱',
-    align: 'center',
-    field: row => row.p_id.name,
-    format: val => `${val}`,
-    sortable: true,
-    sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
-  },
-  {
-    name: 'image',
-    required: true,
-    label: '圖片',
-    align: 'center',
-    field: row => row.p_id.image
-  },
   {
     name: 'price',
     required: true,
-    label: '單價',
+    label: '訂單編號',
     align: 'center',
-    field: row => row.p_id.price,
-    format: val => `${val}`,
+    field: '_id'
+  },
+  {
+    name: 'date',
+    required: true,
+    label: '日期',
+    align: 'center',
+    field: 'date',
+    format: val => `${new Date(val).toLocaleDateString()}`,
     sortable: true,
     sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
   },
   {
-    name: 'quantity',
+    name: 'name',
     required: true,
-    label: '數量',
+    label: '商品',
     align: 'center',
-    field: row => row.quantity,
-    format: val => `${val}`,
-    sortable: true,
-    sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
+    // field: row => row.products.p_id[0],
+    sortable: true
   },
-  {
-    name: 'total',
-    required: true,
-    label: '小計',
-    align: 'center',
-    field: row => row.p_id.price,
-    format: (val, row) => `${val * row.quantity}`,
-    sortable: true,
-    sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
-  },
+
   {
     name: 'other',
     required: true,
-    label: '操作',
-    align: 'center'
+    label: '金額',
+    align: 'center',
+    field: 'totalPrice'
   }
 ];
 
 (async () => {
   try {
     const { data } = await apiAuth.get('/orders')
-    orders.push(...data.result)
+    orders.push(...data.result.map(order => {
+      order.totalPrice = order.products.reduce((total, current) => total + current.p_id.price * current.quantity, 0)
+      console.log(order.products)
+      return order
+    }))
+    console.log(orders)
   } catch (error) {
     Swal.fire({
       toast: true,

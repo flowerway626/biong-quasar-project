@@ -55,60 +55,36 @@
 
     q-tab-panel(name="VIDEO")
       .text-h4.q-mb-md VIDEO
-      .swiper(:modules="modules" :slides-per-view="3" :space-between="50" navigation :pagination="{ clickable: true }" :scrollbar="{ draggable: true }" @swiper="onSwiper" @slideChange="onSlideChange")
-        .swiper-wrapper
-          .swiper-slide
-            q-img(src='https://cdn.quasar.dev/img/parallax1.jpg')
-          .swiper-slide
-            q-img(src='https://cdn.quasar.dev/img/parallax2.jpg')
-          .swiper-slide
-            q-img(src='https://cdn.quasar.dev/img/quasar.jpg')
-
-        .swiper-pagination
-        .swiper-button-prev
-        .swiper-button-next
-        .swiper-scrollbar
+      //- :autoplay="{ delay: 2500 }"
+      swiper(:modules="modules" navigation :loop="true"  :scrollbar="{ draggable: true, hide: true, }"
+        :effect="'coverflow'" :coverflowEffect="{ stretch: 0, depth: 150, modifier: 1, slideShadows: true,}"
+        :breakpoints="{768: {slidesPerView: 3,spaceBetween: 40}}")
+        swiper-slide
+          q-img(src='https://cdn.quasar.dev/img/parallax1.jpg')
+        swiper-slide
+          q-img(src='https://cdn.quasar.dev/img/parallax2.jpg')
+        swiper-slide
+          q-img(src='https://cdn.quasar.dev/img/quasar.jpg')
+        swiper-slide
+          q-img(src='https://cdn.quasar.dev/img/parallax1.jpg')
+        swiper-slide
+          q-img(src='https://cdn.quasar.dev/img/parallax2.jpg')
+        swiper-slide
+          q-img(src='https://cdn.quasar.dev/img/quasar.jpg')
 
     q-tab-panel(name="BEHIND")
       .text-h4.q-mb-md BEHIND
   </template>
 
-<script>
-// import Swiper core and required modules
-import { Navigation, Pagination, Scrollbar, A11y } from 'swiper'
-
-// Import Swiper Vue.js components
-import { Swiper, SwiperSlide } from 'swiper/vue'
+<script setup>
 import { ref } from 'vue'
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import { Navigation, Pagination, Scrollbar, EffectCoverflow, Autoplay } from 'swiper'
 
-// Import Swiper styles
-import 'swiper/css'
-import 'swiper/css/navigation'
-import 'swiper/css/pagination'
-import 'swiper/css/scrollbar'
+import 'swiper/css/bundle'
 
-// Import Swiper styles
-export default {
-  components: {
-    Swiper,
-    SwiperSlide
-  },
-  setup () {
-    const onSwiper = (swiper) => {
-      console.log(swiper)
-    }
-    const onSlideChange = () => {
-      console.log('slide change')
-    }
-    return {
-      onSwiper,
-      onSlideChange,
-      modules: [Navigation, Pagination, Scrollbar, A11y],
-      tab: ref('INFO'),
-      link: ref('INFO'),
-      slide: ref(1),
-      drawer: ref(true)
-    }
-  }
-}
+const tab = ref('VIDEO')
+const link = ref('INFO')
+const drawer = ref(true)
+const modules = [Navigation, Pagination, Scrollbar, EffectCoverflow, Autoplay]
 </script>

@@ -26,6 +26,8 @@ export const useUserStore = defineStore('user', () => {
   const cart = ref(0)
   const token = ref('')
   const role = ref(0)
+  const phone = ref('')
+  const event = reactive([])
 
   // 登入
   async function login (form) {
@@ -37,6 +39,8 @@ export const useUserStore = defineStore('user', () => {
       cart.value = data.result.cart
       token.value = data.result.token
       role.value = data.result.role
+      phone.value = data.result.phone
+      event.push(...data.result.event)
       Notify.create({
         type: 'positive',
         color: 'info',
@@ -66,6 +70,8 @@ export const useUserStore = defineStore('user', () => {
       email.value = ''
       cart.value = ''
       token.value = ''
+      phone.value = ''
+      event.value = []
       role.value = 0
       Notify.create({
         type: 'warning',
@@ -95,6 +101,8 @@ export const useUserStore = defineStore('user', () => {
       name.value = data.result.name
       email.value = data.result.email
       cart.value = data.result.cart
+      phone.value = data.result.phone
+      event.push(...data.result.event)
       role.value = data.result.role
     } catch (error) {
       Swal.fire({
@@ -156,6 +164,69 @@ export const useUserStore = defineStore('user', () => {
     }
   }
 
+  const checkOut = async () => {
+    try {
+      await apiAuth.post('/orders')
+      cart.value = 0
+      Notify.create({
+        type: 'positive',
+        color: 'secondary',
+        message: '訂單建立成功',
+        position: 'top'
+      })
+    } catch (error) {
+      Swal.fire({
+        toast: true,
+        timer: 1000,
+        showConfirmButton: false,
+        background: '#F5ABA5',
+        icon: 'error',
+        color: 'black',
+        text: error?.response?.data?.message || '購物車錯誤！'
+      })
+    }
+  }
+
+  async function addMember (eventId, phone) {
+    if (token.value.length === 0) {
+      Swal.fire({
+        toast: true,
+        timer: 1000,
+        showConfirmButton: false,
+        background: '#F5ABA5',
+        icon: 'error',
+        color: 'black',
+        text: '請先登入！'
+      })
+      this.router.push('/login')
+      return
+    }
+    try {
+      const { data } = await apiAuth.patch('/users/event/' + eventId, { phone: '0926490800' })
+      await apiAuth.patch('/events/user/' + eventId)
+      console.log(data.result.phone)
+      phone.value = data.result.phone
+      // event.slice(0, event.length)
+      // event.push(data.result.event)
+      Notify.create({
+        type: 'positive',
+        color: 'pink',
+        message: '報名成功',
+        position: 'top'
+      })
+    } catch (error) {
+      Swal.fire({
+        toast: true,
+        timer: 1000,
+        showConfirmButton: false,
+        background: '#F5ABA5',
+        icon: 'error',
+        color: 'black',
+        text: error?.response?.data?.message || '報名錯誤！'
+      })
+    }
+  }
+
   return {
     account,
     name,
@@ -163,13 +234,17 @@ export const useUserStore = defineStore('user', () => {
     cart,
     token,
     role,
+    phone,
+    event,
     login,
     logout,
     isLogin,
     isAdmin,
     getUser,
     editCart,
-    avatar
+    avatar,
+    checkOut,
+    addMember
   }
 },
 {

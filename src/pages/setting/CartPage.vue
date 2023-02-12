@@ -45,7 +45,7 @@ import { useQuasar } from 'quasar'
 const $q = useQuasar()
 const loading = ref(false)
 const user = useUserStore()
-const { editCart } = user
+const { editCart, checkOut } = user
 const edit = ref(false)
 const filter = ref('')
 const carts = reactive([]);
@@ -55,7 +55,6 @@ const carts = reactive([]);
     loading.value = true
     const { data } = await apiAuth.get('/users/cart')
     carts.push(...data.result)
-    console.log(carts)
     loading.value = false
   } catch (error) {
     Swal.fire({
@@ -134,16 +133,10 @@ const columns = [
   }
 ]
 
-const editCheck = (_id) => {
-  edit.value = !edit.value
-  // 用購物車的 _id 撈出該筆商品的索引值
-  const cartsIndex = carts.findIndex((product) => product._id === _id)
-}
-
 // 傳入的是購物車_id 和 數量
 const updateCart = async (_id, quantity) => {
   // 用購物車的 _id 撈出該筆商品的索引值
-  const cartsIndex = carts.findIndex((product) => product._id === _id)
+  const cartsIndex = carts.findIndex((cart) => cart._id === _id)
   await editCart({ _id: carts[cartsIndex].p_id._id, quantity })
   carts[cartsIndex].quantity += quantity
 
@@ -171,28 +164,11 @@ const totalPrice = computed(() => {
   return carts.reduce((total, current) => total + (current.p_id.price * current.quantity), 0)
 })
 
+// 建立訂單 / 清空購物車
 const createOrder = async () => {
   loading.value = true
-  try {
-    const result = await apiAuth.post('/orders')
-    console.log(result)
-    $q.notify({
-      type: 'positive',
-      color: 'pink',
-      message: '訂單建立成功',
-      position: 'top'
-    })
-  } catch (error) {
-    Swal.fire({
-      toast: true,
-      timer: 1000,
-      showConfirmButton: false,
-      background: '#F5ABA5',
-      icon: 'error',
-      color: 'black',
-      text: error?.response?.data?.message || '購物車錯誤！'
-    })
-  }
+  await checkOut()
+  carts.splice(0, carts.length)
   loading.value = false
 }
 </script>

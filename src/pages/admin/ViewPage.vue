@@ -3,7 +3,7 @@
   q-table.event-table(title="頁面管理" :rows="events" :columns="columns" row-key="_id")
     template(v-slot:body-cell-image="props")
       q-td
-        img(:src="props.row.image" :width="200" :height='200')
+        img(:src="props.row.image" :width="100" :height='100')
 
     template(v-slot:top-right)
       q-input.q-mr-md(borderless dense debounce='300' v-model='filter' placeholder='Search')
@@ -103,6 +103,7 @@ const columns = [
     required: true,
     label: '活動日期',
     field: row => row.date,
+    format: val => `${new Date(val).toLocaleDateString()}`,
     sortable: true
   },
   {
@@ -125,6 +126,7 @@ const columns = [
   }
 ]
 
+// 編輯視窗
 const dialogEdit = (id) => {
   layout.value = true
   const idx = events.findIndex((event) => event._id === id)
@@ -149,6 +151,7 @@ const dialogEdit = (id) => {
   }
 }
 
+// 送出新增 / 編輯
 const editEvent = async () => {
   layout.value = true
 
@@ -194,6 +197,7 @@ const editEvent = async () => {
   layout.value = false
 }
 
+// 刪除
 const delProduct = async (id) => {
   try {
     loading.value = true

@@ -1,12 +1,12 @@
 <template lang="pug">
 q-card.product-Info.cursor-pointer
-  div.mask
-    q-img(:src="image" height="200px")
-      .absolute-bottom.text-h6 {{ name }}
+  //- div.mask
+  q-img(:src="image" height="200px")
+    .absolute-bottom.text-h6 {{ name }}
 
-    q-card-actions
-      //- q-skeleton(type="QBtn")
-      q-btn(icon="mdi-shopping" flat :to="'/shopping/' + _id" @click="editCart({_id, quantity: 1})") 加入購物車
+  q-card-actions
+    //- q-skeleton(type="QBtn")
+    q-btn(icon="mdi-shopping" flat :to="'/shopping/' + _id" @click="editCart({_id, quantity: 1})") 加入購物車
 </template>
 
 <script setup>

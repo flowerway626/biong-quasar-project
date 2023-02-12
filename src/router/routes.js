@@ -15,7 +15,7 @@ const routes = [
       {
         path: '',
         name: 'home',
-        component: () => import('@/pages/IndexPage.vue')
+        component: () => import('@/pages/front/IndexPage.vue')
       },
       {
         path: 'login',
@@ -52,6 +52,14 @@ const routes = [
         }
       },
       {
+        path: 'news',
+        name: 'news',
+        component: () => import('@/pages/front/NewsInfoPage.vue'),
+        meta: {
+          title: 'Biong Biong | New'
+        }
+      },
+      {
         path: 'shopping',
         name: 'shopping',
         component: () => import('@/pages/front/ShoppingPage.vue'),
@@ -65,6 +73,14 @@ const routes = [
         component: () => import('@/pages/front/EventPage.vue'),
         meta: {
           title: 'Biong Biong | Event'
+        }
+      },
+      {
+        path: 'event/:id',
+        name: 'eventInfo',
+        component: () => import('@/pages/front/EventInfoPage.vue'),
+        meta: {
+          title: 'Biong Biong | NewInfo'
         }
       },
       {
@@ -106,6 +122,14 @@ const routes = [
         component: () => import('@/pages/admin/ProductsPage.vue'),
         meta: {
           title: 'Biong Biong | admin - product'
+        }
+      },
+      {
+        path: 'order',
+        name: 'admin-order',
+        component: () => import('@/pages/admin/OrdersPage.vue'),
+        meta: {
+          title: 'Biong Biong | admin - order'
         }
       }
     ]
