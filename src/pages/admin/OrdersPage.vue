@@ -1,19 +1,75 @@
 <template lang="pug">
 .q-ma-md
-  q-table(title="訂單管理" :rows="orders" :columns="columns" row-key="_id")
+  q-table(title="訂單管理" :columns="columns" :rows="orders" row-key="_id" :filter="filter")
+
+    template(v-slot:top-right)
+        q-input.q-mr-md(borderless dense debounce='300' v-model='filter' placeholder='Search')
+          template(v-slot:append)
+            q-icon(name="search")
+
+    template(v-slot:body-cell-product="props")
+      q-td
+        template(v-for="product in props.row.products")
+          ul
+            li {{ product.quantity }} x &nbsp; &nbsp; {{ product.p_id.name }}
 </template>
 
 <script setup>
-import { reactive } from 'vue'
 import { apiAuth } from 'src/boot/axios'
+import { reactive, ref } from 'vue'
 import Swal from 'sweetalert2'
 
-const orders = reactive([]);
+const orders = reactive([])
+const filter = ref('')
+const columns = [
+  {
+    name: 'id',
+    required: true,
+    label: '訂單編號',
+    align: 'center',
+    field: '_id'
+  },
+  {
+    name: 'name',
+    required: true,
+    label: '訂購人',
+    align: 'center',
+    field: row => row.u_id.name
+  },
+  {
+    name: 'date',
+    required: true,
+    label: '訂購日期',
+    align: 'center',
+    field: 'date',
+    format: val => `${new Date(val).toLocaleDateString()}`,
+    sortable: true,
+    sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
+  },
+  {
+    name: 'product',
+    required: true,
+    label: '商品',
+    align: 'center',
+    sortable: true
+  },
+
+  {
+    name: 'total',
+    required: true,
+    label: '金額',
+    align: 'center',
+    field: 'totalPrice'
+  }
+];
 
 (async () => {
   try {
     const { data } = await apiAuth.get('/orders/all')
-    orders.push(...data.result)
+    orders.push(...data.result.map(order => {
+      order.totalPrice = order.products.reduce((total, current) => total + current.p_id.price * current.quantity, 0)
+      return order
+    }))
     console.log(orders)
   } catch (error) {
     Swal.fire({
@@ -28,31 +84,10 @@ const orders = reactive([]);
   }
 })()
 
-const columns = [
-  {
-    name: '_id',
-    label: '編號',
-    required: true,
-    field: '_id'
-  },
-  {
-    name: 'date',
-    required: true,
-    label: '日期',
-    field: 'date',
-    format: val => `${new Date(val).toLocaleDateString()}`
-  },
-  {
-    name: 'account',
-    required: true,
-    label: '使用者',
-    field: row => row.u_id.account
-  },
-  {
-    name: 'product',
-    required: true,
-    label: '商品',
-    field: row => row.products.quantity
-  }
-]
 </script>
+
+<style lang="scss">
+li {
+  list-style: none;
+}
+</style>

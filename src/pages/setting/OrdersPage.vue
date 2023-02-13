@@ -1,15 +1,17 @@
 <template lang="pug">
 .q-ma-md
-  q-table(title="訂單管理" :columns="columns" :rows="orders" row-key="_id")
+  q-table(title="訂單管理" :columns="columns" :rows="orders" row-key="_id" :filter="filter")
 
     template(v-slot:top-right)
         q-input.q-mr-md(borderless dense debounce='300' v-model='filter' placeholder='Search')
           template(v-slot:append)
             q-icon(name="search")
 
-  //- template(v-slot:body-cell-name="props")
-    q-td
-      span {{ props.row.products }}
+    template(v-slot:body-cell-name="props")
+      q-td
+        template(v-for="product in props.row.products")
+          ul
+            li {{ product.quantity }} 個 &nbsp; &nbsp; {{ product.p_id.name }}
 </template>
 
 <script setup>
@@ -21,7 +23,7 @@ const orders = reactive([])
 const filter = ref('')
 const columns = [
   {
-    name: 'price',
+    name: 'id',
     required: true,
     label: '訂單編號',
     align: 'center',
@@ -30,7 +32,7 @@ const columns = [
   {
     name: 'date',
     required: true,
-    label: '日期',
+    label: '訂購日期',
     align: 'center',
     field: 'date',
     format: val => `${new Date(val).toLocaleDateString()}`,
@@ -42,12 +44,11 @@ const columns = [
     required: true,
     label: '商品',
     align: 'center',
-    // field: row => row.products.p_id[0],
     sortable: true
   },
 
   {
-    name: 'other',
+    name: 'total',
     required: true,
     label: '金額',
     align: 'center',
@@ -60,7 +61,6 @@ const columns = [
     const { data } = await apiAuth.get('/orders')
     orders.push(...data.result.map(order => {
       order.totalPrice = order.products.reduce((total, current) => total + current.p_id.price * current.quantity, 0)
-      console.log(order.products)
       return order
     }))
     console.log(orders)

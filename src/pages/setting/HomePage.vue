@@ -4,7 +4,7 @@ h4.text-center 基本設定
 q-form(@submit="editUser")
   .q-mx-auto(style="width: 50%")
     q-btn(v-if="!edit" label="編輯" icon="mdi-pen" color="secondary" outline @click="edit = !edit")
-    q-btn(v-if="edit" label="儲存" icon="check" color="pink" outline @click="editCheck = true")
+    q-btn(v-if="edit" label="儲存" icon="check" color="pink" outline @click="editCheck = !editCheck")
 
     .flex.justify-between.items-center
       .text-body1.q-py-md account
@@ -22,6 +22,11 @@ q-form(@submit="editUser")
       .text-body1.q-py-md email
       .text-body1(v-if="!edit") {{ formEdit.email }}
       q-input.q-my-xs(v-if="edit" v-model="formEdit.email" dense :rules="[$rules.required('欄位必填'), $rules.email('email 格式錯誤')]")
+
+    .flex.justify-between.items-center
+      .text-body1.q-py-md phone
+      .text-body1(v-if="!edit") {{ formEdit.phone }}
+      q-input.q-my-xs(v-if="edit" v-model="formEdit.phone" dense :rules="[$rules.required('欄位必填')]")
 
   q-dialog(v-model='editCheck' persistent )
     q-card
@@ -48,14 +53,16 @@ const form = reactive({
   _id: '',
   account: '',
   email: '',
-  name: ''
+  name: '',
+  phone: ''
 })
 // 修改的資料
 const formEdit = reactive({
   _id: '',
   account: '',
   email: '',
-  name: ''
+  name: '',
+  phone: ''
 });
 
 (async () => {
@@ -65,10 +72,12 @@ const formEdit = reactive({
     form.account = data.result.account
     form.email = data.result.email
     form.name = data.result.name
+    form.phone = data.result.phone
     formEdit._id = form._id
     formEdit.account = form.account
     formEdit.email = form.email
     formEdit.name = form.name
+    formEdit.phone = form.phone
   } catch (error) {
     Swal.fire({
       toast: true,
@@ -85,10 +94,12 @@ const formEdit = reactive({
 // 取消修改
 const editCanel = () => {
   // 換回原設定
+  edit.value = false
   formEdit._id = form._id
   formEdit.account = form.account
   formEdit.email = form.email
   formEdit.name = form.name
+  formEdit.phone = form.phone
 }
 
 // 確認修改
@@ -99,6 +110,7 @@ const editUser = async () => {
     formEdit.account = data.result.account
     formEdit.email = data.result.email
     formEdit.name = data.result.name
+    formEdit.phone = data.result.phone
 
     $q.notify({
       type: 'positive',

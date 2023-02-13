@@ -10,22 +10,22 @@
 
       q-page-container.flex.justify-center
         q-form(style="width: 80%" @submit="register")
-          q-input(label="email" v-model="form.email" :rules="[$rules.required('欄位必填'), $rules.email('email 格式錯誤')]")
+          q-input(label="email" v-model="form.email" :rules="[$rules.required('欄位必填'), $rules.email('email 格式錯誤')]" color="warning")
 
           .row.justify-between
             .col-5
-              q-input(label="name" v-model="form.name" counter maxlength="20"
+              q-input(label="name" v-model="form.name" counter maxlength="20" color="warning"
               :rules="[$rules.required('欄位必填'), $rules.maxLength(20, '長度需為 4~20 個字元'), $rules.minLength(4, '長度需為 4~20 個字元')]")
             .col-5
-              q-input(label="account" v-model="form.account" counter maxlength="20"
+              q-input(label="account" v-model="form.account" counter maxlength="20" color="warning"
               :rules="[$rules.required('欄位必填'), $rules.maxLength(20, '長度需為 4~20 個字元'), $rules.minLength(4, '長度需為 4~20 個字元')]")
 
-          q-input(label="password" v-model="form.password" :type="isPwd ? 'password' : 'text'" counter maxlength="20"
+          q-input(label="password" v-model="form.password" :type="isPwd ? 'password' : 'text'" counter maxlength="20" color="warning"
           :rules="[$rules.required('欄位必填'), $rules.maxLength(20, '長度需為 4~20 個字元'), $rules.minLength(4, '長度需為 4~20 個字元')]")
             template(v-slot:append)
                 q-icon.cursor-pointer(:name="isPwd ? 'visibility_off' : 'visibility'" @click="isPwd = !isPwd")
 
-          q-input(label="passwordConfirm" v-model="form.passwordConfirm" :type="isPwdConfirm ? 'password' : 'text'"
+          q-input(label="passwordConfirm" v-model="form.passwordConfirm" :type="isPwdConfirm ? 'password' : 'text'" color="warning"
           :rules="[$rules.required('欄位必填'), $rules.is(form.password, '密碼不一致')]" counter maxlength="20")
             template(v-slot:append)
                 q-icon.cursor-pointer(:name="isPwdConfirm ? 'visibility_off' : 'visibility'" @click="isPwdConfirm = !isPwdConfirm")

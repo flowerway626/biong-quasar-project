@@ -10,10 +10,10 @@
 
       q-page-container.flex.justify-center
         q-form(style="width: 80%" @submit="login")
-          q-input.q-my-xs(v-model="form.account" label="account" counter maxlength="20"
+          q-input.q-my-xs(v-model="form.account" label="account" counter maxlength="20" color="warning"
                 :rules="[$rules.required('欄位必填'), $rules.maxLength(20, '長度需為 4~20 個字元'), $rules.minLength(4, '長度需為 4~20 個字元')]")
           q-input.q-my-xs(v-model="form.password" label="password"  :type="isPwd ? 'password' : 'text'" counter maxlength="20"
-                :rules="[$rules.required('欄位必填'), $rules.maxLength(20, '長度需為 4~20 個字元'), $rules.minLength(4, '長度需為 4~20 個字元')]")
+                color="warning" :rules="[$rules.required('欄位必填'), $rules.maxLength(20, '長度需為 4~20 個字元'), $rules.minLength(4, '長度需為 4~20 個字元')]")
             template(v-slot:append)
               q-icon.cursor-pointer(:name="isPwd ? 'visibility_off' : 'visibility'" @click="isPwd = !isPwd")
           q-btn.full-width.q-my-xl(type="submit" size="md" color="secondary") 登入

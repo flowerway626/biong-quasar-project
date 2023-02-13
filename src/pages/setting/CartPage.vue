@@ -43,8 +43,8 @@ import Swal from 'sweetalert2'
 import { useQuasar } from 'quasar'
 
 const $q = useQuasar()
-const loading = ref(false)
 const user = useUserStore()
+const loading = ref(false)
 const { editCart, checkOut } = user
 const edit = ref(false)
 const filter = ref('')

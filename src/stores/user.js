@@ -151,6 +151,7 @@ export const useUserStore = defineStore('user', () => {
     try {
       const { data } = await apiAuth.post('/users/cart', { p_id: _id, quantity })
       cart.value = data.result
+      this.router.push('/setting/order')
     } catch (error) {
       Swal.fire({
         toast: true,
@@ -206,8 +207,6 @@ export const useUserStore = defineStore('user', () => {
       await apiAuth.patch('/events/user/' + eventId)
       console.log(data.result.phone)
       phone.value = data.result.phone
-      // event.slice(0, event.length)
-      // event.push(data.result.event)
       Notify.create({
         type: 'positive',
         color: 'pink',

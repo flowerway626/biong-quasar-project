@@ -1,3 +1,3 @@
 <template lang="pug">
-h1 活動
+h4.text-center 活動
 </template>

@@ -55,22 +55,52 @@
 
     q-tab-panel(name="VIDEO")
       .text-h4.q-mb-md VIDEO
-      //- :autoplay="{ delay: 2500 }"
-      swiper(:modules="modules" navigation :loop="true"  :scrollbar="{ draggable: true, hide: true, }"
-        :effect="'coverflow'" :coverflowEffect="{ stretch: 0, depth: 150, modifier: 1, slideShadows: true,}"
-        :breakpoints="{768: {slidesPerView: 3,spaceBetween: 40}}")
-        swiper-slide
-          q-img(src='https://cdn.quasar.dev/img/parallax1.jpg')
-        swiper-slide
-          q-img(src='https://cdn.quasar.dev/img/parallax2.jpg')
-        swiper-slide
-          q-img(src='https://cdn.quasar.dev/img/quasar.jpg')
-        swiper-slide
-          q-img(src='https://cdn.quasar.dev/img/parallax1.jpg')
-        swiper-slide
-          q-img(src='https://cdn.quasar.dev/img/parallax2.jpg')
-        swiper-slide
-          q-img(src='https://cdn.quasar.dev/img/quasar.jpg')
+      .text-h5 最新上傳
+      .q-pa-md
+        //- :autoplay="{ delay: 2500 }"
+        swiper(:modules="modules" navigation :loop="true" :scrollbar="{ draggable: true, hide: true, }"
+          :breakpoints="{768: {slidesPerView: 4,spaceBetween: 40}}")
+          swiper-slide
+            q-img(src='https://cdn.quasar.dev/img/parallax1.jpg')
+          swiper-slide
+            q-img(src='https://cdn.quasar.dev/img/parallax2.jpg')
+          swiper-slide
+            q-img(src='https://cdn.quasar.dev/img/quasar.jpg')
+          swiper-slide
+            q-img(src='https://cdn.quasar.dev/img/parallax1.jpg')
+          swiper-slide
+            q-img(src='https://cdn.quasar.dev/img/parallax2.jpg')
+          swiper-slide
+            q-img(src='https://cdn.quasar.dev/img/quasar.jpg')
+
+      .text-h5 All
+        .row.justify-evenly
+          q-card.my-card.col-3.q-ma-md
+            q-img(src='https://cdn.quasar.dev/img/parallax2.jpg')
+              .absolute-bottom
+                .text-h6 Our Changing INFOet
+                .text-subtitle2 by John Doe
+            q-card-actions
+              q-btn(flat) Action 1
+              q-btn(flat) Action 2
+
+          q-card.my-card.col-3.q-ma-md
+            q-img(src='https://cdn.quasar.dev/img/parallax2.jpg')
+              .absolute-bottom
+                .text-h6 Our Changing INFOet
+                .text-subtitle2 by John Doe
+            q-card-actions
+              q-btn(flat) Action 1
+              q-btn(flat) Action 2
+
+          q-card.my-card.col-3.q-ma-md
+            q-img(src='https://cdn.quasar.dev/img/parallax2.jpg')
+              .absolute-bottom
+                .text-h6 Our Changing Planet
+                .text-subtitle2 by John Doe
+            q-card-actions
+              q-btn(flat) Action 1
+              q-btn(flat) Action 2
 
     q-tab-panel(name="BEHIND")
       .text-h4.q-mb-md BEHIND
@@ -79,12 +109,12 @@
 <script setup>
 import { ref } from 'vue'
 import { Swiper, SwiperSlide } from 'swiper/vue'
-import { Navigation, Pagination, Scrollbar, EffectCoverflow, Autoplay } from 'swiper'
+import { Navigation, Pagination, Scrollbar, Autoplay } from 'swiper'
 
 import 'swiper/css/bundle'
 
 const tab = ref('VIDEO')
 const link = ref('INFO')
 const drawer = ref(true)
-const modules = [Navigation, Pagination, Scrollbar, EffectCoverflow, Autoplay]
+const modules = [Navigation, Pagination, Scrollbar, Autoplay]
 </script>

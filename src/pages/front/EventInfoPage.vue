@@ -8,12 +8,27 @@
     p {{ eventInfo.description }}
     p {{ eventInfo.number }}
     p {{ eventInfo.place }}
-    q-btn(label="報名" @click="addMember(route.params.id.toString(), phone)")
+    q-btn(label="報名" @click="openDialog = !openDialog")
+
+q-dialog(v-model='openDialog' persistent)
+  q-card
+    q-form(@submit="addEvent")
+      q-toolbar
+        q-toolbar-title
+          span.text-weight-bold Check
+      q-card-section
+        p 活動報名後無法取消
+        q-input(v-model='phone' autofocus @keyup.enter='prompt = false' color="warning" label="連絡電話")
+
+      q-card-actions.text-primary(align='right')
+        q-btn(flat label='Cancel' color="pink" v-close-popup)
+        q-btn(flat label='Submit' color="secondary" type="submit" v-close-popup)
+
 </template>
 
 <script setup>
-import { api, apiAuth } from 'src/boot/axios'
-import { reactive } from 'vue'
+import { api } from 'src/boot/axios'
+import { reactive, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import Swal from 'sweetalert2'
 import { useUserStore } from 'src/stores/user'
@@ -21,8 +36,10 @@ import { useQuasar } from 'quasar'
 
 const $q = useQuasar()
 const user = useUserStore()
-const { addMember } = user
 const route = useRoute()
+const openDialog = ref(false)
+const { addMember } = user
+const phone = ref('')
 const eventInfo = reactive({
   name: '',
   description: '',
@@ -56,11 +73,9 @@ const eventInfo = reactive({
   }
 })()
 
-const editEvent = async () => {
+const addEvent = async () => {
   try {
-    const phone = '0926490800'
-    await addMember(route.params.id.toString(), phone)
-    console.log('user')
+    await addMember(route.params.id.toString(), phone.value)
   } catch (error) {
     Swal.fire({
       toast: true,
@@ -73,5 +88,4 @@ const editEvent = async () => {
     })
   }
 }
-
 </script>
