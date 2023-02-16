@@ -3,9 +3,17 @@ q-page
   section#section1.row
     q-img(fit src="http://img.lifestyler.co.kr/uploads/programtemplate/20220614/f637908113779910034.jpg")
 
+  section.q-pa-xl.bg-secondary.row.justify-around.items-center
+    h4.text-center 最新消息
+    ul
+      li(v-for="newInfo in news")
+        q-btn(flat :to="'/news/' + newInfo._id").flex.justify-between
+          .text-h6.q-mr-xl {{ new Date(newInfo.date).toLocaleDateString() }}
+          .text-h6.q-ml-xl {{ newInfo.title }}
+          q-icon.q-ml-xl(name="mdi-arrow-top-right-bottom-left-bold")
+
   section#section2.row.q-pa-xl.q-mx-auto
-    .col-12
-      h5.text-center 周邊商品
+    h5.col-12.text-center 周邊商品
     .col-12.row
       .col-xs-12.col-sm-4.col-md-3.q-mx-lg(v-for="product in products" :key="product.id")
           q-img(:src="product.image")
@@ -14,32 +22,32 @@ q-page
               q-btn.q-ma-xs(label="購物車" outline color="pink" @click="editCart({_id: product._id, quantity: 1})")
                 //- q-skeleton(type="QBtn")
 
-  section.q-pa-xl
-    .text-h5.text-center 最新消息
-    ul
-      li(v-for="eventInfo in events")
-        q-btn(flat :to="'/event/' + eventInfo._id").flex.justify-between
-          .text-h6.q-mr-xl {{ new Date(eventInfo.date).toLocaleDateString() }}
-          .text-h6.q-ml-xl {{ eventInfo.name }}
-          q-icon.q-ml-xl(name="mdi-arrow-top-right-bottom-left-bold")
+  section.row.q-pa-xl.bg-pink
+    .col
+      swiper(:modules="modules" :space-between="50" :effect="'cards'" :grabCursor="true" )
+        swiper-slide(v-for="(event, idx) in events")
+            a(@click="eventInfo(idx)")
+              q-card
+                q-img(:src="event.image")
+                q-card-section
+                  .text-h6 {{ event.name }}
+                  .text-subtitle2 {{ new Date(event.date).toLocaleDateString() }}
+        swiper-slide Slide 2
+        swiper-slide Slide 3
+        swiper-slide Slide 9
+    .col
+      h5(v-if="!eventCard").text-center 活動公告
+      q-card(v-if="eventCard" flat).event-card
+        q-card-section(horizontal)
+          q-img.col-6(:src='events[eventIdx].image')
+          q-card-section.row.column
+            span {{ events[eventIdx].name }}
+            q-separator
+            span {{ events[eventIdx].description }}
+            span {{ new Date(events[eventIdx].date).toLocaleDateString() }}
+            q-btn(label="MORE >>>" :to="'/event/' + events[eventIdx]._id")
 
-  section.row.flex-center.q-pa-xl
-    .col-12
-      h5.text-center 活動公告
-    .col-6
-      swiper(:modules="modules" :slides-per-view="3" :space-between="50" navigation
-      :pagination="{ clickable: true }" :scrollbar="{ draggable: true }")
-        swiper-slide(v-for="eventInfo in events")
-          q-card
-            img(:src="eventInfo.image")
-            q-card-section
-              .text-h6 {{ eventInfo.name }}
-              .text-subtitle2 {{ new Date(eventInfo.date).toLocaleDateString() }}
-            //- q-card-section.q-pt-none
-              .text-subtitle2 2023/2/5 ~ 2023/2/10
-              .text- loremloremloremloremloremloremloremloremloremloremloremlorem
-
-  section.row.q-pa-xl
+//- section.row.q-pa-xl
     .col
       .text-h6.text-center Contact Us
       q-form.q-mx-auto(style="width: 80%" @submit="contactUs")
@@ -68,17 +76,23 @@ import { reactive, ref } from 'vue'
 import { api } from 'src/boot/axios'
 import Swal from 'sweetalert2'
 import { useUserStore } from 'src/stores/user'
+import { useRouter } from 'vue-router'
 import { Swiper, SwiperSlide } from 'swiper/vue'
-import { Navigation, Pagination, Scrollbar } from 'swiper'
+import { Navigation, Pagination, Scrollbar, EffectCards } from 'swiper'
 
 import 'swiper/css/bundle'
+import 'swiper/css/effect-cards'
 
-const modules = [Navigation, Pagination, Scrollbar]
+const modules = [Navigation, Pagination, Scrollbar, EffectCards]
 
+const router = useRouter()
 const user = useUserStore()
 const { editCart } = user
+const eventCard = ref(false)
+const eventIdx = ref(0)
 const products = reactive([])
 const events = reactive([])
+const news = reactive([])
 const form = reactive({
   account: '',
   email: '',
@@ -86,64 +100,10 @@ const form = reactive({
   content: ''
 })
 
-const columns = reactive([
-  {
-    name: 'newsId',
-    // required: true,
-    label: 'newsId',
-    align: 'left',
-    field: (row) => row.name,
-    format: (val) => `${val}`,
-    sortable: true
-  },
-  {
-    name: 'date',
-    label: 'date',
-    field: 'date',
-    sortable: true,
-    sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
-  },
-  {
-    name: 'title',
-    align: 'center',
-    label: 'title',
-    field: 'title',
-    sortable: true
-  }
-])
-
-const rows = reactive([
-  {
-    name: 'Frozen Yogurt',
-    title: 159,
-    date: '24'
-  },
-  {
-    name: 'Ice cream sandwich',
-    title: 237,
-    date: '1%'
-  },
-  {
-    name: 'Eclair',
-    title: 262,
-    date: '7%'
-  },
-  {
-    name: 'Cupcake',
-    title: 305,
-    date: '8%'
-  },
-  {
-    name: 'Gingerbread',
-    title: 356,
-    date: '16%'
-  },
-  {
-    name: 'Jelly bean',
-    title: 375,
-    date: '0%'
-  }
-])
+const eventInfo = (idx) => {
+  eventIdx.value = idx
+  eventCard.value = true
+}
 
 const contactUs = () => {
   console.log('表單送出')
@@ -151,9 +111,11 @@ const contactUs = () => {
 
 (async () => {
   try {
-    const { data: productData } = await api.get('/products')
+    const { data: productsData } = await api.get('/products')
+    const { data: newsData } = await api.get('/news')
     const { data: eventsData } = await api.get('/events')
-    products.push(...productData.result)
+    products.push(...productsData.result)
+    news.push(...newsData.result)
     events.push(...eventsData.result)
   } catch (error) {
     Swal.fire({
@@ -171,6 +133,12 @@ const contactUs = () => {
 </script>
 
 <style lang="scss">
+.event-card {
+  width: 100%;
+  max-width: 600px;
+  right: 100px;
+}
+
 .eventCard img {
   width: 100%;
   height: 200px;
@@ -221,22 +189,27 @@ li {
   list-style: none;
   }
 
-  section#section2 .q-img {
-  height: 200px;
-  border-radius: 10px;
+section#section2 .q-img {
+height: 200px;
+border-radius: 10px;
 
+.mask {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: transparent;
+  opacity: 0;
+}
+&:hover {
   .mask {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    background: transparent;
-    opacity: 0;
+    background: #3339;
+    opacity: 1;
   }
-  &:hover {
-    .mask {
-      background: #3339;
-      opacity: 1;
-    }
-  }
+}
+}
+
+.swiper {
+  width: 240px;
+  height: 320px;
 }
 </style>

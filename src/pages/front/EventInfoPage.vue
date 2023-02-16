@@ -60,6 +60,7 @@ const eventInfo = reactive({
     eventInfo.image = data.result.image
     eventInfo.number = data.result.number
     eventInfo.member = data.result.member
+    console.timeLog(eventInfo)
   } catch (error) {
     Swal.fire({
       toast: true,

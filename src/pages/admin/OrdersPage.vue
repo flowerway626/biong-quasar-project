@@ -1,6 +1,6 @@
 <template lang="pug">
 .q-ma-md
-  q-table(title="訂單管理" :columns="columns" :rows="orders" row-key="_id" :filter="filter")
+  q-table.order-table(title="訂單管理" :columns="columns" :rows="orders" row-key="_id" :filter="filter" :loading="loading")
 
     template(v-slot:top-right)
         q-input.q-mr-md(borderless dense debounce='300' v-model='filter' placeholder='Search')
@@ -10,7 +10,7 @@
     template(v-slot:body-cell-product="props")
       q-td
         template(v-for="product in props.row.products")
-          ul
+          ul.q-pl-xs.text-left
             li {{ product.quantity }} x &nbsp; &nbsp; {{ product.p_id.name }}
 </template>
 
@@ -86,8 +86,44 @@ const columns = [
 
 </script>
 
-<style lang="scss">
-li {
-  list-style: none;
-}
+<style lang="sass">
+li
+  list-style: none
+
+.order-table
+  max-height: calc(100vh - 100px)
+
+  // td:first-child
+  //   background-color: #555 !important
+  tr td
+    text-align: center
+    font-size: 14px
+
+  tr th
+    position: sticky
+    z-index: 2
+    background: #333
+    font-size: 14px
+    font-weight: bold
+    text-align: center
+
+  thead tr:last-child th
+    top: 48px
+    z-index: 3
+  thead tr:first-child th
+    top: 0
+    z-index: 1
+  tr:first-child th:first-child
+    z-index: 3
+
+  td:first-child
+    z-index: 1
+
+  td:first-child, th:first-child
+    position: sticky
+    left: 0
+
+.my-card
+  width: 100%
+  max-width: 900px
 </style>

@@ -37,8 +37,16 @@ const routes = [
       },
       {
         path: 'about',
-        name: 'abput',
+        name: 'about',
         component: () => import('@/pages/front/AboutPage.vue'),
+        meta: {
+          title: 'Biong Biong | About'
+        }
+      },
+      {
+        path: 'about/:id',
+        name: 'about-photo',
+        component: () => import('@/pages/front/PhotoPage.vue'),
         meta: {
           title: 'Biong Biong | About'
         }
@@ -52,11 +60,11 @@ const routes = [
         }
       },
       {
-        path: 'news',
-        name: 'news',
-        component: () => import('@/pages/front/NewsInfoPage.vue'),
+        path: 'news/:id',
+        name: 'newsInfo',
+        component: () => import('@/pages/front/NewInfoPage.vue'),
         meta: {
-          title: 'Biong Biong | New'
+          title: 'Biong Biong | NewInfo'
         }
       },
       {
@@ -80,7 +88,7 @@ const routes = [
         name: 'eventInfo',
         component: () => import('@/pages/front/EventInfoPage.vue'),
         meta: {
-          title: 'Biong Biong | NewInfo'
+          title: 'Biong Biong | EventInfo'
         }
       },
       {
