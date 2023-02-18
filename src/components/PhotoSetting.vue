@@ -1,9 +1,9 @@
 <template lang="pug">
-.q-ma-md
+#photo-setting.q-ma-md
   q-table.event-table(title="相簿管理" :rows="photos" :columns="columns" row-key="_id" :filter="filter" :loading="loading")
     template(v-slot:body-cell-image="props")
         q-td
-          img(:src="props.row.image" :width="100" :height='100')
+          img(:src="props.row.image" :width="130" :height='100' style="object-fit: cover;")
 
     template(v-slot:top-right)
       q-input.q-mr-md(borderless dense debounce='300' v-model='filter' placeholder='Search')
@@ -18,48 +18,38 @@
         q-btn(icon="delete" color="pink" size="sm" round @click="delProduct(props.row._id)")
 
 q-dialog#edit-event(v-model="layout" persistent transition-show="fade" transition-hide="fade")
-  q-card.my-card.text-white.q-pa-sm
+  q-card.edit-event-card.text-white.q-pa-sm
       q-form(@submit="editPhoto")
         q-card-section(align="center")
           .text-h5.text-weight-bold {{ form._id.length > 0 ? '編輯相簿' : '新增相簿' }}
           q-input(v-model="form.name" label="標題" type="text" color="warning"  :rules="[$rules.required('欄位必填')]")
-          q-expansion-item.q-my-sm.shadow-1.overflow-hidden(default-opened style='border-radius: 10px' icon='album' label='封面' header-class='bg-warning text-black' expand-icon-class='text-black')
+          q-expansion-item.q-my-sm.shadow-1.overflow-hidden(default-opened group="ablum" style='border-radius: 10px' icon='album' label='封面' header-class='bg-warning text-black text-weight-bold' expand-icon-class='text-black')
             q-img.q-ma-sm(v-if="image !== ''" :src="image" width="230px" height="170px")
             q-file.q-ma-md(v-model="form.image" label="封面圖" outlined use-chips style="width: 230px")
 
-          q-expansion-item.q-my-sm.shadow-1.overflow-hidden(style='border-radius: 10px' icon='album' label='相片' header-class='bg-warning text-black' expand-icon-class='text-black')
-            .row
-              .col-3.q-ma-sm(v-if="form.idx >= 0" v-for="img in images" :key="img" width="130px" height="100px")
-                q-img.fullwidth(:src="img")
-                  .absolute-full.flex.flex-center(v-if="form.delImages.includes(img)")
-                    q-icon(name="delete")
-                q-checkbox(v-model="form.delImages" :val="img")
-
-            //- q-img.q-ma-sm(v-if="image !== ''" v-for="img in images" :src="img" width="130px" height="100px")
-            q-file.q-ma-sm(v-model="form.images" label="photos" outlined use-chips multiple style="width: 400px" )
+          q-expansion-item.q-my-sm.shadow-1.overflow-hidden(group="ablum" style='border-radius: 10px' icon='album' label='相片' header-class='bg-warning text-black text-weight-bold' expand-icon-class='text-black')
+            .flex
+              .q-ma-sm.q-gutter-md(v-if="form.idx >= 0" v-for="img in images" :key="img" )
+                q-img.fullwidth(:src="img" width="130px" height="100px")
+                  .absolute-full.flex.flex-center(v-if="form.delImages.includes(img)" style="border: 2px solid #fff")
+                    q-icon(name="delete" size="md")
+                  q-checkbox.absolute-full.flex.flex-center(v-model="form.delImages" :val="img" style="opacity: 0")
+            q-file.q-ma-sm(v-model="form.images" label="photos" outlined use-chips multiple style="max-width: 90%" )
 
           q-checkbox(v-model='tags' label='泳知' color="warning" val="youngji" checked-icon='task_alt' unchecked-icon='highlight_off')
           q-checkbox(v-model='tags' label='俞真' color="warning" val="youjin" checked-icon='task_alt' unchecked-icon='highlight_off')
           q-checkbox(v-model='tags' label='mimi' color="warning" val="mimi" checked-icon='task_alt' unchecked-icon='highlight_off')
           q-checkbox(v-model='tags' label='恩智' color="warning" val="eunji" checked-icon='task_alt' unchecked-icon='highlight_off')
 
-              //- .row
-              //-   .col-3(v-if="form.idx >= 0" v-for="img in products[form.idx]?.images" :key="img")
-              //-     q-img.fullwidth(:src="img")
-              //- q-file(v-model="form.images" label="請上傳補充圖片" filled multiple style="max-width: 300px")
-              //-   template(v-slot:append)
-              //-     q-icon(name="close" @click="clears")
-
         q-card-actions(align="center")
           q-btn(type="submit" size="md" color="secondary" ) submit
           q-btn(size="md" color="pink" v-close-popup) cancel
-
 </template>
 
 <script setup>
 import { ref, reactive } from 'vue'
 import { apiAuth } from 'src/boot/axios'
-import { useQuasar } from 'quasar'
+import { useQuasar, QSpinnerPie } from 'quasar'
 import Swal from 'sweetalert2'
 
 const $q = useQuasar()
@@ -100,7 +90,7 @@ const columns = [
   {
     name: 'image',
     required: true,
-    label: '圖片',
+    label: '封面圖',
     field: 'image',
     sortable: true
   },
@@ -112,8 +102,8 @@ const columns = [
 
 // 編輯視窗
 const dialogEdit = (id) => {
-  layout.value = true
   const idx = photos.findIndex((photo) => photo._id === id)
+  console.log(idx)
   if (idx === -1) {
     form._id = ''
     form.name = ''
@@ -121,7 +111,10 @@ const dialogEdit = (id) => {
     form.images = []
     form.delImages = []
     form.tags = []
+    tags.value = []
     image.value = ''
+    images.splice(0, images.length)
+    console.log(images)
   } else {
     form._id = photos[idx]._id
     form.idx = idx
@@ -132,15 +125,23 @@ const dialogEdit = (id) => {
     form.tags = photos[idx].tags
     tags.value = form.tags
     image.value = photos[idx].image
-    console.log(images)
     images.splice(0, images.length)
     images.push(...photos[idx].images)
   }
+  layout.value = true
 }
 
 // 送出新增 / 編輯
 const editPhoto = async () => {
-  layout.value = true
+  layout.value = false
+  $q.loading.show({
+    spinner: QSpinnerPie,
+    spinnerColor: 'warning',
+    spinnerSize: 100,
+    backgroundColor: 'black',
+    message: 'loading...',
+    messageColor: 'white'
+  })
   form.tags = tags.value
   const fd = new FormData()
   fd.append('name', form.name)
@@ -188,12 +189,13 @@ const editPhoto = async () => {
       text: error?.response?.data?.message || '發生錯誤！'
     })
   }
-  layout.value = false
+  $q.loading.hide()
 }
 
 // 刪除
 const delProduct = async (id) => {
-  layout.value = true
+  const idx = photos.findIndex((photo) => photo._id === id)
+  photos.splice(idx, 1)
   try {
     loading.value = true
     await apiAuth.delete('/photos/' + id)
@@ -216,7 +218,6 @@ const delProduct = async (id) => {
       text: error?.response?.data?.message || '發生錯誤！'
     })
   }
-  layout.value = true
 }
 
 (async () => {
@@ -273,7 +274,20 @@ const delProduct = async (id) => {
     position: sticky
     left: 0
 
-.my-card
+.edit-event-card
   width: 100%
-  max-width: 900px
+
+  .text-subtitle1
+      /* 標題文字超過兩行時，超過的文字隱藏並顯示... */
+      /* 要使用 webkit-line-clamp 須將 display 轉成 -webkit-box*/
+      display: -webkit-box
+      /* 使超出 h4 寬度的文字隱藏 */
+      overflow: hidden
+      /* 超出 h4 寬度的文字須由上而下垂直排列才可執行 webkit-line-clamp */
+      -webkit-box-orient: vertical
+      /* 限制 h4 中文字超過 2 行時 */
+      -webkit-line-clamp: 2
+      /* 有溢出文字時最後方加上省略號... */
+      text-overflow: ellipsis
+
 </style>

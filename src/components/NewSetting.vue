@@ -17,26 +17,14 @@
         q-btn(v-if="edit" icon="check" round unelevated size="sm" color='pink' @click="edit = !edit")
         q-btn(icon="delete" color="pink" size="sm" round @click="delNew(props.row._id)")
 
-    //- template(v-slot:body-cell-tags='props')
-      q-td.q-gutter-sm
-        .row(v-for="")
-          q-chip(v-model:selected='desert.youngji' color='primary' text-color='white') 泳知
-          q-chip(v-model:selected='desert.mimi' color='teal' text-color='white') mimi
-          q-chip(v-model:selected='desert.eunji' color='orange' text-color='white') 恩智
-          q-chip(v-model:selected='desert.youjin' color='red' text-color='white') 俞真
-
 q-dialog#edit-new(v-model="layout" persistent transition-show="fade" transition-hide="fade")
-  q-card.my-card.text-white
+  q-card.edit-new-card.text-white
       q-form(@submit="editNew")
         q-card-section(align="center")
           .text-h5.q-ma-sm.text-weight-bold {{ form._id.length > 0 ? '編輯公告' : '新增公告' }}
-          .row
-            .col.q-px-md
               q-input.q-my-xs(v-model="form.title" label="標題" type="text" color="warning" :rules="[$rules.required('欄位必填')]")
-              q-input.q-my-xs(v-model="form.content" label="內文" type="textarea" color="warning" rows="4"
+              q-input.q-my-xs(v-model="form.content" label="內文" type="textarea" color="warning" rows="4" autogrow
               :rules="[$rules.required('欄位必填')]")
-            .col.q-px-md
-              q-input.q-my-xs(v-model="form.tags" label="Tags" type="textarea" color="warning" rows="4")
               q-file.q-my-xs(v-model="form.image" outlined use-chips)
 
         q-card-actions(align="center")
@@ -46,9 +34,9 @@ q-dialog#edit-new(v-model="layout" persistent transition-show="fade" transition-
 </template>
 
 <script setup>
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive } from 'vue'
 import { apiAuth } from 'src/boot/axios'
-import { useQuasar } from 'quasar'
+import { useQuasar, QSpinnerPie } from 'quasar'
 import Swal from 'sweetalert2'
 
 const $q = useQuasar()
@@ -57,17 +45,13 @@ const loading = ref(false)
 const filter = ref('')
 const edit = ref(false)
 const news = reactive([])
-// const selection = computed(() => {
-//   return Object.keys(desert).filter(type => desert[type] === true).join(', ')
-// })
 const form = reactive({
   idx: -1,
   _id: '',
   title: '',
   content: '',
   date: '',
-  image: undefined,
-  tags: ''
+  image: undefined
 })
 
 const columns = [
@@ -80,31 +64,10 @@ const columns = [
     sortable: true
   },
   {
-    name: 'image',
-    required: true,
-    label: '圖片',
-    field: 'image',
-    sortable: true
-  },
-  {
     name: 'title',
     required: true,
     label: '標題',
     field: 'title',
-    sortable: true
-  },
-  {
-    name: 'content',
-    required: true,
-    label: '內文',
-    field: 'content',
-    sortable: true
-  },
-  {
-    name: 'tags',
-    required: true,
-    label: 'Tags',
-    // field: 'tags',
     sortable: true
   },
   {
@@ -123,7 +86,6 @@ const dialogEdit = (id) => {
     form.title = ''
     form.content = ''
     form.date = ''
-    form.tags = ''
     form.image = undefined
   } else {
     form._id = news[idx]._id
@@ -131,23 +93,25 @@ const dialogEdit = (id) => {
     form.title = news[idx].title
     form.content = news[idx].content
     form.date = news[idx].date
-    form.tags = news[idx].tags
     form.image = undefined
   }
 }
 
 // 送出新增 / 編輯
 const editNew = async () => {
-  layout.value = true
-
+  loading.value = true
+  $q.loading.show({
+    spinner: QSpinnerPie,
+    spinnerColor: 'warning',
+    spinnerSize: 100,
+    backgroundColor: 'black',
+    message: 'loading...',
+    messageColor: 'white'
+  })
   const fd = new FormData()
   fd.append('title', form.title)
   fd.append('content', form.content)
-  fd.append('date', form.date)
   fd.append('image', form.image)
-  for (const tag of form.tags) {
-    fd.append('tags', tag)
-  }
 
   try {
     if (form._id.length === 0) {
@@ -160,7 +124,8 @@ const editNew = async () => {
         position: 'top'
       })
     } else {
-      const { data } = await apiAuth.patch('/news' + form._id, fd)
+      const { data } = await apiAuth.patch('/news/' + form._id, fd)
+      console.log(data.result)
       news[form.idx] = data.result
       $q.notify({
         type: 'positive',
@@ -180,7 +145,9 @@ const editNew = async () => {
       text: error?.response?.data?.message || '發生錯誤！'
     })
   }
+  loading.value = false
   layout.value = false
+  $q.loading.hide()
 }
 
 // 刪除
@@ -263,7 +230,7 @@ const delNew = async (id) => {
     position: sticky
     left: 0
 
-.my-card
+.edit-new-card
   width: 100%
-  max-width: 900px
+  max-width: 600px
 </style>

@@ -1,14 +1,14 @@
 <template lang="pug">
-.row
+.row.q-ma-xl
   .col
-    q-img(:src="eventInfo.image" style="height: 500px;width:500px" )
-  .col
-    h3 {{ eventInfo.name }}
-    p {{ new Date(eventInfo.date).toLocaleDateString() }}
+    p {{ eventInfo.dateStart + ' ~ ' +  eventInfo.dateEnd }}
     p {{ eventInfo.description }}
     p {{ eventInfo.number }}
     p {{ eventInfo.place }}
     q-btn(label="報名" @click="openDialog = !openDialog")
+  .col
+    q-img(:src="eventInfo.image" style="height: 500px;width:500px" )
+    h3 {{ eventInfo.name }}
 
 q-dialog(v-model='openDialog' persistent)
   q-card
@@ -55,12 +55,13 @@ const eventInfo = reactive({
     const { data } = await api.get('/events/' + route.params.id)
     eventInfo.name = data.result.name
     eventInfo.description = data.result.description
-    eventInfo.date = data.result.date
+    eventInfo.dateStart = data.result.dateStart
+    eventInfo.dateEnd = data.result.dateEnd
     eventInfo.place = data.result.place
     eventInfo.image = data.result.image
     eventInfo.number = data.result.number
     eventInfo.member = data.result.member
-    console.timeLog(eventInfo)
+    console.log(eventInfo)
   } catch (error) {
     Swal.fire({
       toast: true,

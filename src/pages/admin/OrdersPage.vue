@@ -122,8 +122,4 @@ li
   td:first-child, th:first-child
     position: sticky
     left: 0
-
-.my-card
-  width: 100%
-  max-width: 900px
 </style>

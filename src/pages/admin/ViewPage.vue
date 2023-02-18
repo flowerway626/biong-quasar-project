@@ -53,7 +53,4 @@ const view = ref('news')
     position: sticky
     left: 0
 
-.my-card
-  width: 100%
-  max-width: 900px
 </style>

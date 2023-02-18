@@ -40,7 +40,7 @@ q-layout.shadow-2.rounded-borders(view="hHh Lpr lff" container style="height: 10
           q-avatar.q-mb-sm.q-ml-md(size="50px")
             img(:src="avatar")
           .flex.justify-between.q-mx-md.items-end
-            .text-h6.text-weight-bold {{ account }}
+            .text-h6.text-weight-bold {{ name }}
             q-btn(label="登出" size="sm" color="warning" flat @click="logout" to="/")
   q-page-container
     router-view
@@ -55,7 +55,7 @@ import { useRoute } from 'vue-router'
 const route = useRoute()
 const user = useUserStore()
 const { logout } = user
-const { account, avatar } = storeToRefs(user)
+const { name, avatar } = storeToRefs(user)
 const link = ref('settings')
 // const link = route.name
 const drawer = ref(false)

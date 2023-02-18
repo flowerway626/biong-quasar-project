@@ -34,7 +34,7 @@ const newInfo = reactive({
       background: '#F5ABA5',
       icon: 'error',
       color: 'black',
-      text: error?.response?.data?.message || '訂單錯誤！'
+      text: error?.response?.data?.message || '最新消息錯誤！'
     })
   }
 })()

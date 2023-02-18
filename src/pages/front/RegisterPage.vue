@@ -1,15 +1,15 @@
 <template lang="pug">
 #register
   q-dialog(v-model="layout" persistent transition-show="fade" @before-hide="close")
-    q-layout(container )
-      q-btn(icon="close" round v-close-popup style="height: 24px;z-index: 7000;position: absolute;right: 0" to="/")
+    q-card
+      q-btn(icon="close" flat round v-close-popup style="height: 24px;z-index: 7000;position: absolute;right: 0" to="/")
 
-      q-header.bg-black.flex.justify-center
-        q-btn-toggle.q-my-xl(style="width: 80%" spread toggle-color="white" toggle-text-color="black" v-model="currentModel"
+      q-card-section.flex.justify-center
+        q-btn-toggle.q-mt-md(style="width: 85%" spread toggle-color="white" toggle-text-color="black" v-model="currentModel"
         :options="[{label: 'LOGIN', value: 'login'}, {label: 'REGISTER', value: 'register'}]" @click="isLogin")
 
-      q-page-container.flex.justify-center
-        q-form(style="width: 80%" @submit="register")
+      q-card-section.flex.justify-center
+        q-form(style="width: 90%" @submit="register")
           q-input(label="email" v-model="form.email" :rules="[$rules.required('欄位必填'), $rules.email('email 格式錯誤')]" color="warning")
 
           .row.justify-between
@@ -31,7 +31,7 @@
                 q-icon.cursor-pointer(:name="isPwdConfirm ? 'visibility_off' : 'visibility'" @click="isPwdConfirm = !isPwdConfirm")
 
           .text-center
-            q-btn.full-width.q-my-lg(type="submit" size="md" color="pink" @keydown.enter="login") 註冊
+            q-btn.full-width.q-my-lg(type="submit" size="md" push color="pink" @keydown.enter="login") 註冊
 </template>
 
 <script setup>
@@ -86,3 +86,9 @@ const register = async () => {
   }
 }
 </script>
+
+<style lang="scss">
+.q-dialog__inner--minimized > div {
+  max-width: 350px;
+}
+</style>

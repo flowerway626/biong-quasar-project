@@ -3,10 +3,9 @@
   .col
     q-img(style="height: 500px;width:500px" :src="product.image")
   .col
-    h2 {{product.name}}
-    h4 $ {{ product.price }}
+    h4 {{product.name}}
+    h5 $ {{ product.price }}
     p {{ product.description }}
-    q-chip(v-model:selected="myLike" color="#fce5e5" icon="mdi-heart-plus" clickable) 收藏
     q-btn-group(outline)
       q-btn(color="brown" label="-" @click="quantity--")
       q-input(v-model.number="quantity" type="number" style="width: 100px;font-size: 16px" input-class="text-center text-weight-bold")
@@ -58,7 +57,7 @@ const submitCart = () => {
     $q.notify({
       type: 'positive',
       color: 'pink',
-      message: '加入購物車完成',
+      message: '加入購物車',
       position: 'top'
     })
   }

@@ -32,17 +32,19 @@ q-dialog#admin-product(v-model="layout" persistent transition-show="fade" transi
     q-form(@submit="editProduct")
       q-card-section(align="center")
         .text-h5.q-ma-sm.text-weight-bold {{ form._id.length > 0 ? '編輯商品' : '新增商品' }}
+          //- .col.q-px-md
         .row
-          .col.q-px-md
+          .col-6.q-pt-md
             q-input.q-my-xs(v-model="form.name" label="名稱" type="text" color="warning"  :rules="[$rules.required('欄位必填')]")
             q-select.q-my-xs(v-model="form.category" label="分類" color="warning"  :options="caterogies")
-            .flex.q-pt-md
+            .flex
               q-input.q-my-xs(v-model.number="form.price" label="價格" type="number" color="warning"  :rules="[$rules.required('欄位必填')]")
               q-checkbox.q-my-xs(v-model="form.sell" label="上架" color="warning")
-          .col.q-px-md
-            q-input.q-my-xs(v-model="form.description" label="說明" type="textarea" color="warning" rows="4"
-              :rules="[$rules.required('欄位必填')]")
-            q-file.q-my-xs(v-model="form.image" outlined use-chips)
+          .col-6.q-pt-md
+            q-img.q-my-sm(:src="form.image" width="150px")
+            q-file.q-my-xs(v-model="form.image" outlined use-chips style="width:150px" label="PHOTO")
+        q-input(v-model="form.description" label="說明" type="textarea" color="warning" rows="4"
+          :rules="[$rules.required('欄位必填')]")
 
       q-card-actions(align="center")
         q-btn(type="submit" size="md" color="secondary" ) 確定
@@ -53,9 +55,7 @@ q-dialog#admin-product(v-model="layout" persistent transition-show="fade" transi
 <script setup>
 import { reactive, ref } from 'vue'
 import { apiAuth } from 'src/boot/axios'
-import { useQuasar } from 'quasar'
-import { useRouter } from 'vue-router'
-import { useUserStore } from '@/stores/user'
+import { useQuasar, QSpinnerPie } from 'quasar'
 import Swal from 'sweetalert2'
 
 const filter = ref('')
@@ -63,8 +63,6 @@ const edit = ref(false)
 const layout = ref(false)
 const loading = ref(false)
 const $q = useQuasar()
-const user = useUserStore()
-const router = useRouter()
 const products = reactive([])
 const caterogies = ['服飾', '飾品', '食品', '其他']
 const form = reactive({
@@ -78,6 +76,7 @@ const form = reactive({
   idx: -1
 })
 
+// 編輯視窗
 const dialogEdit = (_id) => {
   const idx = products.findIndex((product) => product._id === _id)
   if (idx === -1) {
@@ -93,7 +92,7 @@ const dialogEdit = (_id) => {
     form.name = products[idx].name
     form.price = products[idx].price
     form.description = products[idx].description
-    form.image = undefined
+    form.image = products[idx].image
     form.category = products[idx].category
     form.sell = products[idx].sell
     form.idx = idx
@@ -101,9 +100,18 @@ const dialogEdit = (_id) => {
   layout.value = true
 }
 
+// 送出新增 / 編輯
 const editProduct = async () => {
   layout.value = true
   edit.value = true
+  $q.loading.show({
+    spinner: QSpinnerPie,
+    spinnerColor: 'warning',
+    spinnerSize: 100,
+    backgroundColor: 'black',
+    message: 'loading...',
+    messageColor: 'white'
+  })
   const fd = new FormData()
   fd.append('name', form.name)
   fd.append('price', form.price)
@@ -131,6 +139,7 @@ const editProduct = async () => {
         position: 'top'
       })
     }
+    layout.value = false
   } catch (error) {
     Swal.fire({
       toast: true,
@@ -142,8 +151,8 @@ const editProduct = async () => {
       text: error?.response?.data?.message || '發生錯誤！'
     })
   }
+  $q.loading.hide()
   edit.value = false
-  layout.value = false
 }
 
 (async () => {

@@ -11,7 +11,11 @@
   q-tab-panels(v-model="tab" animated swipeable vertical transition-prev="jump-up" transition-next="jump-up")
     q-tab-panel(name="INFO")
       .text-h4.q-mb-md INFO
-      p 在地球看不到的月球背面，有個玉皇大帝經營的休息站，休息站最熱門的商店"宇宙年糕店"，宇宙年糕店中有銷售一等的功臣—兔兔，因為受不了頻繁的加班，因此興起了逃往地球的念頭。發現兔子寫了辭職信逃往地球的玉皇大帝震怒，下令抓到兔子的人將給予豐厚的獎金。為了得到豐厚的獎金，由四位來自平行宇宙地球的勇士就這樣出動了。
+      .row
+        .col-auto.q-px-md
+          q-img(src="@/assets/poster.jpg" width="300px")
+        .col.q-px-md
+          .text-subtitle1 &nbsp;在地球看不到的月球背面，有個玉皇大帝經營的休息站，休息站最熱門的商店"宇宙年糕店"，宇宙年糕店中有銷售一等的功臣—兔兔，因為受不了頻繁的加班，因此興起了逃往地球的念頭。發現兔子寫了辭職信逃往地球的玉皇大帝震怒，下令抓到兔子的人將給予豐厚的獎金。為了得到豐厚的獎金，由四位來自平行宇宙地球的勇士就這樣出動了。
 
     q-tab-panel(name="PROFILE")
       .text-h4.q-mb-md profile
@@ -26,11 +30,12 @@
             q-img(:src="photos[0].image")
           swiper-slide(v-for="photo in photos[0].images")
             q-img(:src="photo")
+      q-separator.q-my-md
       .text-h5 All
         .row.justify-evenly
-          a.col-3.cursor-pointer.q-ma-md(v-for="photo in photos" @click="router.push('/about/' + photo._id)")
-            q-card.my-card
-              q-img(:src='photo.image')
+          .col-3.cursor-pointer.q-ma-md(v-for="photo in photos" @click="router.push('/about/' + photo._id)")
+            q-card.photo-card
+              q-img(:src='photo.image' height="150px")
               q-card-section
                 .text-subtitle1 {{ photo.name }}
                 .text-subtitle2 {{ new Date(photo.date).toLocaleString() }}
@@ -86,7 +91,7 @@
 
     q-tab-panel(name="BEHIND")
       .text-h4.q-mb-md BEHIND
-  </template>
+</template>
 
 <script setup>
 import { ref, reactive } from 'vue'
@@ -125,8 +130,18 @@ const modules = [Navigation, Pagination, Scrollbar, Autoplay];
 </script>
 
 <style lang="scss">
-.swiper-button-prev,
-.swiper-button-next {
-  color: aliceblue;
+#about {
+  .swiper-button-prev,
+  .swiper-button-next {
+    color: aliceblue;
+  }
+
+  .photo-card .text-subtitle1 {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    text-overflow: ellipsis;
+  }
 }
 </style>

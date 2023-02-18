@@ -7,8 +7,33 @@ $v-image-input-height: 100px !default;
   z-index: 8000!important
 }
 
+.pre {
+  white-space: pre;
+}
 // 解決 dialog 出現的 scroll
 .q-body--force-scrollbar-x {
   overflow-x: auto;
 }
 
+
+    /*捲軸寬度 */
+    ::-webkit-scrollbar {
+      width: 8px;
+      margin-right: 2px;
+    }
+
+    /* 捲軸背景 */
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    /* 捲軸把手 */
+    ::-webkit-scrollbar-thumb {
+      background: #444;
+      border-radius: 1000px;
+    }
+
+    /* 捲軸滑過時 */
+    ::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }

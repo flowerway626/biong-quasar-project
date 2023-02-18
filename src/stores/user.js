@@ -151,7 +151,6 @@ export const useUserStore = defineStore('user', () => {
     try {
       const { data } = await apiAuth.post('/users/cart', { p_id: _id, quantity })
       cart.value = data.result
-      this.router.push('/setting/order')
     } catch (error) {
       Swal.fire({
         toast: true,
@@ -188,7 +187,7 @@ export const useUserStore = defineStore('user', () => {
     }
   }
 
-  async function addMember (eventId, phone) {
+  async function addMember (eventId, userPhone) {
     if (token.value.length === 0) {
       Swal.fire({
         toast: true,
@@ -203,10 +202,11 @@ export const useUserStore = defineStore('user', () => {
       return
     }
     try {
-      const { data } = await apiAuth.patch('/users/event/' + eventId, { phone: '0926490800' })
+      console.log(userPhone)
+      const { data } = await apiAuth.patch('/users/event/' + eventId, { phone: userPhone })
       await apiAuth.patch('/events/user/' + eventId)
-      console.log(data.result.phone)
-      phone.value = data.result.phone
+      console.log(data)
+      // phone.value = data.result.phone
       Notify.create({
         type: 'positive',
         color: 'pink',

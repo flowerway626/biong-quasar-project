@@ -6,51 +6,48 @@ q-page
   section.q-pa-xl.bg-secondary.row.justify-around.items-center
     h4.text-center 最新消息
     ul
-      li(v-for="newInfo in news")
+      li(v-for="newInfo in news.slice(0, 5).reverse()")
         q-btn(flat :to="'/news/' + newInfo._id").flex.justify-between
-          .text-h6.q-mr-xl {{ new Date(newInfo.date).toLocaleDateString() }}
-          .text-h6.q-ml-xl {{ newInfo.title }}
-          q-icon.q-ml-xl(name="mdi-arrow-top-right-bottom-left-bold")
+          .text-h6.q-mr-sm-xl {{ new Date(newInfo.date).toLocaleDateString() }}
+          .text-h6.q-ml-sm-xl {{ newInfo.title }}
+          q-icon.q-ml-sm-xl(name="mdi-arrow-top-right-bottom-left-bold")
 
-  section#section2.row.q-pa-xl.q-mx-auto
-    h5.col-12.text-center 周邊商品
-    .col-12.row
-      .col-xs-12.col-sm-4.col-md-3.q-mx-lg(v-for="product in products" :key="product.id")
+  section#section2.row.q-pa-xl.q-mx-auto.justify-center
+    .text-h5.col-12.text-center 周邊商品
+    .col-12.row.flex-center
+      .col-xs-12.col-sm-4.col-md-3.q-mx-lg.q-my-md(v-for="product in products.slice(0, 6)" :key="product.id")
           q-img(:src="product.image")
             .mask.flex.flex-center.column.absolute
-              q-btn.q-ma-xs(label="詳情" outline color="secondary" :to="'/shopping/' + product._id")
-              q-btn.q-ma-xs(label="購物車" outline color="pink" @click="editCart({_id: product._id, quantity: 1})")
-                //- q-skeleton(type="QBtn")
+              q-btn.q-ma-xs(label="詳情" push color="secondary" :to="'/shopping/' + product._id" style="width: 72px")
+              q-btn.q-ma-xs(label="購物車" push color="pink" @click="addCart(product._id)")
+    q-btn.q-my-md(rounded outline to="/shopping") M O R E
 
-  section.row.q-pa-xl.bg-pink
+  section.column.reverse.row-sm.q-pa-xl.bg-pink
     .col
-      swiper(:modules="modules" :space-between="50" :effect="'cards'" :grabCursor="true" )
+      swiper(:modules="modules" :space-between="50" :effect="'cards'" :grabCursor="true" navigation)
         swiper-slide(v-for="(event, idx) in events")
-            a(@click="eventInfo(idx)")
+            div(@click="eventInfo(idx)")
               q-card
                 q-img(:src="event.image")
                 q-card-section
-                  .text-h6 {{ event.name }}
-                  .text-subtitle2 {{ new Date(event.date).toLocaleDateString() }}
-        swiper-slide Slide 2
-        swiper-slide Slide 3
-        swiper-slide Slide 9
+                  .text-subtitle1 {{ event.name }}
+                  .text-subtitle2 {{ event.dateStart + ' ~ ' + event.dateEnd }}
     .col
       h5(v-if="!eventCard").text-center 活動公告
-      q-card(v-if="eventCard" flat).event-card
+      q-card.event-card(v-if="eventCard" flat)
         q-card-section(horizontal)
           q-img.col-6(:src='events[eventIdx].image')
           q-card-section.row.column
-            span {{ events[eventIdx].name }}
+            .text-h6 {{ events[eventIdx].name }}
             q-separator
             span {{ events[eventIdx].description }}
-            span {{ new Date(events[eventIdx].date).toLocaleDateString() }}
+            span {{ events[eventIdx].dateStart + ' ~ ' + events[eventIdx].dateEnd }}
             q-btn(label="MORE >>>" :to="'/event/' + events[eventIdx]._id")
 
-//- section.row.q-pa-xl
+section.row.q-pa-xl
     .col
       .text-h6.text-center Contact Us
-      q-form.q-mx-auto(style="width: 80%" @submit="contactUs")
+      q-form.q-mx-auto(style="width: 80%")
         .row.justify-between
           .col-5
             q-input.q-my-xs(label="account" v-model="form.account" clearable clear-icon="close" dense=true
@@ -79,12 +76,12 @@ import { useUserStore } from 'src/stores/user'
 import { useRouter } from 'vue-router'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { Navigation, Pagination, Scrollbar, EffectCards } from 'swiper'
-
+import { useQuasar } from 'quasar'
 import 'swiper/css/bundle'
 import 'swiper/css/effect-cards'
 
 const modules = [Navigation, Pagination, Scrollbar, EffectCards]
-
+const $q = useQuasar()
 const router = useRouter()
 const user = useUserStore()
 const { editCart } = user
@@ -105,8 +102,26 @@ const eventInfo = (idx) => {
   eventCard.value = true
 }
 
-const contactUs = () => {
-  console.log('表單送出')
+const addCart = async (_id) => {
+  try {
+    $q.notify({
+      type: 'positive',
+      color: 'secondary',
+      message: '加入購物車',
+      position: 'top'
+    })
+    await editCart({ _id, quantity: 1 })
+  } catch (error) {
+    Swal.fire({
+      toast: true,
+      timer: 1000,
+      showConfirmButton: false,
+      background: '#F5ABA5',
+      icon: 'error',
+      color: 'black',
+      text: error?.response?.data?.message || '發生錯誤！'
+    })
+  }
 }
 
 (async () => {
@@ -135,7 +150,6 @@ const contactUs = () => {
 <style lang="scss">
 .event-card {
   width: 100%;
-  max-width: 600px;
   right: 100px;
 }
 
@@ -199,17 +213,15 @@ border-radius: 10px;
   position: relative;
   background: transparent;
   opacity: 0;
-}
-&:hover {
-  .mask {
-    background: #3339;
-    opacity: 1;
+  &:hover {
+      background: #3339;
+      opacity: 1;
   }
 }
 }
 
 .swiper {
   width: 240px;
-  height: 320px;
+  height: 400px;
 }
 </style>

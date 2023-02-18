@@ -16,47 +16,45 @@
         q-btn(v-if="!edit" icon="edit" round unelevated size="sm" color='pink' @click="dialogEdit(props.row._id)")
         q-btn(v-if="edit" icon="check" round unelevated size="sm" color='pink' @click="edit = !edit")
         q-btn(icon="delete" color="pink" size="sm" round @click="delProduct(props.row._id)")
+#edit-event
+  q-dialog(v-model="layout" persistent transition-show="fade" transition-hide="fade")
+    q-card.my-card.text-white
+        q-form(@submit="editEvent")
+          q-card-section(align="center")
+            .text-h5.q-ma-sm.text-weight-bold {{ form._id.length > 0 ? '編輯活動' : '新增活動' }}
+            q-input.q-my-xs(v-model="form.name" label="標題" type="text" color="warning"  :rules="[$rules.required('欄位必填')]")
+            .row
+              .col.q-px-md
+                q-input.q-my-xs(v-model="form.place" label="地點" color="warning")
+              .col.q-px-md
+                q-input.q-my-xs(v-model.number="form.number" label="人數" type="number" color="warning"  :rules="[$rules.required('欄位必填')]")
+            .row
+              .col.q-px-md
+                span 開始日期
+                q-input(v-model="form.dateStart" filled type="date" borderless)
+              .col.q-px-md
+                span 結束日期
+                q-input(v-model="form.dateEnd" filled type="date" borderless)
+                  //- .col-5
+                    q-input(v-model="form.date" mask="date")
+                      template(v-slot:append)
+                          q-popup-proxy(cover transition-show='scale' transition-hide='scale')
+                            q-date(v-model='form.date')
+                              q-btn(v-close-popup label='Close' color='primary' flat).
+            q-input.q-my-xs(v-model="form.description" label="說明" type="textarea" color="warning" autogrow rows="4"
+                :rules="[$rules.required('欄位必填')]")
+            q-file.q-my-xs(v-model="form.image" outlined use-chips label="配圖")
 
-q-dialog#edit-event(v-model="layout" persistent transition-show="fade" transition-hide="fade")
-  q-card.my-card.text-white
-      q-form(@submit="editEvent")
-        q-card-section(align="center")
-          .text-h5.q-ma-sm.text-weight-bold {{ form._id.length > 0 ? '編輯活動' : '新增活動' }}
-          .row
-            .col.q-px-md
-              q-input.q-my-xs(v-model="form.name" label="標題" type="text" color="warning"  :rules="[$rules.required('欄位必填')]")
-              q-input.q-my-xs(v-model="form.description" label="說明" type="textarea" color="warning" rows="4"
-              :rules="[$rules.required('欄位必填')]")
-            .col.q-px-md
-              q-input.q-my-xs(v-model="form.place" label="地點" color="warning")
-              q-input.q-my-xs(v-model.number="form.number" label="人數" type="number" color="warning"  :rules="[$rules.required('欄位必填')]")
-              .row.items-center.justify-between
-                .col-5
-                  q-input( v-model="form.date" mask="date" color="warning")
-                    template(v-slot:append)
-                        q-popup-proxy(cover transition-show='scale' transition-hide='scale')
-                          q-date(v-model='form.date')
-                            q-btn(v-close-popup label='Close' color="secodary" flat).
-                .col-1
-                  span -
-                //- .col-5
-                  q-input(v-model="form.date" mask="date")
-                    template(v-slot:append)
-                        q-popup-proxy(cover transition-show='scale' transition-hide='scale')
-                          q-date(v-model='form.date')
-                            q-btn(v-close-popup label='Close' color='primary' flat).
-              q-file.q-my-xs(v-model="form.image" outlined use-chips)
-
-        q-card-actions(align="center")
-          q-btn(type="submit" size="md" color="secondary" ) 確定
-          q-btn(size="md" color="pink" v-close-popup) 取消
+          q-card-actions(align="center")
+            q-btn(type="submit" size="md" color="secondary" ) 確定
+            q-btn(size="md" color="pink" v-close-popup) 取消
 
 </template>
 
 <script setup>
 import { ref, reactive } from 'vue'
 import { apiAuth } from 'src/boot/axios'
-import { useQuasar } from 'quasar'
+import { useQuasar, QSpinnerPie } from 'quasar'
 import Swal from 'sweetalert2'
 
 const $q = useQuasar()
@@ -64,7 +62,6 @@ const layout = ref(false)
 const loading = ref(false)
 const filter = ref('')
 const edit = ref(false)
-const dateRange = ref({ form: '', to: '' })
 const events = reactive([])
 const news = reactive([])
 const form = reactive({
@@ -72,7 +69,8 @@ const form = reactive({
   _id: '',
   name: '',
   description: '',
-  date: '',
+  dateStart: '',
+  dateEnd: '',
   place: '',
   image: undefined,
   number: 0
@@ -94,18 +92,17 @@ const columns = [
     sortable: true
   },
   {
-    name: 'description',
+    name: 'dateStart',
     required: true,
-    label: '說明',
-    field: row => row.description,
+    label: '開始日期',
+    field: row => row.dateStart,
     sortable: true
   },
   {
-    name: 'date',
+    name: 'dateEnd',
     required: true,
-    label: '活動日期',
-    field: row => row.date,
-    format: val => `${new Date(val).toLocaleDateString()}`,
+    label: '結束日期',
+    field: row => row.dateEnd,
     sortable: true
   },
   {
@@ -113,13 +110,6 @@ const columns = [
     required: true,
     label: '地點',
     field: row => row.place,
-    sortable: true
-  },
-  {
-    name: 'number',
-    required: true,
-    label: '人數',
-    field: row => row.number,
     sortable: true
   },
   {
@@ -136,7 +126,8 @@ const dialogEdit = (id) => {
     form._id = ''
     form.name = ''
     form.description = ''
-    form.date = ''
+    form.dateStart = ''
+    form.dateEnd = ''
     form.place = ''
     form.image = undefined
     form.number = 0
@@ -145,7 +136,8 @@ const dialogEdit = (id) => {
     form.idx = idx
     form.name = events[idx].name
     form.description = events[idx].description
-    form.date = events[idx].date
+    form.dateEnd = events[idx].dateEnd
+    form.dateStart = events[idx].dateStart
     form.place = events[idx].place
     form.image = undefined
     form.number = events[idx].number
@@ -155,12 +147,20 @@ const dialogEdit = (id) => {
 
 // 送出新增 / 編輯
 const editEvent = async () => {
-  layout.value = true
-
+  layout.value = false
+  $q.loading.show({
+    spinner: QSpinnerPie,
+    spinnerColor: 'warning',
+    spinnerSize: 100,
+    backgroundColor: 'black',
+    message: 'loading...',
+    messageColor: 'white'
+  })
   const fd = new FormData()
   fd.append('name', form.name)
   fd.append('description', form.description)
-  fd.append('date', form.date)
+  fd.append('dateStart', form.dateStart)
+  fd.append('dateEnd', form.dateEnd)
   fd.append('place', form.place)
   fd.append('image', form.image)
   fd.append('number', form.number)
@@ -176,7 +176,7 @@ const editEvent = async () => {
         position: 'top'
       })
     } else {
-      const { data } = await apiAuth.patch('/events' + form._id, fd)
+      const { data } = await apiAuth.patch('/events/' + form._id, fd)
       events[form.idx] = data.result
       $q.notify({
         type: 'positive',
@@ -196,15 +196,16 @@ const editEvent = async () => {
       text: error?.response?.data?.message || '發生錯誤！'
     })
   }
-  layout.value = false
+  $q.loading.hide()
 }
 
 // 刪除
 const delProduct = async (id) => {
-  layout.value = true
   try {
     loading.value = true
+    const idx = events.findIndex((event) => event._id === id)
     await apiAuth.delete('/events/' + id)
+    events.splice(idx, 1)
     loading.value = false
 
     $q.notify({
@@ -224,7 +225,6 @@ const delProduct = async (id) => {
       text: error?.response?.data?.message || '發生錯誤！'
     })
   }
-  layout.value = true
 }
 
 (async () => {
@@ -281,7 +281,8 @@ const delProduct = async (id) => {
     position: sticky
     left: 0
 
-.my-card
-  width: 100%
-  max-width: 900px
+#edit-event .q-dialog__inner--minimized > div
+  max-width: 750px
+//   .my-card
+//     width: 100%
 </style>

@@ -3,7 +3,7 @@
   q-layout
     q-header.text-white(reveal=true style="background: #0004!important")
       q-toolbar.q-py-sm
-        q-btn(label="INDEX" float to="/")
+        q-btn(label="INDEX" flat to="/")
         q-btn(label="ABOUT" flat to='/about')
         q-btn(label="NEWS" flat to='/news')
         q-btn(label="SHOPPING" flat to='/shopping')
@@ -46,4 +46,7 @@ const toggleLeftDrawer = () => {
 </script>
 
 <style lang="scss">
+#home .q-toolbar {
+  background: linear-gradient(135deg, #53C2BA 0%, #C0538A 100%);
+}
 </style>
