@@ -1,15 +1,15 @@
 <template lang="pug">
 #event-all
-  .text-h5.text-center 最活動
+  .text-h5.text-center 最新活動
   .flex
-      q-card.q-ma-md.cursor-pointer(v-for="info in events" @click="router.push('/event/' + info._id)")
-        q-card-section
-          q-img(:src="info.image")
-        q-card-section
-          //- .text-subtitle2 {{ info.dateStart}}
-          .text-h6 {{ info.name }}
-        q-card-section.q-pt-none
-          .text-subtitle1 {{ info.description }}
+    q-card.q-ma-md.cursor-pointer(v-for="info in events" :key="info._id" @click="router.push('/event/' + info._id)")
+      q-card-section
+        q-img(:src="info.image")
+      q-card-section
+        //- .text-subtitle2 {{ info.dateStart}}
+        .text-h6 {{ info.name }}
+      q-card-section.q-pt-none
+        .text-subtitle1 {{ info.description }}
 </template>
 
 <script setup>

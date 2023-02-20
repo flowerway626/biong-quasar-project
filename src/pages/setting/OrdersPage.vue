@@ -1,6 +1,6 @@
 <template lang="pug">
-.q-ma-md
-  q-table(title="訂單管理" :columns="columns" :rows="orders" row-key="_id" :filter="filter")
+#setting-order.q-ma-md
+  q-table.order-table(title="訂單管理" :columns="columns" :rows="orders" row-key="_id" :filter="filter" flat)
 
     template(v-slot:top-right)
         q-input.q-mr-md(borderless dense debounce='300' v-model='filter' placeholder='Search')
@@ -78,3 +78,40 @@ const columns = [
 })()
 
 </script>
+
+<style lang="sass">
+#setting-order .order-table
+    max-height: calc(100vh - 170px)
+
+    td:first-child
+      background-color: #555 !important
+    tr td
+      text-align: center
+      font-size: 14px
+    tr td:nth-child(3)
+      text-align: left
+
+    tr th
+      position: sticky
+      z-index: 2
+      background: #333
+      font-size: 14px
+      font-weight: bold
+      text-align: center
+
+    thead tr:last-child th
+      top: 48px
+      z-index: 3
+    thead tr:first-child th
+      top: 0
+      z-index: 1
+    tr:first-child th:first-child
+      z-index: 3
+
+    td:first-child
+      z-index: 1
+
+    td:first-child, th:first-child
+      position: sticky
+      left: 0
+</style>

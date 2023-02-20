@@ -1,13 +1,8 @@
 <template lang="pug">
-.q-pa-md
+#setting-cart.q-pa-md
   q-table.cart-table(title="購物車" :rows='carts' :columns='columns' row-key="_id"
   :filter="filter" virtual-scroll flat :loading="loading")
     q-btn(icon="delete" round unelevated size="sm" color='pink' @click='updateCart(props.row._id, props.row.quantity*-1)')
-
-    //- template(v-slot:body-cell-index='props')
-        q-td(:props="props")
-          span {{ props }}
-        //- q-btn(icon="edit" round unelevated size="sm" color='secondary' @click='editDialog(props.row)')
 
     template(v-slot:body-cell-image='props')
       q-td
@@ -32,7 +27,18 @@
 
   .flex.justify-around.items-center.q-mt-md.q-gutter-md
     .text-h5.text-weight-bold TOTAL： {{ totalPrice }} 元
-    q-btn(icon="money" label="結帳 go" unelevated size="lg" color='warning' text-color="black" @click="createOrder")
+    q-btn(icon="money" label="結帳 go" unelevated push size="lg" color='warning' text-color="black" @click="orderDialog = true")
+
+q-dialog(v-model="orderDialog")
+  q-card
+    q-card-section(style="background: linear-gradient(135deg, #53C2BA 0%, #C0538A 100%)")
+      .text-center.text-subtitle1 訂單確認
+    q-card-section
+      ul(style="padding-left: 20px")
+        li(v-for="product in carts" :key="product._id")
+          span {{ product.p_id.name + ' x ' + product.quantity }}
+    q-card-section.text-center
+      q-btn(label="送出訂單" push size="sm" color='secondary' @click="createOrder")
 </template>
 
 <script setup>
@@ -41,12 +47,15 @@ import { apiAuth } from 'src/boot/axios'
 import { useUserStore } from '@/stores/user'
 import Swal from 'sweetalert2'
 import { useQuasar } from 'quasar'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const $q = useQuasar()
 const user = useUserStore()
 const loading = ref(false)
 const { editCart, checkOut } = user
 const edit = ref(false)
+const orderDialog = ref(false)
 const filter = ref('')
 const carts = reactive([]);
 
@@ -56,6 +65,7 @@ const carts = reactive([]);
     const { data } = await apiAuth.get('/users/cart')
     carts.push(...data.result)
     loading.value = false
+    console.log(carts)
   } catch (error) {
     Swal.fire({
       toast: true,
@@ -169,53 +179,43 @@ const createOrder = async () => {
   loading.value = true
   await checkOut()
   carts.splice(0, carts.length)
+  router.push('/setting/order')
   loading.value = false
 }
 </script>
 
 <style lang="sass">
-.cart-table
-  /* height or max-height is important */
-  max-height: calc(100vh - 170px)
+#setting-cart
+  .cart-table
+    max-height: calc(100vh - 170px)
 
-  /* specifying max-width so the example can
-    highlight the sticky column on any browser window */
-  // max-width: 600px
+    td:first-child
+      background-color: #555 !important
+    tr td
+      text-align: center
+      font-size: 14px
 
-  td:first-child
-    /* bg color is important for td; just specify one */
-    background-color: #555 !important
-  tr td
-    text-align: center
-    font-size: 14px
+    tr th
+      position: sticky
+      z-index: 2
+      background: #333
+      font-size: 14px
+      font-weight: bold
+      text-align: center
 
-  tr th
-    position: sticky
-    /* higher than z-index for td below */
-    z-index: 2
-    /* bg color is important; just specify one */
-    background: #333
-    font-size: 14px
-    font-weight: bold
-    text-align: center
+    thead tr:last-child th
+      top: 48px
+      z-index: 3
+    thead tr:first-child th
+      top: 0
+      z-index: 1
+    tr:first-child th:first-child
+      z-index: 3
 
-  /* this will be the loading indicator */
-  thead tr:last-child th
-    /* height of all previous header rows */
-    top: 48px
-    /* highest z-index */
-    z-index: 3
-  thead tr:first-child th
-    top: 0
-    z-index: 1
-  tr:first-child th:first-child
-    /* highest z-index */
-    z-index: 3
+    td:first-child
+      z-index: 1
 
-  td:first-child
-    z-index: 1
-
-  td:first-child, th:first-child
-    position: sticky
-    left: 0
+    td:first-child, th:first-child
+      position: sticky
+      left: 0
 </style>

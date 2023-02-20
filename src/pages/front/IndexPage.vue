@@ -3,19 +3,32 @@ q-page
   section#section1.row
     q-img(fit src="http://img.lifestyler.co.kr/uploads/programtemplate/20220614/f637908113779910034.jpg")
 
-  section.q-pa-xl.bg-secondary.row.justify-around.items-center
-    h4.text-center 最新消息
+  section.q-pa-xl
+    h6 在地球看不到的月球背面，有個玉皇大帝經營的休息站，休息站最熱門的商店"宇宙年糕店"，宇宙年糕店中有銷售一等的功臣—兔兔，因為受不了頻繁的加班，因此興起了逃往地球的念頭。發現兔子寫了辭職信逃往地球的玉皇大帝震怒，下令抓到兔子的人將給予豐厚的獎金。為了得到豐厚的獎金，由四位來自平行宇宙地球的勇士就這樣出動了...
+
+  section#info.q-pa-xl
+    .row
+      .col.mask.absolute
+        q-img(src="@/assets/images/yujin.jpg")
+      .col.mask.absolute
+        q-img(src="@/assets/images/youngji.jpg")
+      .col.mask.absolute
+        q-img(src="@/assets/images/eunji.jpg")
+      .col.mask.absolute
+        q-img(src="@/assets/images/mimi.png")
+
+  section#new.q-pa-xl.bg-secondary
+    .text-h4.q-my-md.text-center 最新消息
     ul
-      li(v-for="newInfo in news.slice(0, 5).reverse()")
-        q-btn(flat :to="'/news/' + newInfo._id").flex.justify-between
-          .text-h6.q-mr-sm-xl {{ new Date(newInfo.date).toLocaleDateString() }}
-          .text-h6.q-ml-sm-xl {{ newInfo.title }}
-          q-icon.q-ml-sm-xl(name="mdi-arrow-top-right-bottom-left-bold")
+      li(v-for="newInfo in news")
+        q-btn(flat :to="'/news/' + newInfo._id" style="widt:200px")
+          .text-h6.q-mr-xl {{ new Date(newInfo.date).toLocaleDateString() }}
+          .text-h6 {{ newInfo.title }}
 
   section#section2.row.q-pa-xl.q-mx-auto.justify-center
     .text-h5.col-12.text-center 周邊商品
     .col-12.row.flex-center
-      .col-xs-12.col-sm-4.col-md-3.q-mx-lg.q-my-md(v-for="product in products.slice(0, 6)" :key="product.id")
+      .col-xs-12.col-sm-4.col-md-3.q-mx-lg.q-my-md(v-for="(product, idx) in products.slice(0, 6)" :key="product.id")
           q-img(:src="product.image")
             .mask.flex.flex-center.column.absolute
               q-btn.q-ma-xs(label="詳情" push color="secondary" :to="'/shopping/' + product._id" style="width: 72px")
@@ -23,28 +36,28 @@ q-page
     q-btn.q-my-md(rounded outline to="/shopping") M O R E
 
   section.column.reverse.row-sm.q-pa-xl.bg-pink
-    .col
-      swiper(:modules="modules" :space-between="50" :effect="'cards'" :grabCursor="true" navigation)
-        swiper-slide(v-for="(event, idx) in events")
-            div(@click="eventInfo(idx)")
-              q-card
-                q-img(:src="event.image")
-                q-card-section
-                  .text-subtitle1 {{ event.name }}
-                  .text-subtitle2 {{ event.dateStart + ' ~ ' + event.dateEnd }}
-    .col
-      h5(v-if="!eventCard").text-center 活動公告
-      q-card.event-card(v-if="eventCard" flat)
-        q-card-section(horizontal)
-          q-img.col-6(:src='events[eventIdx].image')
-          q-card-section.row.column
-            .text-h6 {{ events[eventIdx].name }}
-            q-separator
-            span {{ events[eventIdx].description }}
-            span {{ events[eventIdx].dateStart + ' ~ ' + events[eventIdx].dateEnd }}
-            q-btn(label="MORE >>>" :to="'/event/' + events[eventIdx]._id")
+    //- .col
+    swiper(v-bind="swiperOptions")
+      swiper-slide(v-for="(event, idx) in events")
+        div
+          q-card.cursor-pointer(@click="eventInfo(idx)")
+            q-img(:src="event.image")
+            q-card-section
+              .text-subtitle1 {{ event.name }}
+              .text-subtitle2 {{ event.dateStart + ' ~ ' + event.dateEnd }}
+    //- .col
+    h5(v-if="!eventCard").text-center 活動公告
+    q-card.event-card(v-if="eventCard" flat style="width: 100px")
+      q-card-section(horizontal)
+        q-img.col-6(:src='events[eventIdx].image')
+      q-card-section.row.column
+        .text-h6 {{ events[eventIdx].name }}
+        q-separator
+        span {{ events[eventIdx].description }}
+        span {{ events[eventIdx].dateStart + ' ~ ' + events[eventIdx].dateEnd }}
+        q-btn(label="MORE >>>" :to="'/event/' + events[eventIdx]._id")
 
-section.row.q-pa-xl
+  section.row.q-pa-xl
     .col
       .text-h6.text-center Contact Us
       q-form.q-mx-auto(style="width: 80%")
@@ -75,12 +88,12 @@ import Swal from 'sweetalert2'
 import { useUserStore } from 'src/stores/user'
 import { useRouter } from 'vue-router'
 import { Swiper, SwiperSlide } from 'swiper/vue'
-import { Navigation, Pagination, Scrollbar, EffectCards } from 'swiper'
+import { Navigation, Pagination, Scrollbar } from 'swiper'
 import { useQuasar } from 'quasar'
 import 'swiper/css/bundle'
 import 'swiper/css/effect-cards'
 
-const modules = [Navigation, Pagination, Scrollbar, EffectCards]
+const modules = [Navigation, Pagination, Scrollbar]
 const $q = useQuasar()
 const router = useRouter()
 const user = useUserStore()
@@ -123,6 +136,34 @@ const addCart = async (_id) => {
     })
   }
 }
+
+const swiperOptions = {
+  modules: [Navigation, Pagination, Scrollbar],
+  slidesPerView: 1,
+  spaceBetween: 10,
+  navigation: {
+    prevEl: '.swiper-button-prev',
+    nextEl: '.swiper-button-next'
+  },
+  breakpoints: {
+    576: {
+      slidesPerView: 2,
+      spaceBetween: 20
+    },
+    968: {
+      slidesPerView: 4,
+      spaceBetween: 40
+    }
+  },
+  autoplay: {
+    delay: 2500
+  },
+  loop: true,
+  scrollbar: {
+    draggable: true,
+    hide: true
+  }
+};
 
 (async () => {
   try {
@@ -199,29 +240,57 @@ const addCart = async (_id) => {
   }
 }
 
-li {
-  list-style: none;
-  }
+#new ul {
+  padding: 0;
+  li {
+    list-style: none;
+    }
+}
 
-section#section2 .q-img {
+#section2 .q-img {
 height: 200px;
 border-radius: 10px;
 
-.mask {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  background: transparent;
-  opacity: 0;
-  &:hover {
-      background: #3339;
+  .mask {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background: transparent;
+    opacity: 0;
+    &:hover {
       opacity: 1;
+      background: #3339;
+      transition: 0.3s;
+    }
   }
-}
 }
 
 .swiper {
-  width: 240px;
+  width: 100%;
   height: 400px;
+  .text-subtitle1 {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    text-overflow: ellipsis;
+  }
+}
+
+#info .row {
+  margin: auto;
+  .mask {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background: #3339;
+    // background: transparent;
+    // opacity: 0;
+    &:hover {
+      // opacity: 1;
+      transition: 0.3s;
+      cursor: pointer;
+    }
+  }
 }
 </style>

@@ -5,7 +5,7 @@
   .col
     h4 {{product.name}}
     h5 $ {{ product.price }}
-    p {{ product.description }}
+    p.pre {{ product.description }}
     q-btn-group(outline)
       q-btn(color="brown" label="-" @click="quantity--")
       q-input(v-model.number="quantity" type="number" style="width: 100px;font-size: 16px" input-class="text-center text-weight-bold")

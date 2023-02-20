@@ -1,14 +1,14 @@
 <template lang="pug">
-.row.q-ma-xl
-  .col
+.row.q-mx-xl.q-my-md
+  .col.q-px-md
+    .text-h4.q-my-md {{ eventInfo.name }}
     p {{ eventInfo.dateStart + ' ~ ' +  eventInfo.dateEnd }}
-    p {{ eventInfo.description }}
-    p {{ eventInfo.number }}
-    p {{ eventInfo.place }}
-    q-btn(label="報名" @click="openDialog = !openDialog")
-  .col
-    q-img(:src="eventInfo.image" style="height: 500px;width:500px" )
-    h3 {{ eventInfo.name }}
+    p.pre {{ eventInfo.description }}
+    p(v-if="eventInfo.number !== 0") {{ '限制人數 | ' + eventInfo.number }}
+    p(v-if="eventInfo.place !== '無'") {{ '地址 | ' + eventInfo.place }}
+    q-btn.full-width(label="活動報名" rounded color="warning" text-color="black" @click="openDialog = !openDialog")
+  .col.q-pa-md.text-center
+    img(:src="eventInfo.image" style="height:500px")
 
 q-dialog(v-model='openDialog' persistent)
   q-card
@@ -37,6 +37,7 @@ import { useQuasar } from 'quasar'
 const $q = useQuasar()
 const user = useUserStore()
 const route = useRoute()
+const visible = ref(true)
 const openDialog = ref(false)
 const { addMember } = user
 const phone = ref('')

@@ -8,10 +8,6 @@ h4.text-center 會員設定
         .row.column
           .text-h5.col.q-my-md {{ user.name }}
             .text-subtitle2 @ {{ user.account }}
-        //- q-card-actions(vertical)
-          q-btn(flat round color='red' icon='favorite')
-          q-btn(flat round color='accent' icon='bookmark')
-          q-btn(flat round color='primary' icon='share').
 </template>
 
 <script setup>

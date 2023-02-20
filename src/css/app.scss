@@ -2,13 +2,18 @@
 $v-image-input-width: 100px !default;
 $v-image-input-height: 100px !default;
 @import "node_modules/vue3-img-input/src/styles/style.scss";
+@import url('../assets/font/font.css');
+
+body {
+  font-family: 'GenSeki';
+}
 
 .swal2-container {
   z-index: 8000!important
 }
 
 .pre {
-  white-space: pre;
+  white-space: pre-wrap;
 }
 // 解決 dialog 出現的 scroll
 .q-body--force-scrollbar-x {
@@ -16,24 +21,24 @@ $v-image-input-height: 100px !default;
 }
 
 
-    /*捲軸寬度 */
-    ::-webkit-scrollbar {
-      width: 8px;
-      margin-right: 2px;
-    }
+/*捲軸寬度 */
+::-webkit-scrollbar {
+  width: 8px;
+  margin-right: 2px;
+}
 
-    /* 捲軸背景 */
-    ::-webkit-scrollbar-track {
-      background: transparent;
-    }
+/* 捲軸背景 */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
 
-    /* 捲軸把手 */
-    ::-webkit-scrollbar-thumb {
-      background: #444;
-      border-radius: 1000px;
-    }
+/* 捲軸把手 */
+::-webkit-scrollbar-thumb {
+  background: #444;
+  border-radius: 1000px;
+}
 
-    /* 捲軸滑過時 */
-    ::-webkit-scrollbar-thumb:hover {
-      background: #555;
-    }
+/* 捲軸滑過時 */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

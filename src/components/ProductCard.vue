@@ -6,7 +6,7 @@ q-card.product-Info
 
   q-card-actions
     //- q-skeleton(type="QBtn")
-    q-btn(icon="mdi-shopping" flat @click="addCart(_id)") 加入購物車
+    q-btn(@click="addCart(_id)" push color="secondary" ) 加入購物車
 </template>
 
 <script setup>

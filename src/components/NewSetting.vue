@@ -153,9 +153,11 @@ const editNew = async () => {
 // 刪除
 const delNew = async (id) => {
   try {
+    const idx = news.findIndex((info) => info._id === id)
     loading.value = true
     await apiAuth.delete('/news/' + id)
     loading.value = false
+    news.splice(idx, 1)
 
     $q.notify({
       type: 'positive',

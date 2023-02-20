@@ -6,7 +6,7 @@
     q-carousel-slide(:name="3" img-src="https://cdn.quasar.dev/img/parallax2.jpg")
     q-carousel-slide(:name="4" img-src="https://cdn.quasar.dev/img/quasar.jpg")
 h5 周邊
-.flex.flex-center
+.q-ma-auto
   .row
     .col-xs-12.col-sm-4.col-md-3.q-ma-lg(v-for="product in products" :key="product.id")
       ProductCard(v-bind="product")

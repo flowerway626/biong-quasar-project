@@ -6,7 +6,7 @@ q-layout.shadow-2.rounded-borders(view="hHh Lpr lff" container style="height: 10
       q-btn(flat round dense icon="menu" @click="drawer = !drawer")
       q-toolbar-title 會員管理
 
-  q-drawer(v-model="drawer" show-if-above bordered :width="200" :breakpoint="500")
+  q-drawer(v-model="drawer" show-if-above bordered :width="200" :breakpoint="800")
     q-scroll-area.fit.absolute-top(:horizontal-thumb-style="{ opacity: 0 }" style="height: calc(100vh - 130px);margin-top: 130px")
       q-list(padding)
         q-separator
