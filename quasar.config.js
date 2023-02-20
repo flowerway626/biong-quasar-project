@@ -14,7 +14,6 @@ require('dotenv').config()
 
 module.exports = configure(function (/* ctx */) {
   return {
-    base: './',
     eslint: {
       // fix: true,
       // include = [],
@@ -70,7 +69,7 @@ module.exports = configure(function (/* ctx */) {
 
       // rebuildCache: true, // rebuilds Vite/linter/etc cache on startup
 
-      publicPath: './',
+      publicPath: '/',
       // analyze: true,
       env: {
         VITE_API: process.env.VITE_API
