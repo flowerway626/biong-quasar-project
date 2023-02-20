@@ -14,6 +14,7 @@ require('dotenv').config()
 
 module.exports = configure(function (/* ctx */) {
   return {
+    base: './',
     eslint: {
       // fix: true,
       // include = [],
