@@ -3,7 +3,7 @@ q-page
   section#section1.row
     q-img(fit src="http://img.lifestyler.co.kr/uploads/programtemplate/20220614/f637908113779910034.jpg")
 
-  q-parallax(src="https://cdn.quasar.dev/img/parallax2.jpg" :speed="1")
+  q-parallax(src="@/assets/images/stars.jpg" :speed="1.5")
     section.q-pa-md
       h6 在地球看不到的月球背面，有個玉皇大帝經營的休息站，休息站最熱門的商店"宇宙年糕店"，宇宙年糕店中有銷售一等的功臣—兔兔，因為受不了頻繁的加班，因此興起了逃往地球的念頭。發現兔子寫了辭職信逃往地球的玉皇大帝震怒，下令抓到兔子的人將給予豐厚的獎金。為了得到豐厚的獎金，由四位來自平行宇宙地球的勇士就這樣出動了...
 
@@ -26,7 +26,7 @@ q-page
           .text-h6.q-mr-xl {{ new Date(newInfo.date).toLocaleDateString() }}
           .text-h6 {{ newInfo.title }}
 
-  q-parallax(:speed="2" src="@/assets/images/stars.jpg" height="650")
+  q-parallax(:speed="2" src="@/assets/images/stars.jpg" height="650px")
     section#section2.row.q-pa-xl.q-mx-auto.justify-center
       .text-h5.col-12.text-center 周邊商品
       .col-12.row.flex-center
