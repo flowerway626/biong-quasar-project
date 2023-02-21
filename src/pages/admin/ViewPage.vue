@@ -1,12 +1,15 @@
 <template lang="pug">
-.q-ma-md
+.q-ma-md.text-center
   .q-gutter-md
-    q-btn(v-if="view === 'news'" label="公告" color="secondary" push @click="view = 'news'")
-    q-btn(v-else label="公告" color="secondary" outline @click="view = 'news'")
-    q-btn(v-if="view === 'events'" label="活動" color="pink" push @click="view = 'events'")
-    q-btn(v-else label="活動" color="pink" outline @click="view = 'events'")
-    q-btn(v-if="view === 'photos'" label="相簿" text-color="black" color="warning" push @click="view = 'photos'")
-    q-btn(v-else label="相簿" color="warning" outline @click="view = 'photos'")
+    q-btn(v-if="view === 'news'" label="公告管理" color="secondary" size="20px" push @click="view = 'news'")
+    q-btn(v-else label="公告管理" color="secondary" size="20px" outline @click="view = 'news'")
+
+    q-btn(v-if="view === 'events'" label="活動管理" color="pink" size="20px" push @click="view = 'events'")
+    q-btn(v-else label="活動管理" color="pink" size="20px" outline @click="view = 'events'")
+
+    q-btn(v-if="view === 'photos'" label="相簿管理" color="warning" size="20px" push @click="view = 'photos'")
+    q-btn(v-else label="相簿管理" color="warning" size="20px" outline @click="view = 'photos'")
+
   NewSetting(v-if="view === 'news'")
   EventSetting(v-if="view === 'events'")
   PhotoSetting(v-if="view === 'photos'")

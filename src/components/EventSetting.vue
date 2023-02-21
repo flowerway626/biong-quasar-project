@@ -1,15 +1,17 @@
 <template lang="pug">
 .q-ma-md
-  q-table.event-table(title="活動管理" :rows="events" :columns="columns" row-key="_id" :filter="filter" :loading="loading")
+  q-table.event-table(:rows="events" :columns="columns" row-key="_id" :filter="filter" :loading="loading")
     template(v-slot:body-cell-image="props")
         q-td
           img(:src="props.row.image" :width="100" :height='100')
+
+    template(v-slot:top-left)
+      q-btn(label="新增活動" color="secondary" outline @click="dialogEdit(-1)")
 
     template(v-slot:top-right)
       q-input.q-mr-md(borderless dense debounce='300' v-model='filter' placeholder='Search')
         template(v-slot:append)
           q-icon(name="search")
-      q-btn(label="新增活動" color="secondary" outline @click="dialogEdit(-1)")
 
     template(v-slot:body-cell-other='props')
       q-td.q-gutter-sm

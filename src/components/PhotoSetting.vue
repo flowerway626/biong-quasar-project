@@ -1,15 +1,17 @@
 <template lang="pug">
 #photo-setting.q-ma-md
-  q-table.event-table(title="相簿管理" :rows="photos" :columns="columns" row-key="_id" :filter="filter" :loading="loading")
+  q-table.event-table(:rows="photos" :columns="columns" row-key="_id" :filter="filter" :loading="loading")
     template(v-slot:body-cell-image="props")
         q-td
           img(:src="props.row.image" :width="130" :height='100' style="object-fit: cover;")
+
+    template(v-slot:top-left)
+      q-btn(label="新增相簿" color="secondary" outline @click="dialogEdit(-1)")
 
     template(v-slot:top-right)
       q-input.q-mr-md(borderless dense debounce='300' v-model='filter' placeholder='Search')
         template(v-slot:append)
           q-icon(name="search")
-      q-btn(label="新增相簿" color="secondary" outline @click="dialogEdit(-1)")
 
     template(v-slot:body-cell-other='props')
       q-td.q-gutter-sm

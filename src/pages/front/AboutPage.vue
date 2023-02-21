@@ -4,9 +4,8 @@
     q-tabs.text-teal(v-model="tab" vertical)
       q-tab(name="INFO" label="INFO")
       q-tab(name="PROFILE" label="PROFILE")
-      q-tab(name="PHOTO" label="PHOTO")
+      q-tab(name="GALLERY" label="GALLERY")
       q-tab(name="VIDEO" label="VIDEO")
-      q-tab(name="BEHIND" label="BEHIND")
 
   q-tab-panels(v-model="tab" animated swipeable vertical transition-prev="jump-up" transition-next="jump-up")
     q-tab-panel(name="INFO")
@@ -38,7 +37,7 @@
     q-tab-panel(name="PROFILE")
       .text-h4.q-mb-md profile
 
-    q-tab-panel(name="PHOTO")
+    q-tab-panel(name="GALLERY")
       .text-h5 最新上傳
       .q-pa-md
         swiper(v-bind="swiperOptions")
@@ -139,9 +138,6 @@
             q-video(:ratio='16/9' src="https://www.youtube.com/embed//seqQbIDKr04")
             q-card-section
               .text-subtitle1 【第10集預告】“玉皇大帝請客！”紀念抓到兔瓏！ 國內獎勵假期開始？？
-
-    q-tab-panel(name="BEHIND")
-      .text-h4.q-mb-md BEHIND
 
 //- 個別相簿
 q-dialog(v-model="dialog")

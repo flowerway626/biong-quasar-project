@@ -47,6 +47,6 @@ const toggleLeftDrawer = () => {
 
 <style lang="scss">
 #home .q-toolbar {
-  background: linear-gradient(135deg, #53C2BA 0%, #C0538A 100%);
+  background: linear-gradient(135deg, #53C2BA 0%, #fff 50%, #C0538A 100%);
 }
 </style>

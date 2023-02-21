@@ -47,7 +47,11 @@ export const useUserStore = defineStore('user', () => {
         message: '登入成功',
         position: 'top'
       })
-      this.router.push('/')
+      if (account.value === 'admin') {
+        this.router.push('/admin')
+      } else {
+        this.router.push('/')
+      }
     } catch (error) {
       Swal.fire({
         toast: true,

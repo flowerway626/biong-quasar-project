@@ -1,6 +1,7 @@
 <template lang="pug">
 .q-ma-md
-  q-table.order-table(title="訂單管理" :columns="columns" :rows="orders" row-key="_id" :filter="filter" :loading="loading")
+  #backH4.text-h4.text-center 訂單明細
+  q-table.order-table.q-ma-md(:columns="columns" :rows="orders" row-key="_id" :filter="filter" :loading="loading")
 
     template(v-slot:top-right)
         q-input.q-mr-md(borderless dense debounce='300' v-model='filter' placeholder='Search')
@@ -91,10 +92,8 @@ li
   list-style: none
 
 .order-table
-  max-height: calc(100vh - 100px)
+  max-height: calc(100vh - 150px)
 
-  // td:first-child
-  //   background-color: #555 !important
   tr td
     text-align: center
     font-size: 14px
@@ -122,4 +121,5 @@ li
   td:first-child, th:first-child
     position: sticky
     left: 0
+
 </style>

@@ -1,6 +1,6 @@
 <template lang="pug">
 #user-event
-  .text-h4.text-center 報名活動
+  #backH4.text-h4.text-center 報名活動
   .q-pa-md.w-100.row
     .eventInfo.col-12.col-md-5.q-pa-sm.q-mb-xl(v-for="event in events")
       .content(style="height: 100%")

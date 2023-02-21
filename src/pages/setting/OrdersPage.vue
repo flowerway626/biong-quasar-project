@@ -1,6 +1,7 @@
 <template lang="pug">
 #setting-order.q-ma-md
-  q-table.order-table(title="訂單管理" :columns="columns" :rows="orders" row-key="_id" :filter="filter" flat)
+  #backH4.text-h4.text-center 訂單管理
+  q-table.order-table(:columns="columns" :rows="orders" row-key="_id" :filter="filter" flat)
 
     template(v-slot:top-right)
         q-input.q-mr-md(borderless dense debounce='300' v-model='filter' placeholder='Search')

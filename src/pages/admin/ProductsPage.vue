@@ -1,6 +1,7 @@
 <template lang="pug">
-.q-pa-md
-  q-table.product-table(title="商品管理" :rows='products' :columns='columns' row-key="_id"
+.q-ma-md.q-px-md
+  #backH4.text-h4.text-center 商品管理
+  q-table.product-table(title="" :rows='products' :columns='columns' row-key="_id"
           :filter="filter" virtual-scroll flat :loading="loading")
     template(v-slot:body-cell-image='props')
       q-td
@@ -21,11 +22,13 @@
         q-btn(v-if="edit" icon="check" round unelevated size="sm" color='pink' @click="edit = !edit")
         q-btn(icon="delete" color="pink" size="sm" round @click="delProduct(props.row._id)")
 
+    template(v-slot:top-left)
+      q-btn(icon="mdi-shopping" label="新增商品" color="secondary" outline unelevated @click="dialogEdit(-1)")
+
     template(v-slot:top-right)
       q-input.q-mr-md(borderless dense debounce='300' v-model='filter' placeholder='Search')
         template(v-slot:append)
           q-icon(name="search")
-      q-btn(icon="mdi-shopping" label="新增商品" color="secondary" outline unelevated @click="dialogEdit(-1)")
 
 q-dialog#admin-product(v-model="layout" persistent transition-show="fade" transition-hide="fade")
   q-card.my-card.text-white
@@ -269,10 +272,10 @@ const delProduct = async (_id) => {
 
 <style lang="sass">
 .product-table
-  max-height: calc(100vh - 100px)
+  max-height: calc(100vh - 150px)
 
   td:first-child
-    background-color: #555 !important
+    background-color: #1d1d1d !important
   tr td
     text-align: center
     font-size: 14px

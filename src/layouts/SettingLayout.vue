@@ -28,7 +28,7 @@ q-layout.shadow-2.rounded-borders(view="hHh Lpr lff" container style="height: 10
         q-item(v-ripple clickable :active="link === 'event'" @click="link = 'event'" active-class="menu-link" to='/setting/event')
           q-item-section(avatar)
             q-icon(name="event")
-          q-item-section 活動管理
+          q-item-section 報名活動
 
         q-item(v-ripple clickable :active="link === 'home'" @click="link = 'home'" active-class="menu-link" to='/')
           q-item-section(avatar)
@@ -37,10 +37,10 @@ q-layout.shadow-2.rounded-borders(view="hHh Lpr lff" container style="height: 10
 
     .absolute-top(style="height: 130px")
       .absolute-bottom.bg-transparent
-          q-avatar.q-mb-sm.q-ml-md(size="50px")
+          q-avatar.q-mb-md.q-ml-md(size="50px")
             img(:src="avatar")
           .flex.justify-between.q-mx-md.items-end
-            .text-h6.text-weight-bold {{ name }}
+            .text-subtitle1.text-weight-bold {{ name }}
             q-btn(label="登出" size="sm" color="warning" flat @click="logout" to="/")
   q-page-container
     router-view
@@ -66,5 +66,5 @@ const drawer = ref(false)
 .menu-link
   font-weight: 600
   color: black
-  background: linear-gradient(90deg, #53C2BA 0%, #C0538A 100%)
+  background: $warning
 </style>

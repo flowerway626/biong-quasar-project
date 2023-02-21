@@ -1,5 +1,5 @@
-<template lang="pug">bodys
-h4.text-center 會員設定
+<template lang="pug">
+#backH4.text-h4.text-center 會員管理
 .row.q-px-xl
   .q-pa-md.items-start.col-xs-12.col-sm-6.col-md-4(v-for="user in users")
     q-card.my-card

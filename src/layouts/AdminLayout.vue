@@ -10,6 +10,7 @@ q-layout.shadow-2.rounded-borders(view="hHh LpR lff")
 
     q-scroll-area.fit.absolute-top(:horizontal-thumb-style="{ opacity: 0 }" style="height: calc(100vh - 130px);margin-top: 130px")
       q-list(padding)
+        q-separator
         q-item(v-ripple clickable :active="link === 'settings'" @click="link = 'settings'" active-class="menu-link" to='/admin')
           q-item-section(avatar)
             q-icon(name="settings")
@@ -17,18 +18,18 @@ q-layout.shadow-2.rounded-borders(view="hHh LpR lff")
 
         q-item(v-ripple clickable :active="link === 'shop'" @click="link = 'shop'" active-class="menu-link" to='/admin/view')
           q-item-section(avatar)
-            q-icon(name="shop")
+            q-icon(name="mdi-television")
           q-item-section 頁面管理
 
         q-item(v-ripple clickable :active="link === 'product'" @click="link = 'product'" active-class="menu-link" to='/admin/product')
           q-item-section(avatar)
-            q-icon(name="product")
+            q-icon(name="mdi-shopping")
           q-item-section 商品管理
 
         q-item(v-ripple clickable :active="link === 'list'" @click="link = 'list'" active-class="menu-link" to='/admin/order')
           q-item-section(avatar)
             q-icon(name="list")
-          q-item-section 訂單管理
+          q-item-section 訂單明細
 
         q-item(v-ripple clickable :active="link === 'event'" @click="link = 'event'" active-class="menu-link" to='/admin/data')
           q-item-section(avatar)
@@ -68,6 +69,5 @@ const link = route.name
 <style lang="sass">
 .menu-link
   font-weight: 600
-  color: black
-  background: linear-gradient(90deg, #53C2BA 0%, #C0538A 100%)
+  background: $warning
 </style>
