@@ -6,10 +6,9 @@
       q-card-section
         q-img(:src="info.image")
       q-card-section
-        //- .text-subtitle2 {{ info.dateStart}}
-        .text-h6 {{ info.name }}
+        .text-subtitle1 {{ info.name }}
       q-card-section.q-pt-none
-        .text-subtitle1 {{ info.description }}
+        .text-subtitle2.text-justify {{ info.description }}
 </template>
 
 <script setup>
@@ -52,7 +51,7 @@ const events = reactive([])
     width: 250px;
 
   }
-  .text-h6,
+  .text-subtitle2,
   .text-subtitle1 {
     display: -webkit-box;
     overflow: hidden;
@@ -60,7 +59,7 @@ const events = reactive([])
     -webkit-line-clamp: 1;
     text-overflow: ellipsis;
   }
-  .text-subtitle1 {
+  .text-subtitle2 {
     -webkit-line-clamp: 3;
   }
 }

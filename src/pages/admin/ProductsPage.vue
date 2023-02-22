@@ -1,6 +1,6 @@
 <template lang="pug">
 .q-ma-md.q-px-md
-  #backH4.text-h4.text-center 商品管理
+  .backH4.text-h4.text-center 商品管理
   q-table.product-table(title="" :rows='products' :columns='columns' row-key="_id"
           :filter="filter" virtual-scroll flat :loading="loading")
     template(v-slot:body-cell-image='props')

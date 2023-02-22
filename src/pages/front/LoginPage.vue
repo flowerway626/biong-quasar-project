@@ -47,7 +47,7 @@ const login = async () => {
 <style lang="scss">
 #loginDialog .q-dialog__inner--minimized > div {
   max-width: 350px;
-  background: linear-gradient(135deg, #53C2BA 0%, #C0538A 100%);
+  // background: $secondary;
   }
   .login-card {
     width: 100%;

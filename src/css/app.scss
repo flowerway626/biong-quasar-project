@@ -20,7 +20,6 @@ body {
   overflow-x: auto;
 }
 
-
 /*捲軸寬度 */
 ::-webkit-scrollbar {
   width: 8px;
@@ -43,6 +42,23 @@ body {
   background: #555;
 }
 
-#backH4 {
+.backH4 {
   margin: 24px 0;
+}
+
+.text-indent {
+  text-indent: 2rem;
+}
+
+.text-ellipsis {
+      /* 標題文字超過兩行時，超過的文字隱藏並顯示... */
+    /* 要使用 webkit-line-clamp 須將 display 轉成 -webkit-box*/
+    display: -webkit-box;
+    /* 使超出寬度的文字隱藏 */
+    overflow: hidden;
+    /* 超出寬度的文字須由上而下垂直排列才可執行 webkit-line-clamp */
+    -webkit-box-orient: vertical;
+    /* 限制中文字超過 2 行時 */
+    /* 有溢出文字時最後方加上省略號... */
+    text-overflow: ellipsis;
 }

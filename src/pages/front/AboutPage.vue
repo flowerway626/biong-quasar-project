@@ -15,7 +15,7 @@
           q-img(src="@/assets/images/poster.jpg" width="300px")
         .col.q-px-md
           .column
-            .col.text-subtitle1 &nbsp;在地球看不到的月球背面，有個玉皇大帝經營的休息站，休息站最熱門的商店"宇宙年糕店"，宇宙年糕店中有銷售一等的功臣—兔兔，因為受不了頻繁的加班，因此興起了逃往地球的念頭。發現兔子寫了辭職信逃往地球的玉皇大帝震怒，下令抓到兔子的人將給予豐厚的獎金。為了得到豐厚的獎金，由四位來自平行宇宙地球的勇士就這樣出動了。
+            .col.text-subtitle1.text-justify.text-indent 在地球看不到的月球背面，有個玉皇大帝經營的休息站，休息站最熱門的商店"宇宙年糕店"，宇宙年糕店中有銷售一等的功臣—兔兔，因為受不了頻繁的加班，因此興起了逃往地球的念頭。發現兔子寫了辭職信逃往地球的玉皇大帝震怒，下令抓到兔子的人將給予豐厚的獎金。為了得到豐厚的獎金，由四位來自平行宇宙地球的勇士就這樣出動了。
             .col.q-mt-xl
               .text-h6.text-center.q-mb-md 播出資訊
               .row
@@ -36,6 +36,58 @@
 
     q-tab-panel(name="PROFILE")
       .text-h4.q-mb-md profile
+      .row
+        .col-12.col-md-4
+          q-img(src="@/assets/images/eunji.jpg" width="250px")
+        .col-12.col-md-8
+          .text-h5 李恩智
+          .text-subtitle1 必殺技：遠看是“喜劇”，近看是“瘋狂”
+          p “獻身廣播！”
+            |一個舞者的靈魂被困在一個喜劇演員的身體裡！
+            |才華橫溢我無意克制
+            |擅長廣播舞蹈（？）頂級喜劇演員
+            |我夢想成為一個有魅力的街機迷，
+            |現實中，容易被弟弟妹妹罵？！
+            |“老大”英雄恩地適應 Z 世代的任務開始了！
+
+        .col-12.col-md-4
+          q-img(src="@/assets/images/youngji.jpg" width="250px")
+        .col-12.col-md-8
+          .text-h5 李泳知
+          .text-subtitle1 必殺技：壓制英錫哥底線的‘獅子吼’
+          p |
+            | 戰力MAX，攻擊力MAX，生命力……無法估量？！
+            | 史無前例的娛樂詐騙現身！
+            | “英錫哥！” 以吶喊開始新的一天
+            | 地球戰士的代表，無限能量。
+            | 即使你試圖自信地走到任何地方，
+            | 甚至是接受FEEL時趴在光地上的非常規動作！
+            | 前所未見的新角色登場！
+
+        .col-12.col-md-4
+          q-img(src="@/assets/images/mimi.png" width="250px")
+        .col-12.col-md-8
+          .text-h5 MiMi
+          .text-subtitle1 必殺技：不分情況的“真正正能量光束”
+          p |
+            | 只要你有冰淇淋，超正模式就開啟！
+            | 與世界無害的人類和後地球級別的親和力
+            | 連動物的心臟都偷走的這個地區的知情人，
+            | “Oh My Mihyun”出現！
+            | 通過提交現實且自由奔放的錯誤答案
+            | 改變遊戲規則的“K-meme”揭曉！
+        .col-12.col-md-4
+          q-img(src="@/assets/images/yujin.jpg" width="250px")
+        .col-12.col-md-8
+          .text-h5 安宥真
+          .text-subtitle1 必殺技：“慾望” LOVE DIVE！
+          p |
+            | 今年Lv 20，食物面前
+            | 第N話最高能力的忙內！
+            | 展現出比同齡人更深沉、更豐富的“鄉土味”
+            | 不要錯過Ending 妖精
+            | 老么的狡黠魅力讓姐姐們戀愛了♥
+            | “職業 idol ”宥真的反差開始了！
 
     q-tab-panel(name="GALLERY")
       .text-h5 最新上傳
@@ -159,7 +211,7 @@ import { api } from 'src/boot/axios'
 import { useRouter } from 'vue-router'
 import 'swiper/css/bundle'
 
-const tab = ref('PHOTO')
+const tab = ref('INFO')
 const link = ref('INFO')
 const drawer = ref(true)
 const dialog = ref(false)

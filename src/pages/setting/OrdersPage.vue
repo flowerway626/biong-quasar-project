@@ -84,8 +84,6 @@ const columns = [
 #setting-order .order-table
     max-height: calc(100vh - 170px)
 
-    td:first-child
-      background-color: #555 !important
     tr td
       text-align: center
       font-size: 14px

@@ -1,6 +1,6 @@
 <template lang="pug">
 .q-ma-md.text-center
-  .q-gutter-md
+  .q-gutter-md.q-mb-md
     q-btn(v-if="view === 'news'" label="公告管理" color="secondary" size="20px" push @click="view = 'news'")
     q-btn(v-else label="公告管理" color="secondary" size="20px" outline @click="view = 'news'")
 

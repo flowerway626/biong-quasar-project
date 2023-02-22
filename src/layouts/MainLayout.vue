@@ -11,7 +11,7 @@
         q-space
 
         q-btn(v-if="isLogin && !isAdmin" icon="mdi-cart" flat round to='/setting/cart')
-          q-badge(floating round color="secondary") {{ cart }}
+          q-badge(floating round color="warning") {{ cart }}
           q-tooltip(anchor="bottom middle" self="top middle") Cart
 
         q-btn(v-if="isLogin && !isAdmin" icon="mdi-cog" flat round to='/setting')

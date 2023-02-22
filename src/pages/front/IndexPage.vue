@@ -3,11 +3,12 @@ q-page
   section#section1.row
     q-img(fit src="http://img.lifestyler.co.kr/uploads/programtemplate/20220614/f637908113779910034.jpg")
 
-  q-parallax(src="@/assets/images/stars.jpg" :speed="1.5")
-    section.q-pa-md
-      h6 在地球看不到的月球背面，有個玉皇大帝經營的休息站，休息站最熱門的商店"宇宙年糕店"，宇宙年糕店中有銷售一等的功臣—兔兔，因為受不了頻繁的加班，因此興起了逃往地球的念頭。發現兔子寫了辭職信逃往地球的玉皇大帝震怒，下令抓到兔子的人將給予豐厚的獎金。為了得到豐厚的獎金，由四位來自平行宇宙地球的勇士就這樣出動了...
+  q-parallax(src="@/assets/images/stars.jpg" :speed="1.5" :height="350")
+    #text.row.flex-center
+      .col-7.text-subtitle1.text-justify.q-mb-md 在地球看不到的月球背面，有個玉皇大帝經營的休息站，休息站最熱門的商店"宇宙年糕店"，宇宙年糕店中有銷售一等的功臣 — 兔瓏，因為受不了頻繁的加班，因此興起了逃往地球的念頭。
+      .col-7.text-subtitle1.text-justify 發現兔瓏寫了辭職信逃往地球的玉皇大帝震怒，下令抓到兔瓏的人將給予豐厚的獎金。為了得到豐厚的獎金，由四位來自平行宇宙地球的勇士就這樣出動了...
 
-  section#info.q-pa-xl(data-aos='fade-up')
+  //- section#info.q-pa-xl(data-aos='fade-up')
     .row
       .col.mask.absolute
         q-img(src="@/assets/images/yujin.jpg")
@@ -22,43 +23,34 @@ q-page
     .text-h4.q-my-md.text-center 最新消息
     ul
       li(v-for="newInfo in news")
-        q-btn(flat :to="'/news/' + newInfo._id" style="widt:200px")
+        router-link.row.newInfo( :to="'/news/' + newInfo._id" )
           .text-h6.q-mr-xl {{ new Date(newInfo.date).toLocaleDateString() }}
           .text-h6 {{ newInfo.title }}
 
-  q-parallax(:speed="2" src="@/assets/images/stars.jpg" height="650px")
-    section#section2.row.q-pa-xl.q-mx-auto.justify-center
-      .text-h5.col-12.text-center 周邊商品
-      .col-12.row.flex-center
-        .col-xs-12.col-sm-4.col-md-3.q-mx-lg.q-my-md(v-for="(product, idx) in products.slice(0, 6)" :key="product.id")
-            q-img(:src="product.image")
-              .mask.flex.flex-center.column.absolute
-                .text-subtitle1.q-ma-xs {{ product.name }}
-                q-btn.q-ma-xs(label="詳情" push color="secondary" :to="'/shopping/' + product._id" style="width: 72px")
-      q-btn.q-my-md(rounded outline to="/shopping") M O R E
+  //- q-parallax(speed="2" src="@/assets/images/stars.jpg" :height="650")
+  section#section2.row.q-pa-xl.q-mx-auto.justify-center
+    .text-h5.col-12.text-center 周邊商品
+    .col-12.row.flex-center
+      .col-xs-12.col-sm-4.col-md-3.q-mx-lg.q-my-md(v-for="(product, idx) in products" :key="product.id")
+          q-img(:src="product.image")
+            .mask.flex.flex-center.column.absolute
+              .text-subtitle1.q-ma-xs {{ product.name }}
+              q-btn.q-ma-xs(label="詳情" push color="secondary" :to="'/shopping/' + product._id" style="width: 72px")
+    q-btn.q-my-md(rounded outline to="/shopping") M O R E
 
   section.column.reverse.row-sm.q-pa-xl.bg-pink
     swiper(v-bind="swiperOptions")
-      swiper-slide(v-for="(event, idx) in events" data-aos="flip-left" data-aos-duration="500")
-        div
-          q-card.cursor-pointer(@click="eventInfo(idx)")
-            q-img(:src="event.image")
-            q-card-section
-              .text-subtitle1 {{ event.name }}
-              .text-subtitle2 {{ event.dateStart + ' ~ ' + event.dateEnd }}
+      swiper-slide(v-for="(event, idx) in events" )
+        //- data-aos="flip-left" data-aos-duration="500"
+        q-card.cursor-pointer(@click="eventInfo(idx)")
+          q-img(:src="event.image")
+          q-card-section
+            .text-subtitle1 {{ event.name }}
+            .text-subtitle2 {{ event.dateStart + ' ~ ' + event.dateEnd }}
 
-    h5(v-if="!eventCard").text-center 活動公告
-    q-card.event-card(v-if="eventCard" flat style="width: 100px")
-      q-card-section(horizontal)
-        q-img.col-6(:src='events[eventIdx].image')
-      q-card-section.row.column
-        .text-h6 {{ events[eventIdx].name }}
-        q-separator
-        span {{ events[eventIdx].description }}
-        span {{ events[eventIdx].dateStart + ' ~ ' + events[eventIdx].dateEnd }}
-        q-btn(label="MORE >>>" :to="'/event/' + events[eventIdx]._id")
+    h5.text-center 活動公告
 
-  q-parallax(:speed="2" src="@/assets/images/stars.jpg" height="300")
+  q-parallax(speed="2" src="@/assets/images/stars.jpg" :height="300")
     section#footer.row.q-pa-xl
       .col
         .text-h6.text-center Contact Us
@@ -81,13 +73,26 @@ q-page
             q-btn.full-width(type="submit" size="sm" outline style="color: #53C2BA") 送出
       .col
         .text-h5.text-center lorem
+
+q-dialog(v-model="eventDialog")
+  q-card.event-card
+    q-card-section(horizontal)
+      q-img.col-6(:src='events[eventIdx].image')
+      q-card-section.row.column
+        .text-h6 {{ events[eventIdx].name }}
+        span
+          template
+            q-icon(name="mdi-calendar-month")
+        | {{ events[eventIdx].dateStart + ' ~ ' + events[eventIdx].dateEnd }}
+        q-separator.q-my-md
+        span {{ events[eventIdx].description }}
+        q-btn.q-mt-auto(label="MORE >>>" :to="'/event/' + events[eventIdx]._id")
 </template>
 
 <script setup>
 import { reactive, ref, nextTick } from 'vue'
 import { api } from 'src/boot/axios'
 import Swal from 'sweetalert2'
-import { useRouter } from 'vue-router'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { Navigation, Pagination, Scrollbar } from 'swiper'
 import { useQuasar } from 'quasar'
@@ -95,9 +100,9 @@ import AOS from 'aos'
 
 const modules = [Navigation, Pagination, Scrollbar]
 const $q = useQuasar()
-const router = useRouter()
 const eventCard = ref(false)
 const eventIdx = ref(0)
+const eventDialog = ref(false)
 const products = reactive([])
 const events = reactive([])
 const news = reactive([])
@@ -110,7 +115,7 @@ const form = reactive({
 
 const eventInfo = (idx) => {
   eventIdx.value = idx
-  eventCard.value = true
+  eventDialog.value = true
 }
 
 const swiperOptions = {
@@ -143,12 +148,11 @@ const swiperOptions = {
 
 (async () => {
   try {
-    const { data: productsData } = await api.get('/products')
-    const { data: newsData } = await api.get('/news')
-    const { data: eventsData } = await api.get('/events')
-    products.push(...productsData.result)
-    news.push(...newsData.result)
-    events.push(...eventsData.result)
+    const results = await Promise.all([api.get('/products/index'), api.get('/news/index'), api.get('/events')])
+    console.log(results)
+    products.push(...results[0].data.result)
+    news.push(...results[1].data.result)
+    events.push(...results[2].data.result)
     await nextTick()
     AOS.init()
   } catch (error) {
@@ -167,12 +171,25 @@ const swiperOptions = {
 </script>
 
 <style lang="scss">
+#text .text-subtitle1 {
+  text-indent: 2rem;
+}
 
 #new ul {
   padding: 0;
   li {
     list-style: none;
+    margin: auto;
+    width: 60%;
+    .newInfo {
+      text-decoration: none;
+      color: white;
+      &:hover {
+        background: $pink;
+        transition: 0.3s;
+      }
     }
+  }
 }
 
 #section2 {
@@ -211,6 +228,8 @@ const swiperOptions = {
 
 #info .row {
   margin: auto;
+  width: 100%;
+  height: 100%;
   .mask {
     width: 100%;
     height: 100%;
@@ -223,6 +242,16 @@ const swiperOptions = {
       transition: 0.3s;
       cursor: pointer;
     }
+  }
+}
+
+.event-card {
+  span {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    text-overflow: ellipsis;
   }
 }
 

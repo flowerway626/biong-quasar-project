@@ -58,6 +58,11 @@ const form = reactive({
 
 const columns = [
   {
+    name: 'image',
+    required: true,
+    label: '圖片'
+  },
+  {
     name: 'date',
     required: true,
     label: '發布日期',

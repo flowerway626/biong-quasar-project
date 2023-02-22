@@ -80,21 +80,12 @@ const carts = reactive([]);
 })()
 
 const columns = [
-  // {
-  //   name: 'indexs',
-  //   required: true,
-  //   label: '#',
-  //   align: 'center',
-  //   sortable: true,
-  //   sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
-  // },
   {
     name: 'name',
     required: true,
     label: '商品名稱',
     align: 'center',
     field: row => row.p_id.name,
-    format: val => `${val}`,
     sortable: true,
     sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
   },
@@ -111,7 +102,6 @@ const columns = [
     label: '單價',
     align: 'center',
     field: row => row.p_id.price,
-    format: val => `${val}`,
     sortable: true,
     sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
   },
@@ -121,7 +111,6 @@ const columns = [
     label: '數量',
     align: 'center',
     field: row => row.quantity,
-    format: val => `${val}`,
     sortable: true,
     sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
   },
@@ -130,8 +119,7 @@ const columns = [
     required: true,
     label: '小計',
     align: 'center',
-    field: row => row.p_id.price,
-    format: (val, row) => `${val * row.quantity}`,
+    field: row => row.p_id.price * row.quantity,
     sortable: true,
     sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
   },

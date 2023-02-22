@@ -1,13 +1,12 @@
 <template lang="pug">
 #new-all
   .text-h5.text-center 最新消息
-  q-card.q-ml-auto.q-pa-sm(v-for="info in news" style="margin-right: 100px")
-    q-card-section
-      .text-subtitle2 {{ new Date(info.date).toLocaleString() }}
-    q-card-section.q-pt-none
-      .text-h5 {{ info.title }}
-    q-card-section.q-pt-none
-      .text-subtitle1 {{ info.content }}
+  router-link.q-ma-sm(v-for="info in news" :key="info._id" :to="'/news/' + info._id")
+    .news-info
+      q-img.absolute(:src="info.image")
+      .absolute.text-subtitle2 {{ new Date(info.date).toLocaleString() }}
+      .absolute.text-h5 {{ info.title }}
+      .absolute.text-subtitle1.text-ellipsis {{ info.content }}
 </template>
 
 <script setup>
@@ -20,7 +19,7 @@ const news = reactive([]);
   try {
     const { data } = await apiAuth.get('/news')
     news.push(...data.result)
-    console.log(news)
+    news.reverse()
   } catch (error) {
     Swal.fire({
       toast: true,
@@ -37,28 +36,45 @@ const news = reactive([]);
 
 <style lang="scss">
 #new-all {
-
-  li {
-    list-style: none;
-  }
-
-  .q-card {
-    max-width: 800px;
-    max-height: 200px;
-
-    .text-subtitle1 {
-      /* 標題文字超過兩行時，超過的文字隱藏並顯示... */
-      /* 要使用 webkit-line-clamp 須將 display 轉成 -webkit-box*/
-      display: -webkit-box;
-      /* 使超出 h4 寬度的文字隱藏 */
-      overflow: hidden;
-      /* 超出 h4 寬度的文字須由上而下垂直排列才可執行 webkit-line-clamp */
-      -webkit-box-orient: vertical;
-      /* 限制 h4 中文字超過 2 行時 */
-      -webkit-line-clamp: 2;
-      /* 有溢出文字時最後方加上省略號... */
-      text-overflow: ellipsis;
+  background-image: url('../../assets/images/stars.jpg');
+  background-position: center;
+  background-attachment: fixed;
+  .news-info {
+    border-radius: 20px;
+    text-decoration: none;
+    color: white;
+    position: relative;
+    width: 80%;
+    height: 180px;
+    border: 2px solid $warning;
+    background: #5558;
+    margin: 50px auto 0px;
+    &:hover {
+      background: linear-gradient(270deg, #b6f7f3 0%, #ffa6d3 100%);
+      transition: 0.3s;
+      color: #222;
+      transform: scale(1.1);
     }
+  }
+  .q-img {
+    left: 50px;
+    top: -35px;
+    width: 200px;
+    height: 200px;
+  }
+  .text-subtitle2 {
+    top: 20px;
+    left: 300px;
+  }
+  .text-h5 {
+    top: 50px;
+    left: 300px;
+  }
+  .text-subtitle1 {
+    -webkit-line-clamp: 2;
+    top: 100px;
+    left: 300px;
+    width: 65%;
   }
 }
 </style>

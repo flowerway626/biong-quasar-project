@@ -1,6 +1,6 @@
 <template lang="pug">
 .q-ma-md
-  #backH4.text-h4.text-center 訂單明細
+  .backH4.text-h4.text-center 訂單明細
   q-table.order-table.q-ma-md(:columns="columns" :rows="orders" row-key="_id" :filter="filter" :loading="loading")
 
     template(v-slot:top-right)
@@ -44,15 +44,13 @@ const columns = [
     align: 'center',
     field: 'date',
     format: val => `${new Date(val).toLocaleDateString()}`,
-    sortable: true,
-    sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
+    sortable: true
   },
   {
     name: 'product',
     required: true,
     label: '商品',
-    align: 'center',
-    sortable: true
+    align: 'center'
   },
 
   {
@@ -103,23 +101,10 @@ li
     z-index: 2
     background: #333
     font-size: 14px
-    font-weight: bold
     text-align: center
 
-  thead tr:last-child th
-    top: 48px
-    z-index: 3
   thead tr:first-child th
     top: 0
     z-index: 1
-  tr:first-child th:first-child
-    z-index: 3
-
-  td:first-child
-    z-index: 1
-
-  td:first-child, th:first-child
-    position: sticky
-    left: 0
 
 </style>
