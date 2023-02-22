@@ -1,11 +1,11 @@
 <template lang="pug">
 #new-all
-  .text-h5.text-center 最新消息
+  .text-h4.text-center.q-pt-xl 最新消息
   router-link.q-ma-sm(v-for="info in news" :key="info._id" :to="'/news/' + info._id")
     .news-info
       q-img.absolute(:src="info.image")
       .absolute.text-subtitle2 {{ new Date(info.date).toLocaleString() }}
-      .absolute.text-h5 {{ info.title }}
+      .absolute.text-h6 {{ info.title }}
       .absolute.text-subtitle1.text-ellipsis {{ info.content }}
 </template>
 
@@ -44,16 +44,20 @@ const news = reactive([]);
     text-decoration: none;
     color: white;
     position: relative;
-    width: 80%;
+    width: 70%;
     height: 180px;
-    border: 2px solid $warning;
-    background: #5558;
+    box-shadow: 0px 0px 10px $warning;
+    background: #2228;
     margin: 50px auto 0px;
     &:hover {
       background: linear-gradient(270deg, #b6f7f3 0%, #ffa6d3 100%);
       transition: 0.3s;
       color: #222;
-      transform: scale(1.1);
+      box-shadow: none;
+      .q-img {
+        top: -50px;
+        transition: 0.3s;
+      }
     }
   }
   .q-img {
@@ -64,16 +68,16 @@ const news = reactive([]);
   }
   .text-subtitle2 {
     top: 20px;
-    left: 300px;
+    left: 280px;
   }
-  .text-h5 {
+  .text-h6 {
     top: 50px;
-    left: 300px;
+    left: 280px;
   }
   .text-subtitle1 {
     -webkit-line-clamp: 2;
     top: 100px;
-    left: 300px;
+    left: 280px;
     width: 65%;
   }
 }

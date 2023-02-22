@@ -1,28 +1,36 @@
 <template lang="pug">
-.row.q-mx-xl.q-my-md
-  .col.q-px-md
-    .text-h4.q-my-md {{ eventInfo.name }}
-    p {{ eventInfo.dateStart + ' ~ ' +  eventInfo.dateEnd }}
-    p.pre {{ eventInfo.description }}
-    p(v-if="eventInfo.number !== 0") {{ '限制人數 | ' + eventInfo.number }}
-    p(v-if="eventInfo.place !== '無'") {{ '地址 | ' + eventInfo.place }}
-    q-btn.full-width(label="活動報名" rounded color="warning" text-color="black" @click="openDialog = !openDialog")
-  .col.q-pa-md.text-center
-    img(:src="eventInfo.image" style="height:500px")
+#event-info
+  q-breadcrumbs.text-warning.q-ma-md.q-pl-xl(active-color="grey")
+    template(v-slot:separator)
+      q-icon(size='1.5em' name='chevron_right' color='grey')
+    q-breadcrumbs-el(label='HOME' icon='mdi-home' to="/")
+    q-breadcrumbs-el(label='EVENTS' icon='mdi-newspaper-variant-multiple-outline' to="/event")
+    q-breadcrumbs-el(label='EVENTINFO' icon='mdi-new-box')
 
-q-dialog(v-model='openDialog' persistent)
-  q-card
-    q-form(@submit="addEvent")
-      q-toolbar
-        q-toolbar-title
-          span.text-weight-bold Check
-      q-card-section
-        p 活動報名後無法取消
-        q-input(v-model='phone' autofocus @keyup.enter='prompt = false' color="warning" label="連絡電話")
+  .row.q-mx-xl.q-my-md
+    .col.q-px-md
+      .text-h4.q-my-md {{ eventInfo.name }}
+      p {{ eventInfo.dateStart + ' ~ ' +  eventInfo.dateEnd }}
+      p.pre {{ eventInfo.description }}
+      p(v-if="eventInfo.number !== 0") {{ '限制人數 | ' + eventInfo.number }}
+      p(v-if="eventInfo.place !== '無'") {{ '地址 | ' + eventInfo.place }}
+      q-btn.full-width(label="活動報名" rounded color="warning" text-color="black" @click="openDialog = !openDialog")
+    .col.q-pa-md.text-center
+      img(:src="eventInfo.image" style="height:500px")
 
-      q-card-actions.text-primary(align='right')
-        q-btn(flat label='Cancel' color="pink" v-close-popup)
-        q-btn(flat label='Submit' color="secondary" type="submit" v-close-popup)
+  q-dialog(v-model='openDialog' persistent)
+    q-card
+      q-form(@submit="addEvent")
+        q-toolbar
+          q-toolbar-title
+            span.text-weight-bold Check
+        q-card-section
+          p 活動報名後無法取消
+          q-input(v-model='phone' autofocus @keyup.enter='prompt = false' color="warning" label="連絡電話" mask="#### - ### - ###")
+
+        q-card-actions.text-primary(align='right')
+          q-btn(flat label='Cancel' color="pink" v-close-popup)
+          q-btn(flat label='Submit' color="secondary" type="submit" v-close-popup)
 
 </template>
 

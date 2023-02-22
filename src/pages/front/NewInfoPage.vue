@@ -1,5 +1,20 @@
 <template lang="pug">
+#new-info
+  q-breadcrumbs.text-warning.q-ma-md.q-pl-xl(active-color="grey")
+    template(v-slot:separator)
+      q-icon(size='1.5em' name='chevron_right' color='grey')
+    q-breadcrumbs-el(label='HOME' icon='mdi-home' to="/")
+    q-breadcrumbs-el(label='NEWS' icon='mdi-newspaper-variant-multiple-outline' to="/news")
+    q-breadcrumbs-el(label='NEWINFO' icon='mdi-new-box')
 
+  .row.q-mx-xl.q-my-md
+    .col-12.col-md-8.q-pa-md
+      .text-center
+        img(:src="newInfo.image" style="max-width: 600px;max-height:400px")
+      .text-h4.q-my-md {{ newInfo.title }}
+      p {{ new Date(newInfo.date).toLocaleString() }}
+      .text-body1.pre {{ newInfo.content }}
+    .col-12.col-md-4.q-px-md
 </template>
 
 <script setup>
@@ -18,14 +33,11 @@ const newInfo = reactive({
 
 (async () => {
   try {
-    console.log(route.params.id)
     const { data } = await api.get('/news/' + route.params.id)
-    console.log(data.result)
     newInfo.title = data.result.title
     newInfo.content = data.result.content
     newInfo.date = data.result.date
     newInfo.image = data.result.image
-    console.log(newInfo)
   } catch (error) {
     Swal.fire({
       toast: true,

@@ -175,7 +175,7 @@ const createOrder = async () => {
 <style lang="sass">
 #setting-cart
   .cart-table
-    max-height: calc(100vh - 170px)
+    max-height: calc(100vh - 150px)
 
     td:first-child
       background-color: #555 !important
@@ -188,22 +188,5 @@ const createOrder = async () => {
       z-index: 2
       background: #333
       font-size: 14px
-      font-weight: bold
       text-align: center
-
-    thead tr:last-child th
-      top: 48px
-      z-index: 3
-    thead tr:first-child th
-      top: 0
-      z-index: 1
-    tr:first-child th:first-child
-      z-index: 3
-
-    td:first-child
-      z-index: 1
-
-    td:first-child, th:first-child
-      position: sticky
-      left: 0
 </style>

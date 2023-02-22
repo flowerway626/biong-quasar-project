@@ -1,6 +1,6 @@
 <template lang="pug">
 .q-ma-md
-  q-table.event-table(:rows="events" :columns="columns" row-key="_id" :filter="filter" :loading="loading")
+  q-table#event-table(:rows="events" :columns="columns" row-key="_id" :filter="filter" :loading="loading")
     template(v-slot:body-cell-image="props")
         q-td
           img(:src="props.row.image" :width="100" :height='100')
@@ -250,11 +250,9 @@ const delProduct = async (id) => {
 </script>
 
 <style lang="sass">
-.event-table
-  max-height: calc(100vh - 100px)
+#event-table
+  max-height: calc(100vh - 150px)
 
-  // td:first-child
-  //   background-color: #555 !important
   tr td
     text-align: center
     font-size: 14px
@@ -264,27 +262,5 @@ const delProduct = async (id) => {
     z-index: 2
     background: #333
     font-size: 14px
-    font-weight: bold
     text-align: center
-
-  thead tr:last-child th
-    top: 48px
-    z-index: 3
-  thead tr:first-child th
-    top: 0
-    z-index: 1
-  tr:first-child th:first-child
-    z-index: 3
-
-  td:first-child
-    z-index: 1
-
-  td:first-child, th:first-child
-    position: sticky
-    left: 0
-
-#edit-event .q-dialog__inner--minimized > div
-  max-width: 750px
-//   .my-card
-//     width: 100%
 </style>

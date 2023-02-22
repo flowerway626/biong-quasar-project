@@ -30,8 +30,8 @@ q-dialog#edit-new(v-model="layout" persistent transition-show="fade" transition-
               q-file.q-my-xs(v-model="form.image" outlined use-chips)
 
         q-card-actions(align="center")
-          q-btn(type="submit" size="md" color="secondary" ) submit
-          q-btn(size="md" color="pink" v-close-popup ) cancel
+          q-btn(type="submit" size="md" color="secondary") submit
+          q-btn(size="md" color="pink" v-close-popup @click="loading = false") cancel
 
 </template>
 
@@ -75,6 +75,13 @@ const columns = [
     required: true,
     label: '標題',
     field: 'title',
+    sortable: true
+  },
+  {
+    name: 'content',
+    required: true,
+    label: '內文',
+    field: 'content',
     sortable: true
   },
   {
@@ -207,10 +214,8 @@ const delNew = async (id) => {
 
 <style lang="sass">
 .new-table
-  max-height: calc(100vh - 100px)
+  max-height: calc(100vh - 150px)
 
-  // td:first-child
-  //   background-color: #555 !important
   tr td
     text-align: center
     font-size: 14px
@@ -220,24 +225,13 @@ const delNew = async (id) => {
     z-index: 2
     background: #333
     font-size: 14px
-    font-weight: bold
     text-align: center
 
-  thead tr:last-child th
-    top: 48px
-    z-index: 3
-  thead tr:first-child th
-    top: 0
-    z-index: 1
-  tr:first-child th:first-child
-    z-index: 3
-
-  td:first-child
-    z-index: 1
-
-  td:first-child, th:first-child
-    position: sticky
-    left: 0
+  tr th:nth-child(4)
+  tr td:nth-child(4)
+    max-width: 350px
+    overflow: hidden
+    text-overflow: ellipsis
 
 .edit-new-card
   width: 100%

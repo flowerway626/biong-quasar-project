@@ -285,7 +285,6 @@ const delProduct = async (_id) => {
     z-index: 2
     background: #333
     font-size: 14px
-    font-weight: bold
     text-align: center
 
   thead tr:last-child th

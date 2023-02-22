@@ -22,41 +22,4 @@ import NewSetting from '@/components/NewSetting.vue'
 import PhotoSetting from '@/components/PhotoSetting.vue'
 
 const view = ref('news')
-
 </script>
-
-<style lang="sass">
-.event-table
-  max-height: calc(100vh - 100px)
-
-  // td:first-child
-  //   background-color: #555 !important
-  tr td
-    text-align: center
-    font-size: 14px
-
-  tr th
-    position: sticky
-    z-index: 2
-    background: #333
-    font-size: 14px
-    font-weight: bold
-    text-align: center
-
-  thead tr:last-child th
-    top: 48px
-    z-index: 3
-  thead tr:first-child th
-    top: 0
-    z-index: 1
-  tr:first-child th:first-child
-    z-index: 3
-
-  td:first-child
-    z-index: 1
-
-  td:first-child, th:first-child
-    position: sticky
-    left: 0
-
-</style>

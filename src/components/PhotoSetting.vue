@@ -1,6 +1,6 @@
 <template lang="pug">
 #photo-setting.q-ma-md
-  q-table.event-table(:rows="photos" :columns="columns" row-key="_id" :filter="filter" :loading="loading")
+  q-table.photo-table(:rows="photos" :columns="columns" row-key="_id" :filter="filter" :loading="loading")
     template(v-slot:body-cell-image="props")
         q-td
           img(:src="props.row.image" :width="130" :height='100' style="object-fit: cover;")
@@ -19,8 +19,8 @@
         q-btn(v-if="edit" icon="check" round unelevated size="sm" color='pink' @click="edit = !edit")
         q-btn(icon="delete" color="pink" size="sm" round @click="delProduct(props.row._id)")
 
-q-dialog#edit-event(v-model="layout" persistent transition-show="fade" transition-hide="fade")
-  q-card.edit-event-card.text-white.q-pa-sm
+q-dialog#edit-photo(v-model="layout" persistent transition-show="fade" transition-hide="fade")
+  q-card.edit-photo-card.text-white.q-pa-sm
       q-form(@submit="editPhoto")
         q-card-section(align="center")
           .text-h5.text-weight-bold {{ form._id.length > 0 ? '編輯相簿' : '新增相簿' }}
@@ -75,6 +75,13 @@ const form = reactive({
 
 const columns = [
   {
+    name: 'image',
+    required: true,
+    label: '封面圖',
+    field: 'image',
+    sortable: true
+  },
+  {
     name: 'date',
     required: true,
     label: '上傳日期',
@@ -87,13 +94,6 @@ const columns = [
     required: true,
     label: '標題',
     field: 'name',
-    sortable: true
-  },
-  {
-    name: 'image',
-    required: true,
-    label: '封面圖',
-    field: 'image',
     sortable: true
   },
   {
@@ -243,11 +243,9 @@ const delProduct = async (id) => {
 </script>
 
 <style lang="sass">
-.event-table
-  max-height: calc(100vh - 100px)
+.photo-table
+  max-height: calc(100vh - 150px)
 
-  // td:first-child
-  //   background-color: #555 !important
   tr td
     text-align: center
     font-size: 14px
@@ -257,39 +255,9 @@ const delProduct = async (id) => {
     z-index: 2
     background: #333
     font-size: 14px
-    font-weight: bold
     text-align: center
 
-  thead tr:last-child th
-    top: 48px
-    z-index: 3
-  thead tr:first-child th
-    top: 0
-    z-index: 1
-  tr:first-child th:first-child
-    z-index: 3
-
-  td:first-child
-    z-index: 1
-
-  td:first-child, th:first-child
-    position: sticky
-    left: 0
-
-.edit-event-card
+.edit-photo-card
   width: 100%
-
-  .text-subtitle1
-      /* 標題文字超過兩行時，超過的文字隱藏並顯示... */
-      /* 要使用 webkit-line-clamp 須將 display 轉成 -webkit-box*/
-      display: -webkit-box
-      /* 使超出 h4 寬度的文字隱藏 */
-      overflow: hidden
-      /* 超出 h4 寬度的文字須由上而下垂直排列才可執行 webkit-line-clamp */
-      -webkit-box-orient: vertical
-      /* 限制 h4 中文字超過 2 行時 */
-      -webkit-line-clamp: 2
-      /* 有溢出文字時最後方加上省略號... */
-      text-overflow: ellipsis
 
 </style>

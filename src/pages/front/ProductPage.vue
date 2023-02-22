@@ -1,4 +1,11 @@
 <template lang="pug">
+q-breadcrumbs.text-warning.q-ma-md.q-pl-xl(active-color="grey")
+  template(v-slot:separator)
+    q-icon(size='1.5em' name='chevron_right' color='grey')
+  q-breadcrumbs-el(label='HOME' icon='mdi-home' to="/")
+  q-breadcrumbs-el(label='SHOPPING' icon='mdi-store' to="/shopping")
+  q-breadcrumbs-el(:label="product.name" icon='mdi-shopping')
+
 .row
   .col
     q-img(style="height: 500px;width:500px" :src="product.image")
