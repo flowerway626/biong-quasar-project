@@ -1,0 +1,1 @@
+li{list-style:none}.order-table{max-height:calc(100vh - 150px)}.order-table tr td{text-align:center;font-size:14px}.order-table tr th{position:sticky;z-index:2;background:#333;font-size:14px;text-align:center}.order-table thead tr:first-child th{top:0;z-index:1}
