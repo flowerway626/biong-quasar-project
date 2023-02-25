@@ -37,25 +37,22 @@
     q-tab-panel(name="PROFILE")
       .text-h4.q-mb-md profile
       .row
-        .col-12.col-md-4
-          q-img(src="@/assets/images/eunji.jpg" width="250px")
-        .col-12.col-md-8
-          .text-h5 李恩智
-          .text-subtitle1 必殺技：遠看是“喜劇”，近看是“瘋狂”
-          p “獻身廣播！”
-            |一個舞者的靈魂被困在一個喜劇演員的身體裡！
-            |才華橫溢我無意克制
-            |擅長廣播舞蹈（？）頂級喜劇演員
-            |我夢想成為一個有魅力的街機迷，
-            |現實中，容易被弟弟妹妹罵？！
-            |“老大”英雄恩地適應 Z 世代的任務開始了！
+        .memberInfo.col-5.col-md
+          .text-h5 LEE YOUNG JI
+        .memberInfo.col-5.col-md
+          .text-h5 LEE EUN JI
+        .memberInfo.col-5.col-md
+          .text-h5 MI MI
+        .memberInfo.col-5.col-md
+          .text-h5 AN YU JIN
 
-        .col-12.col-md-4
-          q-img(src="@/assets/images/youngji.jpg" width="250px")
-        .col-12.col-md-8
-          .text-h5 李泳知
-          .text-subtitle1 必殺技：壓制英錫哥底線的‘獅子吼’
-          p |
+        #youngji.row
+          .col-12.col-md-4
+            q-img(src="@/assets/images/youngji.jpg" width="250px")
+          .col-12.col-md-8
+            .text-h5 李泳知
+            .text-subtitle1 必殺技：壓制英錫哥底線的‘獅子吼’
+            p |
             | 戰力MAX，攻擊力MAX，生命力……無法估量？！
             | 史無前例的娛樂詐騙現身！
             | “英錫哥！” 以吶喊開始新的一天
@@ -64,24 +61,41 @@
             | 甚至是接受FEEL時趴在光地上的非常規動作！
             | 前所未見的新角色登場！
 
-        .col-12.col-md-4
-          q-img(src="@/assets/images/mimi.png" width="250px")
-        .col-12.col-md-8
-          .text-h5 MiMi
-          .text-subtitle1 必殺技：不分情況的“真正正能量光束”
-          p |
+        #eunji.row
+          .col-12.col-md-4
+            q-img(src="@/assets/images/eunji.jpg" width="250px")
+          .col-12.col-md-8
+            .text-h5 李恩智
+            .text-subtitle1 必殺技：遠看是“喜劇”，近看是“瘋狂”
+            p “獻身廣播！”
+            |一個舞者的靈魂被困在一個喜劇演員的身體裡！
+            |才華橫溢我無意克制
+            |擅長廣播舞蹈（？）頂級喜劇演員
+            |我夢想成為一個有魅力的街機迷，
+            |現實中，容易被弟弟妹妹罵？！
+            |“老大”英雄恩地適應 Z 世代的任務開始了！
+
+        #mimi.row
+          .col-12.col-md-4
+            q-img(src="@/assets/images/mimi.png" width="250px")
+          .col-12.col-md-8
+            .text-h5 MiMi
+            .text-subtitle1 必殺技：不分情況的“真正正能量光束”
+            p |
             | 只要你有冰淇淋，超正模式就開啟！
             | 與世界無害的人類和後地球級別的親和力
             | 連動物的心臟都偷走的這個地區的知情人，
             | “Oh My Mihyun”出現！
             | 通過提交現實且自由奔放的錯誤答案
             | 改變遊戲規則的“K-meme”揭曉！
-        .col-12.col-md-4
-          q-img(src="@/assets/images/yujin.jpg" width="250px")
-        .col-12.col-md-8
-          .text-h5 安宥真
-          .text-subtitle1 必殺技：“慾望” LOVE DIVE！
-          p |
+
+        #yujin.row
+          .col-12.col-md-4
+            q-img(src="@/assets/images/yujin.jpg" width="250px")
+          .col-12.col-md-8
+            .text-h5 安宥真
+            .text-subtitle1 必殺技：“慾望” LOVE DIVE！
+            p
             | 今年Lv 20，食物面前
             | 第N話最高能力的忙內！
             | 展現出比同齡人更深沉、更豐富的“鄉土味”
@@ -107,7 +121,7 @@
             q-card.card
               q-img(:src='photo.image' height="150px")
               q-card-section
-                .text-subtitle1 {{ photo.name }}
+                .text-subtitle1.text-ellipsis {{ photo.name }}
                 .text-subtitle2 {{ new Date(photo.date).toLocaleString() }}
 
     q-tab-panel(name="VIDEO")
@@ -224,6 +238,14 @@ const swiperDialog = (idx) => {
   dialogidx.value = idx
 }
 
+// const scrollToElement = () => {
+//   const el = document.getElementById(targetId.value)
+
+//   if (el) {
+//     el.scrollIntoView()
+//   }
+// }
+
 // onMounted(() => {
 const swiperOptions = {
   modules: [Navigation, Pagination, Scrollbar, Autoplay],
@@ -297,11 +319,13 @@ const albumOptions = {
     color: aliceblue;
   }
   .card .text-subtitle1 {
-    display: -webkit-box;
-    overflow: hidden;
-    -webkit-box-orient: vertical;
     -webkit-line-clamp: 1;
-    text-overflow: ellipsis;
+  }
+
+  .memberInfo {
+    height: 50px;
+    background: $secondary;
+    margin-right: 10px;
   }
 }
 </style>

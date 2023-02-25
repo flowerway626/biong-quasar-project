@@ -98,6 +98,14 @@ const routes = [
         meta: {
           title: 'Biong Biong | Product'
         }
+      },
+      {
+        path: 'cart',
+        name: 'setting-cart',
+        component: () => import('@/pages/front/CartPage.vue'),
+        meta: {
+          title: 'Biong Biong | Setting - Cart'
+        }
       }
     ]
   },
@@ -158,14 +166,6 @@ const routes = [
         component: () => import('@/pages/setting/HomePage.vue'),
         meta: {
           title: 'Biong Biong | Setting'
-        }
-      },
-      {
-        path: 'cart',
-        name: 'setting-cart',
-        component: () => import('@/pages/setting/CartPage.vue'),
-        meta: {
-          title: 'Biong Biong | Setting - Cart'
         }
       },
       {

@@ -1,12 +1,11 @@
 <template lang="pug">
-q-card.product-Info
+.product-Info
   //- div.mask
-  q-img.cursor-pointer(:src="image" height="200px" @click="() => router.push('/shopping/' + _id)")
-    .absolute-bottom.text-h6 {{ name }}
+  q-img.cursor-pointer(:src="image" height="300px" @click="router.push('/shopping/' + _id)")
+  .text-center.text-body1 {{ name }}
 
-  q-card-actions
     //- q-skeleton(type="QBtn")
-    q-btn(@click="addCart(_id)" push color="secondary" ) 加入購物車
+  //- q-btn(@click="addCart(_id)" push color="secondary" ) 加入購物車
 </template>
 
 <script setup>
@@ -76,7 +75,14 @@ const $q = useQuasar()
 </script>
 
 <style lang="scss">
-.mask {
+.product-Info {
+  .text-body1 {
+    height: 50px;
+    background: #fff;
+    color: black;
+    // top: 460px;
+    // bottom: 0;
+  }
   // &:hover {
   background: rgba(0, 0, 0, 0.5);
   // }

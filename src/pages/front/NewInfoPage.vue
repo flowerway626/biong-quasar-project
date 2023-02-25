@@ -14,16 +14,25 @@
       .text-h4.q-my-md {{ newInfo.title }}
       p {{ new Date(newInfo.date).toLocaleString() }}
       .text-body1.pre {{ newInfo.content }}
+
     .col-12.col-md-4.q-px-md
+      .text-h6.q-my-md MORE ...
+      #latesThree(v-for="lates in latesThree" :key="lates._id" @click="changeInfo(lates)")
+        .text-body2 {{ new Date(lates.date).toLocaleString() }}
+        .text-body1.q-my-md {{ lates.title }}
+        .text-body2.pre.text-ellipsis {{ lates.content }}
+        q-separator.q-my-md
 </template>
 
 <script setup>
 import { api } from 'src/boot/axios'
 import { reactive } from 'vue'
 import Swal from 'sweetalert2'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
+const router = useRouter()
+const latesThree = reactive([])
 const newInfo = reactive({
   title: '',
   content: '',
@@ -33,11 +42,12 @@ const newInfo = reactive({
 
 (async () => {
   try {
-    const { data } = await api.get('/news/' + route.params.id)
-    newInfo.title = data.result.title
-    newInfo.content = data.result.content
-    newInfo.date = data.result.date
-    newInfo.image = data.result.image
+    const results = await Promise.all([api.get('/news/' + route.params.id), api.get('/news/recom')])
+    newInfo.title = results[0].data.result.title
+    newInfo.content = results[0].data.result.content
+    newInfo.date = results[0].data.result.date
+    newInfo.image = results[0].data.result.image
+    latesThree.push(...results[1].data.result)
   } catch (error) {
     Swal.fire({
       toast: true,
@@ -50,4 +60,32 @@ const newInfo = reactive({
     })
   }
 })()
+
+// 更新頁面資料
+const changeInfo = async (lates) => {
+  location.reload()
+  await api.get('/news/recom')
+  console.log(lates)
+  router.push('/news/' + lates._id)
+  newInfo.title = lates.title
+  newInfo.content = lates.content
+  newInfo.date = lates.date
+  newInfo.image = lates.image
+}
+
 </script>
+
+<style lang="scss">
+#latesThree {
+  color: lightgrey;
+  text-decoration: none;
+  .text-body2 {
+    -webkit-line-clamp: 2;
+  }
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+}
+</style>

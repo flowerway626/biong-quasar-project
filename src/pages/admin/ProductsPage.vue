@@ -46,7 +46,7 @@ q-dialog#admin-product(v-model="layout" persistent transition-show="fade" transi
           .col-6.q-pt-md
             q-img.q-my-sm(:src="form.image" width="150px")
             q-file.q-my-xs(v-model="form.image" outlined use-chips style="width:150px" label="PHOTO")
-        q-input(v-model="form.description" label="說明" type="textarea" color="warning" rows="4"
+        q-input(v-model="form.description" label="說明" type="textarea" color="warning" rows="4" autogrow
           :rules="[$rules.required('欄位必填')]")
 
       q-card-actions(align="center")

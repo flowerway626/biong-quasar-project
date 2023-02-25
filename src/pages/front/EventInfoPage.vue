@@ -7,16 +7,29 @@
     q-breadcrumbs-el(label='EVENTS' icon='mdi-newspaper-variant-multiple-outline' to="/event")
     q-breadcrumbs-el(label='EVENTINFO' icon='mdi-new-box')
 
-  .row.q-mx-xl.q-my-md
-    .col.q-px-md
+  .column.row-md.q-mx-xl.q-my-md(v-if="!loading")
+    .col-12.col-md-6.q-pa-md.text-center
+      img(:src="eventInfo?.image")
+    .col-12.col-md-6.q-px-md
       .text-h4.q-my-md {{ eventInfo.name }}
       p {{ eventInfo.dateStart + ' ~ ' +  eventInfo.dateEnd }}
-      p.pre {{ eventInfo.description }}
+      p.description.pre {{ eventInfo.description }}
+      q-scroll-area.scroll-area.q-my-md(visible :bar-style="{borderRadius: '5px', background: 'black'}")
+        p.pre {{ eventInfo.description }}
       p(v-if="eventInfo.number !== 0") {{ '限制人數 | ' + eventInfo.number }}
       p(v-if="eventInfo.place !== '無'") {{ '地址 | ' + eventInfo.place }}
       q-btn.full-width(label="活動報名" rounded color="warning" text-color="black" @click="openDialog = !openDialog")
-    .col.q-pa-md.text-center
-      img(:src="eventInfo.image" style="height:500px")
+
+  .column.row-md.q-mx-xl.q-my-md(v-if="loading")
+    .col-12.col-md-6.q-pa-md.text-center
+      q-skeleton(width="450px" height="450px" style="margin: auto")
+    .col-12.col-md-6.q-px-md
+      q-skeleton( type="text" class="text-h1" width="60%")
+      q-skeleton(type="text" class="text-h5" width="30%" style="margin-bottom: 20px")
+      q-skeleton(type="text" class="p" height="30px" width="70%")
+      q-skeleton(type="text" class="p" height="30px" width="70%")
+      q-skeleton(type="text" class="p" height="30px" width="70%" style="margin-bottom: 200px")
+      q-btn.full-width(label="活動報名" rounded color="warning" text-color="black" )
 
   q-dialog(v-model='openDialog' persistent)
     q-card
@@ -47,6 +60,7 @@ const user = useUserStore()
 const route = useRoute()
 const visible = ref(true)
 const openDialog = ref(false)
+const loading = ref(true)
 const { addMember } = user
 const phone = ref('')
 const eventInfo = reactive({
@@ -70,7 +84,7 @@ const eventInfo = reactive({
     eventInfo.image = data.result.image
     eventInfo.number = data.result.number
     eventInfo.member = data.result.member
-    console.log(eventInfo)
+    loading.value = false
   } catch (error) {
     Swal.fire({
       toast: true,
@@ -100,3 +114,28 @@ const addEvent = async () => {
   }
 }
 </script>
+
+<style lang="scss">
+#event-info {
+  img {
+    width: 100%;
+  }
+
+  .scroll-area {
+    height: 350px;
+    display: none;
+  }
+  @media (min-width: 600px) {
+    height: calc(100vh - 70px);
+    img {
+      width: 80%;
+  }
+  .scroll-area {
+      display: block;
+    }
+    .description {
+      display: none;
+    }
+  }
+}
+</style>

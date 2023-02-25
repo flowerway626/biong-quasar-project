@@ -2,7 +2,7 @@
 h5 周邊
 .q-ma-auto
   .row
-    .col-xs-12.col-sm-4.col-md-3.q-ma-lg(v-for="product in products" :key="product.id")
+    .col-xs-12.col-sm-4.col-md-3.q-mx-xl.q-my-md(v-for="product in products" :key="product.id")
       ProductCard(v-bind="product")
 </template>
 
@@ -12,8 +12,7 @@ import { api } from 'src/boot/axios'
 import ProductCard from 'src/components/ProductCard.vue'
 import Swal from 'sweetalert2'
 
-const products = reactive([])
-const slide = ref(1);
+const products = reactive([]);
 
 (async () => {
   try {

@@ -47,7 +47,7 @@ export const useUserStore = defineStore('user', () => {
         message: '登入成功',
         position: 'top'
       })
-      if (account.value === 'admin') {
+      if (role.value === 1) {
         this.router.push('/admin')
       } else {
         this.router.push('/')
@@ -209,8 +209,6 @@ export const useUserStore = defineStore('user', () => {
       console.log(userPhone)
       const { data } = await apiAuth.patch('/users/event/' + eventId, { phone: userPhone })
       await apiAuth.patch('/events/user/' + eventId)
-      console.log(data)
-      // phone.value = data.result.phone
       Notify.create({
         type: 'positive',
         color: 'pink',

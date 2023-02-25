@@ -10,7 +10,7 @@
         q-btn(label="EVENT" flat to='/event')
         q-space
 
-        q-btn(v-if="isLogin && !isAdmin" icon="mdi-cart" flat round to='/setting/cart')
+        q-btn(v-if="isLogin && !isAdmin" icon="mdi-cart" flat round to='/cart')
           q-badge(floating round color="warning") {{ cart }}
           q-tooltip(anchor="bottom middle" self="top middle") Cart
 
@@ -28,6 +28,8 @@
 
     q-page-container
       router-view
+      q-page-scroller(position='bottom-right' :scroll-offset='150' :offset='[18, 18]')
+        q-btn(fab icon='keyboard_arrow_up' color='warning').
 </template>
 
 <script setup>
@@ -48,5 +50,11 @@ const toggleLeftDrawer = () => {
 <style lang="scss">
 #home .q-toolbar {
   background: linear-gradient(135deg, #53C2BA 0%, #fff 50%, #C0538A 100%);
+}
+#home .q-page-container {
+  background-image: url('@/assets/images/stars.jpg');
+  background-position: center;
+  background-attachment: fixed;
+
 }
 </style>

@@ -15,15 +15,10 @@ q-layout.shadow-2.rounded-borders(view="hHh Lpr lff" container style="height: 10
             q-icon(name="settings")
           q-item-section 基本設定
 
-        q-item(v-ripple clickable :active="link === 'shop'" @click="link = 'shop'" active-class="menu-link" to='/setting/cart')
-          q-item-section(avatar)
-            q-icon(name="shop")
-          q-item-section 購物車
-
         q-item(v-ripple clickable :active="link === 'list'" @click="link = 'list'" active-class="menu-link" to='/setting/order')
           q-item-section(avatar)
             q-icon(name="list")
-          q-item-section 訂單管理
+          q-item-section 訂單明細
 
         q-item(v-ripple clickable :active="link === 'event'" @click="link = 'event'" active-class="menu-link" to='/setting/event')
           q-item-section(avatar)
