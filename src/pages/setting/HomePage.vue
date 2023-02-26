@@ -19,6 +19,12 @@ q-form(@submit="editUser")
               :rules="[$rules.required('欄位必填'), $rules.maxLength(20, '長度需為 4~20 個字元'), $rules.minLength(4, '長度需為 4~20 個字元')]")
 
     .flex.justify-between.items-center
+      .text-body1.q-py-md password
+      .text-body1(v-if="!edit") {{ formEdit.password }}
+      q-input.q-my-xs(v-if="edit" v-model="formEdit.password" counter maxlength="20" dense
+              :rules="[$rules.required('欄位必填'), $rules.maxLength(20, '長度需為 4~20 個字元'), $rules.minLength(4, '長度需為 4~20 個字元')]")
+
+    .flex.justify-between.items-center
       .text-body1.q-py-md email
       .text-body1(v-if="!edit") {{ formEdit.email }}
       q-input.q-my-xs(v-if="edit" v-model="formEdit.email" dense :rules="[$rules.required('欄位必填'), $rules.email('email 格式錯誤')]")
@@ -44,7 +50,11 @@ import { reactive, ref } from 'vue'
 import { apiAuth } from 'src/boot/axios'
 import Swal from 'sweetalert2'
 import { useQuasar } from 'quasar'
+import { useUserStore } from 'src/stores/user'
+import { storeToRefs } from 'pinia'
 
+const user = useUserStore()
+const { name } = storeToRefs(user)
 const $q = useQuasar()
 const edit = ref(false)
 const editCheck = ref(false)
@@ -52,6 +62,7 @@ const editCheck = ref(false)
 const form = reactive({
   _id: '',
   account: '',
+  password: '',
   email: '',
   name: '',
   phone: ''
@@ -60,6 +71,7 @@ const form = reactive({
 const formEdit = reactive({
   _id: '',
   account: '',
+  password: '●●●●●●●●',
   email: '',
   name: '',
   phone: ''
@@ -97,6 +109,7 @@ const editCanel = () => {
   edit.value = false
   formEdit._id = form._id
   formEdit.account = form.account
+  formEdit.password = form.password
   formEdit.email = form.email
   formEdit.name = form.name
   formEdit.phone = form.phone
@@ -108,9 +121,11 @@ const editUser = async () => {
     const { data } = await apiAuth.patch('/users/' + form._id, formEdit)
     formEdit._id = data.result._id
     formEdit.account = data.result.account
+    formEdit.password = '●●●●●●●●'
     formEdit.email = data.result.email
     formEdit.name = data.result.name
     formEdit.phone = data.result.phone
+    name.value = data.result.name
 
     $q.notify({
       type: 'positive',

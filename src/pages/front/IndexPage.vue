@@ -19,18 +19,18 @@ q-page
       .col.mask.absolute
         q-img(src="@/assets/images/mimi.png")
 
-  section#new.q-pa-xl.bg-secondary
+  section#new.q-pa-md-xl.bg-secondary
     .text-h5.q-my-md.text-center 最新消息
     .column
-      router-link.row.newInfo(v-for="newInfo in news" :to="'/news/' + newInfo._id" )
-        .text-h6.q-mr-xl {{ new Date(newInfo.date).toLocaleDateString() }}
-        .text-h6 {{ newInfo.title }}
+      router-link.row.newInfo(v-for="newInfo in news" :key="newInfo._id" :to="'/news/' + newInfo._id" )
+        .text-subtitle2.q-mr-xl {{ new Date(newInfo.date).toLocaleDateString() }}
+        .text-subtitle1 {{ newInfo.title }}
 
   //- q-parallax(speed="2" src="@/assets/images/stars.jpg" :height="650")
   section#section2.row.q-pa-xl.q-mx-auto.justify-center
     .text-h5.col-12.text-center 周邊商品
     .col-12.row.flex-center
-      .col-xs-12.col-sm-4.col-md-3.q-mx-lg.q-my-md(v-for="(product, idx) in products" :key="product.id")
+      .col-xs-12.col-sm-4.col-md-3.q-mx-lg.q-my-md(v-for="product in products" :key="product.id")
           q-img(:src="product.image")
             .mask.flex.flex-center.column.absolute
               .text-subtitle1.q-ma-xs {{ product.name }}
@@ -48,6 +48,7 @@ q-page
             .text-subtitle2 {{ event.dateStart + ' ~ ' + event.dateEnd }}
 
     //- q-parallax(speed="2" src="@/assets/images/stars.jpg" :height="300")
+
   section#footer.row.q-pa-xl
       .col-12.col-md-5
         q-form.q-mx-auto.q-mx-md-none(style="width: 80%")
@@ -64,38 +65,36 @@ q-page
 
           .text-center
             q-btn.full-width(type="submit" size="sm" outline style="color: #53C2BA") 送出
-      .col-12.col-md-6.col-md-7.q-mt-xl.q-mt-md-none
-        .row.justify-center.justify-md-start
-          q-btn(round icon="mdi-facebook" size="20px" @click="link('https://www.facebook.com/cjtvngo/')")
-          q-btn(round icon="mdi-instagram" size="20px" @click="link('https://www.instagram.com/earth_arcade/')")
-          q-btn(round icon="mdi-twitter" size="20px" @click="link('https://twitter.com/chtvn')")
-          q-btn(round icon="mdi-youtube" size="20px" @click="link('https://www.youtube.com/playlist?list=PLgbB1gJhmG7ADjyNmUhWAwXPTrLflCiqv')")
 
-        .map.q-mt-xl.row.content-center
-          .col-12.col-sm-6.col-md-3.column.items-start
+      .col-12.col-md-7.q-mt-xl.q-mt-md-none
+        .map.row
+          .col-6.col-md-3.column.items-start.content-center
             .text-body1 首頁
             router-link.text-body2(to="/about") 關於地娛室
             router-link.text-body2(to="/news") 最新消息
             router-link.text-body2(to="/shopping") 周邊商品
-
-          .col-12.col-sm-6.col-md-3.column.items-start
-            .text-body1 &nbsp;
             router-link.text-body2(to="/event") 活動公告
-            router-link.text-body2(to="/setting") 會員專區
 
-          .col-12.col-sm-6.col-md-3.column.items-start
+          .col-6.col-md-3.column.items-start.content-center
             .text-body1 ABOUT
             router-link.text-body2(to="/about") INFO
             router-link.text-body2(to="/about") PROFILE
             router-link.text-body2(to="/about") GALLERY
             router-link.text-body2(to="/about") VIDEO
 
-          .col-12.col-sm-6.col-md-3.column.items-start
+          .col-6.col-md-3.column.items-start.content-center
             .text-body1 會員專區
             router-link.text-body2(to="/cart") 購物車
             router-link.text-body2(to="/setting") 基本設定
             router-link.text-body2(to="/setting/order") 訂單明細
             router-link.text-body2(to="/setting/event") 報名管理
+
+          .col-12.col-md-3.column.items-start.content-center
+            .row.justify-center
+              q-btn.col-md-6(round icon="mdi-facebook" @click="link('https://www.facebook.com/cjtvngo/')")
+              q-btn.col-md-6(round icon="mdi-instagram" @click="link('https://www.instagram.com/earth_arcade/')")
+              q-btn.col-md-6(round icon="mdi-twitter" @click="link('https://twitter.com/chtvn')")
+              q-btn.col-md-6(round icon="mdi-youtube" @click="link('https://www.youtube.com/playlist?list=PLgbB1gJhmG7ADjyNmUhWAwXPTrLflCiqv')")
 </template>
 
 <script setup>
@@ -185,12 +184,16 @@ const swiperOptions = {
     list-style: none;
     .newInfo {
       margin: 5px auto;
-      width: 60%;
+      width: 90%;
       text-decoration: none;
       color: white;
       &:hover {
         background: $pink;
         transition: 0.3s;
+      }
+
+      @media (min-width: 576px) {
+        width: 60%;
       }
     }
   }

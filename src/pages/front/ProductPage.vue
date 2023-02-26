@@ -3,8 +3,8 @@
   q-breadcrumbs.text-warning.q-ma-md.q-pl-xl(active-color="grey")
     template(v-slot:separator)
       q-icon(size='1.5em' name='chevron_right' color='grey')
-    q-breadcrumbs-el(label='HOME' icon='mdi-home' to="/")
-    q-breadcrumbs-el(label='SHOPPING' icon='mdi-store' to="/shopping")
+    q-breadcrumbs-el(label='首頁' icon='mdi-home' to="/")
+    q-breadcrumbs-el(label='周邊商品' icon='mdi-store' to="/shopping")
     q-breadcrumbs-el(:label="product.name" icon='mdi-shopping')
 
   #productInfo.flex.flex-center

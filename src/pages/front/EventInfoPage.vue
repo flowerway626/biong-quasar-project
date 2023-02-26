@@ -3,9 +3,9 @@
   q-breadcrumbs.text-warning.q-ma-md.q-pl-xl(active-color="grey")
     template(v-slot:separator)
       q-icon(size='1.5em' name='chevron_right' color='grey')
-    q-breadcrumbs-el(label='HOME' icon='mdi-home' to="/")
-    q-breadcrumbs-el(label='EVENTS' icon='mdi-newspaper-variant-multiple-outline' to="/event")
-    q-breadcrumbs-el(label='EVENTINFO' icon='mdi-new-box')
+    q-breadcrumbs-el(label='首頁' icon='mdi-home' to="/")
+    q-breadcrumbs-el(label='活動公告' icon='mdi-newspaper-variant-multiple-outline' to="/event")
+    q-breadcrumbs-el(:label='eventInfo.name' icon='mdi-new-box')
 
   .column.row-md.q-mx-xl.q-my-md(v-if="!loading")
     .col-12.col-md-6.q-pa-md.text-center
