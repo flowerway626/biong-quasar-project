@@ -1,6 +1,7 @@
 <template lang="pug">
 #event-all
-  .text-h5.text-center 最新活動
+  .text-center.q-ma-xl
+    img(src="../../assets/images/活動公告v2_animated.svg")
   .flex
     q-card.q-ma-md.cursor-pointer(v-for="info in events" :key="info._id" @click="router.push('/event/' + info._id)")
       q-card-section

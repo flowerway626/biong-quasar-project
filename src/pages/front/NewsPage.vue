@@ -1,11 +1,12 @@
 <template lang="pug">
 #new-all
-  .text-h4.text-center.q-pt-xl 最新消息
+  .text-center.q-pt-xl
+    img(src="../../assets/images/最新消息v3_animated.svg")
   .q-ma-sm(v-for="info in news" :key="info._id" @click="() => router.push('/news/' + info._id)")
-    .news-info.row.q-pa-md.justify-center.justify-sm-between.justify-md-center
-      .col-12.col-sm-3.q-mx-auto
+    .news-info.row.q-pa-sm.justify-center.justify-sm-between.justify-md-center
+      .col-12.col-sm-2.q-mx-auto
         q-img(:src="info.image")
-      .col-12.col-sm-8.column.justify-evenly
+      .col-xs-12.col-sm-6.col-md-9.column.justify-evenly
         .text-subtitle2 {{ new Date(info.date).toLocaleString() }}
         .text-h6 {{ info.title }}
         .text-subtitle1.text-ellipsis {{ info.content }}
@@ -64,8 +65,8 @@ const news = reactive([]);
   }
   .q-img {
     top: -35px;
-    min-width: 200px;
-    height: 200px;
+    min-width: 150px;
+    height: 150px;
   }
 
   .text-subtitle1 {

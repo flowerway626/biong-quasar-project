@@ -35,59 +35,59 @@
 
     q-drawer.drawer.text-white(v-model='drawerLeft' overlay no-swipe-close no-swipe-backdrop behavior="mobile" :width='300' :breakpoint='900')
       q-list.drawerList
-        q-item(clickable to="/")
+        q-item(clickable to="/" active-class="active-white")
           q-item-section(top)
             q-img(src="../assets/images/logo.jpg")
 
         q-expansion-item(group="drawer" :content-inset-level='0.5' expand-separator label='關於地娛室')
           q-list
-            q-item(clickable)
+            q-item(clickable active-class="active-white")
               q-item-section 節目企劃
-            q-item(clickable v-ripple)
+            q-item(clickable v-ripple active-class="active-white")
               q-item-section 人物介紹
-            q-item(clickable v-ripple)
+            q-item(clickable v-ripple active-class="active-white")
               q-item-section 現場照片
-            q-item(clickable v-ripple)
+            q-item(clickable v-ripple active-class="active-white")
               q-item-section 影片合集
 
-        q-item(clickable to="/news")
+        q-item(clickable to="/news" active-class="active-white")
           q-item-section 最新消息
 
-        q-item(clickable to="/shopping")
+        q-item(clickable to="/shopping" active-class="active-white")
           q-item-section 周邊商品
 
-        q-item(clickable to="/event")
+        q-item(clickable to="/event" active-class="active-white")
           q-item-section 活動公告
 
         q-expansion-item(group="drawer" :content-inset-level='0.5' expand-separator label='會員專區')
           q-list
-            q-item(clickable to="/setting")
+            q-item(clickable to="/setting" active-class="active-white")
               q-item-section 基本設定
-            q-item(clickable v-ripple to="/cart")
+            q-item(clickable v-ripple to="/cart" active-class="active-white")
               q-item-section 購物車
-            q-item(clickable v-ripple to="/setting/order")
+            q-item(clickable v-ripple to="/setting/order" active-class="active-white")
               q-item-section 訂單明細
-            q-item(clickable v-ripple to="/setting/event")
+            q-item(clickable v-ripple to="/setting/event" active-class="active-white")
               q-item-section 報名活動
 
         q-expansion-item(group="drawer" :content-inset-level='0.5' expand-separator label='關注追蹤')
           q-list
-            q-item(clickable)
+            q-item(clickable active-class="active-white")
               q-item-section(avatar)
                 q-icon(name='mdi-facebook')
               q-item-section FACEBOOK
 
-            q-item(clickable)
+            q-item(clickable active-class="active-white")
               q-item-section(avatar)
                 q-icon(name='mdi-instagram')
               q-item-section INSTAGRAM
 
-            q-item(clickable)
+            q-item(clickable active-class="active-white")
               q-item-section(avatar)
                 q-icon(name='mdi-twitter')
               q-item-section TWITTER
 
-            q-item(clickable)
+            q-item(clickable active-class="active-white")
               q-item-section(avatar)
                 q-icon(name='mdi-youtube')
               q-item-section YOUTUBE
@@ -130,6 +130,10 @@ const drawerLeft = ref(false)
 
   .little {
     display: block;
+  }
+
+  .active-white {
+    color: #fff;
   }
 
   @media (min-width: 600px) {

@@ -1,5 +1,6 @@
 <template lang="pug">
-h5 周邊
+.text-center.q-pt-xl
+    img(src="../../assets/images/周邊商品_animated.svg")
 .q-ma-auto
   .row
     .col-xs-12.col-sm-4.col-md-3.q-mx-xl.q-my-md(v-for="product in products" :key="product.id")

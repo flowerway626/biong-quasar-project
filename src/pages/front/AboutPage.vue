@@ -1,7 +1,11 @@
 <template lang="pug">
 #about
   q-drawer(v-model="drawer" show-if-above :width="250" :breakpoint="500" bordered)
-    q-tabs.text-teal(v-model="tab" vertical)
+    .text-h5.about.bg-secondary(style="height: 100px;") 節目企劃
+    .text-h5.about.bg-pink(style="height: 100px;") 人物介紹
+    .text-h5.about.bg-warning(style="height: 100px;") 現場照片
+    .text-h5.about.bg-grey(style="height: 100px;") 影片合集
+    //- q-tabs.text-teal(v-model="tab" vertical)
       q-tab(name="INFO" label="INFO")
       q-tab(name="PROFILE" label="PROFILE")
       q-tab(name="GALLERY" label="GALLERY")
@@ -152,6 +156,7 @@
             q-video(:ratio='16/9' src="https://www.youtube.com/embed//1DtzFseJnV4")
             q-card-section
               .text-subtitle1 地娛室成員首次碰面後的未公開花絮
+
       q-expansion-item.q-my-sm.shadow-1.overflow-hidden(group="ablum" style='border-radius: 10px' icon='album' label='SPECIAL' header-class='bg-warning text-black text-weight-bold' expand-icon-class='text-black')
         .row.justify-evenly
           q-card.my-card.col-3.q-mx-sm.q-my-md
@@ -178,6 +183,7 @@
             q-video(:ratio='16/9' src="https://www.youtube.com/embed//1DtzFseJnV4")
             q-card-section
               .text-subtitle1 地娛室成員首次碰面後的未公開花絮
+
       q-expansion-item.q-my-sm.shadow-1.overflow-hidden(group="ablum" style='border-radius: 10px' icon='album' label='PREVIEW' header-class='bg-warning text-black text-weight-bold' expand-icon-class='text-black')
         .row.justify-evenly
           q-card.card.col-3.q-mx-sm.q-my-md
@@ -227,7 +233,7 @@ import 'swiper/css/bundle'
 
 const tab = ref('INFO')
 const link = ref('INFO')
-const drawer = ref(true)
+// const drawer = ref(true)
 const dialog = ref(false)
 const dialogidx = ref(0)
 const photos = reactive([])
@@ -289,15 +295,19 @@ const albumOptions = {
   scrollbar: {
     draggable: true
   }
-};
+}
 // })
+
+const about = document.querySelectorAll('.about')
+about.addEventListener('click', () => {
+  console.log(about)
+});
 
 (async () => {
   try {
     const { data } = await api.get('/photos')
     photos.push(...data.result)
     photos.reverse()
-    console.log(photos)
   } catch (error) {
     Swal.fire({
       toast: true,
@@ -328,4 +338,5 @@ const albumOptions = {
     margin-right: 10px;
   }
 }
+
 </style>

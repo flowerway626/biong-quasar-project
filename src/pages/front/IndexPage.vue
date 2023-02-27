@@ -70,17 +70,16 @@ q-page
         .map.row
           .col-6.col-md-3.column.items-start.content-center
             .text-body1 首頁
-            router-link.text-body2(to="/about") 關於地娛室
             router-link.text-body2(to="/news") 最新消息
             router-link.text-body2(to="/shopping") 周邊商品
             router-link.text-body2(to="/event") 活動公告
 
           .col-6.col-md-3.column.items-start.content-center
-            .text-body1 ABOUT
-            router-link.text-body2(to="/about") INFO
-            router-link.text-body2(to="/about") PROFILE
-            router-link.text-body2(to="/about") GALLERY
-            router-link.text-body2(to="/about") VIDEO
+            .text-body1 關於地娛室
+            router-link.text-body2(to="/about") 節目企劃
+            router-link.text-body2(to="/about") 人物介紹
+            router-link.text-body2(to="/about") 現場照片
+            router-link.text-body2(to="/about") 影片合集
 
           .col-6.col-md-3.column.items-start.content-center
             .text-body1 會員專區
