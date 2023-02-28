@@ -1,15 +1,16 @@
 <template lang="pug">
 q-page
-  section#section1.row
-    q-img(fit src="http://img.lifestyler.co.kr/uploads/programtemplate/20220614/f637908113779910034.jpg")
+  section#section1.text-center
+    q-img.big(src="@/assets/images/banner.jpg")
+    q-img.little(fit src="@/assets/images/banner2.jpg")
+    q-btn.arrow_down(round flat @click='anchor')
+      q-icon(name='keyboard_arrow_down' size='50px')
+  section#text.row.flex-center
+    .text-subtitle1.text-justify.q-mb-md 在地球看不到的月球背面，有個玉皇大帝經營的休息站，休息站最熱門的商店"宇宙年糕店"，宇宙年糕店中有銷售一等的功臣 — 兔瓏，因為受不了頻繁的加班，因此興起了逃往地球的念頭。
+    .text-subtitle1.text-justify 發現兔瓏寫了辭職信逃往地球的玉皇大帝震怒，下令抓到兔瓏的人將給予豐厚的獎金。為了得到豐厚的獎金，由四位來自平行宇宙地球的勇士就這樣出動了...
 
-  q-parallax(src="@/assets/images/stars.jpg" :speed="1.5" :height="350")
-    #text.row.flex-center
-      .col-7.text-subtitle1.text-justify.q-mb-md 在地球看不到的月球背面，有個玉皇大帝經營的休息站，休息站最熱門的商店"宇宙年糕店"，宇宙年糕店中有銷售一等的功臣 — 兔瓏，因為受不了頻繁的加班，因此興起了逃往地球的念頭。
-      .col-7.text-subtitle1.text-justify 發現兔瓏寫了辭職信逃往地球的玉皇大帝震怒，下令抓到兔瓏的人將給予豐厚的獎金。為了得到豐厚的獎金，由四位來自平行宇宙地球的勇士就這樣出動了...
-
-  section#info.q-pa-xl(data-aos='fade-up')
-    .row
+  //- section.row#info.q-pa-xl(data-aos='fade-up')
+    //- .row
       .col.mask.absolute
         q-img(src="@/assets/images/yujin.jpg")
       .col.mask.absolute
@@ -26,41 +27,41 @@ q-page
         .text-subtitle2.q-mr-xl {{ new Date(newInfo.date).toLocaleDateString() }}
         .text-subtitle1 {{ newInfo.title }}
 
-  //- q-parallax(speed="2" src="@/assets/images/stars.jpg" :height="650")
-  section#section2.row.q-pa-xl.q-mx-auto.justify-center
-    .text-h5.col-12.text-center 周邊商品
-    .col-12.row.flex-center
-      .col-xs-12.col-sm-4.col-md-3.q-mx-lg.q-my-md(v-for="product in products" :key="product.id")
+  section#section2.colmn.q-pa-xl.q-mx-auto.justify-center
+    .text-h5.text-center 周邊商品
+    .row.flex-center
+      .col-xs-12.col-sm-6.col-md-3.q-mx-lg.q-my-md(v-for="product in products" :key="product.id")
           q-img(:src="product.image")
             .mask.flex.flex-center.column.absolute
               .text-subtitle1.q-ma-xs {{ product.name }}
               q-btn.q-ma-xs(label="詳情" push color="secondary" :to="'/shopping/' + product._id" style="width: 72px")
     q-btn.q-my-md(rounded outline to="/shopping") M O R E
 
-  section.column.q-pa-xl.bg-pink
+  section#Event.column.q-pa-xl.bg-pink
     h5.text-center 活動公告
     swiper(v-bind="swiperOptions")
       swiper-slide(v-for="event in events" )
-        q-card.cursor-pointer(@click="router.push('/event/' + event._id)" data-aos="flip-left" data-aos-duration="500" data-aos-offset="100")
+        .event.cursor-pointer(@click="router.push('/event/' + event._id)" data-aos="flip-left" data-aos-offset="100")
           q-img(:src="event.image")
-          q-card-section
-            .text-subtitle1.text-ellipsis {{ event.name }}
-            .text-subtitle2 {{ event.dateStart + ' ~ ' + event.dateEnd }}
-
-    //- q-parallax(speed="2" src="@/assets/images/stars.jpg" :height="300")
+          .q-pa-md.items-center
+            .row
+              .text-body2 {{ event.dateStart.replace(/-/g, '.') }}
+              q-icon(name="mdi-menu-right" style= "color: #F2C037" size="20px")
+              .text-body2 {{ event.dateEnd.replace(/-/g, '.') }}
+            .text-subtitle1.text-ellipsis.text-left {{ event.name }}
 
   section#footer.row.q-pa-xl
       .col-12.col-md-5
         q-form.q-mx-auto.q-mx-md-none(style="width: 80%")
           .row.justify-between
             .col-12.col-sm-5
-              q-input.q-my-xs(label="account" v-model="form.account" clearable clear-icon="close" dense=true color="warning"
+              q-input.q-my-xs(label="account" clearable clear-icon="close" dense=true color="warning"
               :rules="[$rules.required('欄位必填')]")
             .col-12.col-sm-5
-              q-input.q-my-xs(label="email" v-model="form.email" clearable clear-icon="close" color="warning"
+              q-input.q-my-xs(label="email" clearable clear-icon="close" color="warning"
                 :rules="[$rules.required('欄位必填'), $rules.email('email 格式錯誤')]" dense=true)
 
-          q-input.q-my-xs(label="內容" v-model="form.content" clearable clear-icon="close" dense=true color="warning"
+          q-input.q-my-xs(label="內容" clearable clear-icon="close" dense=true color="warning"
           :rules="[$rules.required('欄位必填'), $rules.maxLength(200, '內容過長')]" maxlength="200")
 
           .text-center
@@ -97,7 +98,7 @@ q-page
 </template>
 
 <script setup>
-import { reactive, ref, nextTick } from 'vue'
+import { reactive, ref, nextTick, onMounted } from 'vue'
 import { api } from 'src/boot/axios'
 import Swal from 'sweetalert2'
 import { Swiper, SwiperSlide } from 'swiper/vue'
@@ -112,28 +113,30 @@ const router = useRouter()
 const products = reactive([])
 const events = reactive([])
 const news = reactive([])
-const form = reactive({
-  account: '',
-  email: '',
-  title: '',
-  content: ''
-})
 
 const link = (link) => {
   window.location.href = link
+}
+
+const anchor = () => {
+  const height = document.querySelector('.arrow_down').offsetTop + 40
+  window.scroll({
+    top: height,
+    behavior: 'smooth'
+  })
 }
 
 const swiperOptions = {
   modules: [Navigation, Pagination, Scrollbar],
   slidesPerView: 1,
   spaceBetween: 10,
-  navigation: {
-    prevEl: '.swiper-button-prev',
-    nextEl: '.swiper-button-next'
-  },
   breakpoints: {
     600: {
       slidesPerView: 2,
+      spaceBetween: 20
+    },
+    900: {
+      slidesPerView: 3,
       spaceBetween: 20
     },
     1024: {
@@ -146,8 +149,7 @@ const swiperOptions = {
   },
   loop: true,
   scrollbar: {
-    draggable: true,
-    hide: true
+    draggable: true
   }
 };
 
@@ -175,9 +177,40 @@ const swiperOptions = {
 </script>
 
 <style lang="scss">
-#text .text-subtitle1 {
-  text-indent: 2rem;
+#section1 {
+  text-align: center;
+  .q-img {
+    top: -58px;
+  }
+  .arrow_down {
+    top: -58px;
+    transition: .3s;
+    &:hover {
+      top: -48px;
+    }
+  }
+  .big {
+      height:65vh;
+      display: none;
+    }
+    @media (min-width: 600px) {
+      .big {
+        display: block;
+      }
+      .little {
+        display: none;
+      }
+    }
 }
+#text {
+  margin: 0 48px 48px;
+  padding: 0 48px 48px;
+
+  .text-subtitle1 {
+    text-indent: 2rem;
+    width: 70%;
+    }
+  }
 
 #new {
     list-style: none;
@@ -197,8 +230,7 @@ const swiperOptions = {
     }
   }
 #section2 {
-  width: 100%;
-  height: 100%;
+  text-align: center;
   .q-img {
     height: 200px;
     border-radius: 10px;
@@ -208,11 +240,11 @@ const swiperOptions = {
       height: 100%;
       position: relative;
       background: transparent;
+      transition: 0.3s;
       opacity: 0;
       &:hover {
         opacity: 1;
         background: #3339;
-        transition: 0.3s;
       }
     }
   }
@@ -246,10 +278,23 @@ const swiperOptions = {
   }
 }
 
-.event-card {
-  span {
-    -webkit-line-clamp: 2;
+#Event  .event {
+  width: 250px;
+  background: #eee;
+  color: #000;
+  border-radius: 30px;
+  box-shadow: 0px 0px 5px inset;
+  transition: .5s;
+  .q-img {
+    height: 250px;
+    box-shadow: 0px 0px 10px inset;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
   }
+    .text-subtitle1 {
+      -webkit-line-clamp: 2;
+      height: 56px;
+    }
 }
 
 #footer {

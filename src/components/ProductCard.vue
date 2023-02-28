@@ -1,7 +1,7 @@
 <template lang="pug">
-.product-Info
+.product-Info(style="width:300px")
   //- div.mask
-  q-img.cursor-pointer(:src="image" height="300px" @click="router.push('/shopping/' + _id)")
+  q-img.cursor-pointer(:src="image" @click="router.push('/shopping/' + _id)")
   .text-center.text-body1 {{ name }}
 
     //- q-skeleton(type="QBtn")

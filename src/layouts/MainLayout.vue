@@ -1,7 +1,7 @@
 <template lang="pug">
 #home
   q-layout(view="hHh Lpr lff")
-    q-header.text-white(reveal=true style="background: #0004!important")
+    q-header#bgTrans
       q-toolbar.q-py-sm
         q-btn.little(flat @click='drawerLeft = !drawerLeft' round dense icon='menu')
         q-btn.big(label="首頁" flat to="/")
@@ -37,7 +37,7 @@
       q-list.drawerList
         q-item(clickable to="/" active-class="active-white")
           q-item-section(top)
-            q-img(src="../assets/images/logo.jpg")
+            q-img.q-mx-auto(src="../assets/images/logo.png" width="150px")
 
         q-expansion-item(group="drawer" :content-inset-level='0.5' expand-separator label='關於地娛室')
           q-list
@@ -97,7 +97,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
 
@@ -106,17 +106,40 @@ const { isLogin, isAdmin, cart, name } = storeToRefs(user)
 const { logout } = user
 const drawerLeft = ref(false)
 
+onMounted(() => {
+  let scrollArea = 0
+  const burger = document.querySelector('#burger2')
+  const bgTrans = document.getElementById('bgTrans')
+  window.addEventListener('scroll', () => {
+    scrollArea = document.documentElement.scrollTop
+
+    if (document.documentElement.scrollTop >= 350) {
+      scrollArea = document.documentElement.scrollTop
+      bgTrans.style.background = 'linear-gradient(135deg, #53C2BA 0%, #fff 50%, #C0538A 100%)'
+    } else if (scrollArea < 350 && scrollArea !== 0) {
+      bgTrans.style.background = 'transparent'
+    }
+  })
+  // burger.addEventListener('click', (e) => {
+  //   if (scrollArea > 600) {
+  //     bgTrans.style.backgroundColor = '#1d1d1d'
+  //   }
+  // })
+})
+
 </script>
 
 <style lang="scss">
 #home {
-  .q-toolbar {
-    background: linear-gradient(135deg, #53C2BA 0%, #fff 50%, #C0538A 100%);
+  #bgTrans {
+    background: transparent;
   }
   .q-page-container {
     background-image: url('@/assets/images/stars.jpg');
     background-position: center;
     background-attachment: fixed;
+    background-repeat: repeat-y ;
+    background-size: cover;
   }
 
   .drawerList {

@@ -1,15 +1,15 @@
 <template lang="pug">
 #new-all
-  .text-center.q-pt-xl
-    img(src="../../assets/images/最新消息v3_animated.svg")
-  .q-ma-sm(v-for="info in news" :key="info._id" @click="() => router.push('/news/' + info._id)")
-    .news-info.row.q-pa-sm.justify-center.justify-sm-between.justify-md-center
-      .col-12.col-sm-2.q-mx-auto
-        q-img(:src="info.image")
-      .col-xs-12.col-sm-6.col-md-9.column.justify-evenly
-        .text-subtitle2 {{ new Date(info.date).toLocaleString() }}
-        .text-h6 {{ info.title }}
-        .text-subtitle1.text-ellipsis {{ info.content }}
+    .text-center.q-pt-xl
+      img(src="../../assets/images/最新消息v3_animated.svg")
+    .q-ma-sm(v-for="info in news" :key="info._id" @click="() => router.push('/news/' + info._id)")
+      .news-info.row.q-pa-sm.justify-center.justify-sm-between.justify-md-center
+        .col-12.col-sm-2.q-mx-auto
+          q-img(:src="info.image")
+        .col-xs-12.col-sm-6.col-md-9.column.justify-evenly
+          .text-subtitle2 {{ new Date(info.date).toLocaleString() }}
+          .text-h6 {{ info.title }}
+          .text-subtitle1.text-ellipsis {{ info.content }}
 </template>
 
 <script setup>

@@ -122,7 +122,8 @@ module.exports = configure(function (/* ctx */) {
       components: [
         'QParallax',
         'QBreadcrumbs',
-        'QPageScroller'
+        'QPageScroller',
+        'QIntersection '
       ],
       // directives: [],
 
