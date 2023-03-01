@@ -120,9 +120,12 @@ const addEvent = async () => {
   img {
     width: 100%;
   }
+  .text-h4 {
+    font-family: 'Cubic';
+  }
 
   .scroll-area {
-    height: 350px;
+    height: 250px;
     display: none;
   }
   @media (min-width: 600px) {

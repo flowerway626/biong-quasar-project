@@ -1,6 +1,6 @@
 <template lang="pug">
 #user-event
-  #backH4.text-h4.text-center 報名活動
+  .backH4.text-h4.text-center 報名活動
   .q-pa-md.w-100.row
     router-link.eventInfo.col-12.col-md-5.q-pa-sm.q-mb-xl(v-for="event in events" :key="event._id" :to="'/event/' + event.e_id._id")
       .content(style="height: 100%")

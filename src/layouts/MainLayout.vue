@@ -3,13 +3,15 @@
   q-layout(view="hHh Lpr lff")
     q-header#bgTrans
       q-toolbar.q-py-sm
-        img.big(src="../assets/images/logo.png" height="35" width="90")
+        img.big(src="../assets/images/logo.png" height="30" width="90")
         q-btn.little(flat @click='drawerLeft = !drawerLeft' round dense icon='menu')
         q-btn.big(label="首頁" flat to="/")
         q-btn.big(label="關於地娛室" flat to='/about')
         q-btn.big(label="最新消息" flat to='/news')
         q-btn.big(label="周邊商品" flat to='/shopping')
         q-btn.big(label="活動公告" flat to='/event')
+        q-space
+        //- img.logo(src="../assets/images/logo.png" height="30" width="90" style="margin-left: 48px")
         q-space
 
         q-btn(v-if="isLogin && !isAdmin" icon="mdi-cart" flat round to='/cart')
@@ -41,13 +43,13 @@
 
         q-expansion-item(group="drawer" :content-inset-level='0.5' expand-separator label='關於地娛室')
           q-list
-            q-item(clickable active-class="active-white")
+            q-item(clickable to="/about" active-class="active-white")
               q-item-section 節目企劃
-            q-item(clickable v-ripple active-class="active-white")
+            q-item(clickable v-ripple to="/about" active-class="active-white")
               q-item-section 人物介紹
-            q-item(clickable v-ripple active-class="active-white")
+            q-item(clickable v-ripple to="/about" active-class="active-white")
               q-item-section 現場照片
-            q-item(clickable v-ripple active-class="active-white")
+            q-item(clickable v-ripple to="/about" active-class="active-white")
               q-item-section 影片合集
 
         q-item(clickable to="/news" active-class="active-white")
@@ -115,16 +117,11 @@ onMounted(() => {
 
     if (document.documentElement.scrollTop >= 350) {
       scrollArea = document.documentElement.scrollTop
-      bgTrans.style.background = 'linear-gradient(135deg, #53C2BA 0%, #fff 50%, #C0538A 100%)'
+      bgTrans.style.background = 'linear-gradient(135deg, #53C2BA 0%, #fff 65%, #C0538A 100%)'
     } else if (scrollArea < 350 && scrollArea !== 0) {
       bgTrans.style.background = 'transparent'
     }
   })
-  // burger.addEventListener('click', (e) => {
-  //   if (scrollArea > 600) {
-  //     bgTrans.style.backgroundColor = '#1d1d1d'
-  //   }
-  // })
 })
 
 </script>

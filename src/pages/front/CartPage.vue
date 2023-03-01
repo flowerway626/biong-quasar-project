@@ -1,33 +1,30 @@
 <template lang="pug">
 #cart.q-pa-md
   .text-center.text-h4.backH4 購物車
-  q-table.cart-table(:rows='carts' :columns='columns' row-key="_id" :filter="filter" virtual-scroll flat :loading="loading")
-    q-btn(icon="delete" round unelevated size="sm" color='pink' @click='updateCart(props.row._id, props.row.quantity*-1)')
 
-    template(v-slot:body-cell-image='props')
-      q-td
-        img(:src="props.row.p_id.image" :width="130" :height="100")
+  .row.justify-center
+    .col-12.col-md-6.left
+      q-separator.q-my-md(v-if="carts?.length === 0")
+      .text-center.text-grey(v-if="carts?.length === 0") 購物車內沒有商品~
+      .cartInfo.row.justify-center(v-for="(pd, idx) in carts" :key="pd._id")
+        .col-auto
+          q-img.text-center(:src="pd.p_id.image" style="width:100px")
+        .col-7.q-ml-md
+          .text-h6.q-mb-md {{ pd.p_id.name }}
+          span 數量：
+          q-btn(icon="mdi-minus" round outline unelevated size="sm" color='warning' @click='updateCart(idx, -1)')
+          span &nbsp;&nbsp;{{ pd.quantity }} &nbsp;&nbsp;
+          q-btn(icon="mdi-plus" round outline unelevated size="sm" color='warning' @click='updateCart(idx, 1)')
+        .col-auto.column.items-end.q-ml-auto
+          .col.text-h5 $ {{ pd.p_id.price }}
+          .col
+            q-btn(icon="delete" round unelevated size="10px" color='pink' @click='updateCart(idx, pd.quantity*-1)')
 
-    template(v-slot:body-cell-quantity='props')
-      q-td
-        q-btn(v-if="edit" icon="mdi-minus" round outline unelevated size="sm" color='warning' @click='updateCart(props.row._id, -1)')
-        span &nbsp;&nbsp; {{ props.row.quantity }} &nbsp;&nbsp;
-        q-btn(v-if="edit" icon="mdi-plus" round outline unelevated size="sm" color='warning' @click='updateCart(props.row._id, 1)')
-
-    template(v-slot:body-cell-other='props')
-      q-td.q-gutter-x-sm
-        q-btn(icon="delete" round unelevated size="sm" color='pink' @click='updateCart(props.row._id, props.row.quantity*-1)')
-
-    template(v-slot:top-right)
-      q-input.q-mr-md(borderless dense debounce='300' v-model='filter' placeholder='Search')
-        template(v-slot:append)
-          q-icon(name="search")
-      q-btn(v-if="!edit" icon="edit" label="編輯" outline unelevated size="sm" color='secondary' @click="edit = !edit")
-      q-btn(v-if="edit" icon="check" label="確認" outline unelevated size="sm" color='secondary' @click="edit = !edit")
-
-  .flex.justify-around.items-center.q-mt-md.q-gutter-md
-    .text-h5.text-weight-bold TOTAL： {{ totalPrice }} 元
-    q-btn(icon="money" label="結帳 go" unelevated push size="lg" color='warning' text-color="black" @click="orderDialog = true")
+    .right.col-12.col-md-4.text-center.q-px-xl
+      .card.flex.items-end
+        q-input(v-model='card' borderless color="warning" label='Card' mask='#### #### #### ####' fill-mask='_' style="width:50%")
+      .text-h5.text-weight-bold TOTAL： {{ totalPrice }} 元
+      q-btn.q-mt-md.full-width.q-mx-md(icon="money" label="結帳 go" rounded push color='warning' text-color="black" @click="orderDialog = true")
 
 q-dialog(v-model="orderDialog")
   q-card
@@ -54,9 +51,7 @@ const $q = useQuasar()
 const user = useUserStore()
 const loading = ref(false)
 const { editCart, checkOut } = user
-const edit = ref(false)
 const orderDialog = ref(false)
-const filter = ref('')
 const carts = reactive([]);
 
 (async () => {
@@ -65,7 +60,6 @@ const carts = reactive([]);
     const { data } = await apiAuth.get('/users/cart')
     carts.push(...data.result)
     loading.value = false
-    console.log(carts)
   } catch (error) {
     Swal.fire({
       toast: true,
@@ -132,15 +126,15 @@ const columns = [
 ]
 
 // 傳入的是購物車_id 和 數量
-const updateCart = async (_id, quantity) => {
+const updateCart = async (idx, quantity) => {
   // 用購物車的 _id 撈出該筆商品的索引值
-  const cartsIndex = carts.findIndex((cart) => cart._id === _id)
-  await editCart({ _id: carts[cartsIndex].p_id._id, quantity })
-  carts[cartsIndex].quantity += quantity
+  // const idx = carts.findIndex((cart) => cart._id === _id)
+  await editCart({ _id: carts[idx].p_id._id, quantity })
+  carts[idx].quantity += quantity
 
   // 數量 <= 0 時，把該項商品移出購物車陣列
-  if (carts[cartsIndex].quantity <= 0) {
-    carts.splice(cartsIndex, 1)
+  if (carts[idx].quantity <= 0) {
+    carts.splice(idx, 1)
     $q.notify({
       type: 'positive',
       color: 'pink',
@@ -172,22 +166,27 @@ const createOrder = async () => {
 }
 </script>
 
-<style lang="sass">
-#cart
-  min-height: calc(100vh - 58px)
-  .cart-table
-    max-height: calc(100vh - 150px)
+<style lang="scss">
+#cart {
+  min-height: calc(100vh - 58px);
+  .editBtn {
+    margin-left: 20px;
+  }
 
-    td:first-child
-      background-color: #555 !important
-    tr td
-      text-align: center
-      font-size: 14px
+  .cartInfo {
+    margin: 20px;
+    background: #3338;
+    padding: 20px;
+    border-radius: 16px;
+  }
 
-    tr th
-      position: sticky
-      z-index: 2
-      background: #333
-      font-size: 14px
-      text-align: center
+  .card {
+    max-width: 350px;
+    height: 200px;
+    background: #333;
+    border-radius: 16px;
+    margin:20px auto 48px;
+    padding: 16px;
+  }
+}
 </style>

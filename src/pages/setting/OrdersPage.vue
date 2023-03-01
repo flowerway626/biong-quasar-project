@@ -1,6 +1,6 @@
 <template lang="pug">
 #setting-order.q-ma-md
-  #backH4.text-h4.text-center 訂單明細
+  .backH4.text-h4.text-center 訂單明細
   q-table.order-table(:columns="columns" :rows="orders" row-key="_id" :filter="filter" flat)
 
     template(v-slot:top-right)

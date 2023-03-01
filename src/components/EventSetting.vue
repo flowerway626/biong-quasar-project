@@ -37,12 +37,6 @@
               .col.q-px-md
                 span 結束日期
                 q-input(v-model="form.dateEnd" filled type="date" borderless)
-                  //- .col-5
-                    q-input(v-model="form.date" mask="date")
-                      template(v-slot:append)
-                          q-popup-proxy(cover transition-show='scale' transition-hide='scale')
-                            q-date(v-model='form.date')
-                              q-btn(v-close-popup label='Close' color='primary' flat).
             q-input.q-my-xs(v-model="form.description" label="說明" type="textarea" color="warning" autogrow rows="4"
                 :rules="[$rules.required('欄位必填')]")
             q-file.q-my-xs(v-model="form.image" outlined use-chips label="配圖")
@@ -83,15 +77,13 @@ const columns = [
     name: 'image',
     required: true,
     label: '圖片',
-    field: row => row.image,
-    sortable: true
+    field: row => row.image
   },
   {
     name: 'name',
     required: true,
     label: '標題',
-    field: row => row.name,
-    sortable: true
+    field: row => row.name
   },
   {
     name: 'dateStart',

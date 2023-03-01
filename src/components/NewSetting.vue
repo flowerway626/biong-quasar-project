@@ -74,15 +74,13 @@ const columns = [
     name: 'title',
     required: true,
     label: '標題',
-    field: 'title',
-    sortable: true
+    field: 'title'
   },
   {
     name: 'content',
     required: true,
     label: '內文',
-    field: 'content',
-    sortable: true
+    field: 'content'
   },
   {
     name: 'other',

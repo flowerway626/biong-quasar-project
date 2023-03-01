@@ -25,11 +25,11 @@ q-dialog#edit-photo(v-model="layout" persistent transition-show="fade" transitio
         q-card-section(align="center")
           .text-h5.text-weight-bold {{ form._id.length > 0 ? '編輯相簿' : '新增相簿' }}
           q-input(v-model="form.name" label="標題" type="text" color="warning"  :rules="[$rules.required('欄位必填')]")
-          q-expansion-item.q-my-sm.shadow-1.overflow-hidden(default-opened group="ablum" style='border-radius: 10px' icon='album' label='封面' header-class='bg-warning text-black text-weight-bold' expand-icon-class='text-black')
+          q-expansion-item.q-my-sm.shadow-1.overflow-hidden(default-opened group="ablum" style='border-radius: 16px' icon='album' label='封面' header-class='bg-warning text-black text-weight-bold' expand-icon-class='text-black')
             q-img.q-ma-sm(v-if="image !== ''" :src="image" width="230px" height="170px")
             q-file.q-ma-md(v-model="form.image" label="封面圖" outlined use-chips style="width: 230px")
 
-          q-expansion-item.q-my-sm.shadow-1.overflow-hidden(group="ablum" style='border-radius: 10px' icon='album' label='相片' header-class='bg-warning text-black text-weight-bold' expand-icon-class='text-black')
+          q-expansion-item.q-my-sm.shadow-1.overflow-hidden(group="ablum" style='border-radius: 16px' icon='album' label='相片' header-class='bg-warning text-black text-weight-bold' expand-icon-class='text-black')
             .flex
               .q-ma-sm.q-gutter-md(v-if="form.idx >= 0" v-for="img in images" :key="img" )
                 q-img.fullwidth(:src="img" width="130px" height="100px")
@@ -78,8 +78,7 @@ const columns = [
     name: 'image',
     required: true,
     label: '封面圖',
-    field: 'image',
-    sortable: true
+    field: 'image'
   },
   {
     name: 'date',
@@ -93,8 +92,7 @@ const columns = [
     name: 'name',
     required: true,
     label: '標題',
-    field: 'name',
-    sortable: true
+    field: 'name'
   },
   {
     name: 'other',

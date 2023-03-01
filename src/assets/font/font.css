@@ -4,9 +4,17 @@
   font-weight: normal;
   font-style: normal;
 }
+
 @font-face {
   font-family: 'Cubic';
   src: url('Cubic_11_1.010_R.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Huninn';
+  src: url('jf-openhuninn-1.1.ttf');
   font-weight: normal;
   font-style: normal;
 }

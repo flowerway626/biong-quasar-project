@@ -43,7 +43,7 @@ const news = reactive([]);
 <style lang="scss">
 #new-all {
   .news-info {
-    border-radius: 20px;
+    border-radius: 16px;
     color: white;
     position: relative;
     width: 70%;

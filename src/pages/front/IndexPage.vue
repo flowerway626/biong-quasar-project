@@ -6,7 +6,7 @@ q-page
     q-btn.arrow_down(round flat @click='anchor')
       q-icon(name='keyboard_arrow_down' size='50px')
 
-  section#text.row.flex-center
+  section#text.row.flex-center(data-aos='fade-up')
     .text-subtitle1.text-justify.q-mb-md 在地球看不到的月球背面，有個玉皇大帝經營的休息站，休息站最熱門的商店"宇宙年糕店"，宇宙年糕店中有銷售一等的功臣 — 兔瓏，因為受不了頻繁的加班，因此興起了逃往地球的念頭。
     .text-subtitle1.text-justify 發現兔瓏寫了辭職信逃往地球的玉皇大帝震怒，下令抓到兔瓏的人將給予豐厚的獎金。為了得到豐厚的獎金，由四位來自平行宇宙地球的勇士就這樣出動了...
 
@@ -22,14 +22,14 @@ q-page
         q-img(src="@/assets/images/mimi.png")
 
   section#new.q-pa-md-xl.bg-secondary
-    .text-h5.q-my-md.text-center 最新消息
+    .text-h4.q-my-md.text-center(style="font-family: 'Cubic';") 最新消息
     .column
       router-link.row.newInfo(v-for="newInfo in news" :key="newInfo._id" :to="'/news/' + newInfo._id" )
         .text-subtitle2.q-mr-xl {{ new Date(newInfo.date).toLocaleDateString() }}
         .text-subtitle1 {{ newInfo.title }}
 
   section#section2.colmn.q-pa-xl.q-mx-auto.justify-center
-    .text-h5.text-center 周邊商品
+    .text-h4.q-my-md.text-center(style="font-family: 'Cubic';") 周邊商品
     .row.flex-center
       .col-xs-12.col-sm-6.col-md-3.q-mx-lg.q-my-md(v-for="product in products" :key="product.id")
           q-img(:src="product.image")
@@ -39,7 +39,7 @@ q-page
     q-btn.q-my-md(rounded outline to="/shopping") M O R E
 
   section#Event.column.q-pa-xl.bg-pink
-    h5.text-center 活動公告
+    h4.text-center(style="font-family: 'Cubic';") 活動公告
     swiper(v-bind="swiperOptions")
       swiper-slide(v-for="event in events" )
         .event.cursor-pointer(@click="router.push('/event/' + event._id)" data-aos="flip-left" data-aos-offset="100")
@@ -234,7 +234,7 @@ const swiperOptions = {
   text-align: center;
   .q-img {
     height: 200px;
-    border-radius: 10px;
+    border-radius: 16px;
 
     .mask {
       width: 100%;
@@ -283,14 +283,14 @@ const swiperOptions = {
   width: 250px;
   background: #eee;
   color: #000;
-  border-radius: 30px;
+  border-radius: 16px;
   box-shadow: 0px 0px 5px inset;
   transition: .5s;
   .q-img {
     height: 250px;
     box-shadow: 0px 0px 10px inset;
-    border-top-left-radius: 30px;
-    border-top-right-radius: 30px;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
   }
     .text-subtitle1 {
       -webkit-line-clamp: 2;

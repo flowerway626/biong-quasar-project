@@ -98,6 +98,12 @@ const changeInfo = async (lates) => {
 </script>
 
 <style lang="scss">
+#new-info {
+  .text-h4,
+  .text-h6 {
+    font-family: 'Cubic';
+  }
+}
 #latesThree {
   color: lightgrey;
   text-decoration: none;

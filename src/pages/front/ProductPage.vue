@@ -13,13 +13,13 @@
         .col-12.col-sm-6.text-center
           q-img(:src="product?.image")
         .col-12.col-sm-6.column.justify-between
-          .text-h4.q-mb-md {{ product?.name }}
+          .text-h4.q-mb-md(style="font-family: 'Cubic';") {{ product?.name }}
           p.description.pre {{ product?.description }}
           q-scroll-area.scroll-area.q-my-md(visible :bar-style="{borderRadius: '5px', background: 'black'}")
             p.pre {{ product?.description }}
 
           .row.justify-around.items-center
-            .text-h4 $ {{ product?.price }}
+            .text-h4(style="font-family: 'Cubic';") $ {{ product?.price }}
             .row.flex-center
               q-btn(color="secondary" round push label="-" @click="quantity--")
               q-input(v-model.number="quantity" type="number" style="width: 100px;font-size: 16px" input-class="text-center text-weight-bold  text-black")

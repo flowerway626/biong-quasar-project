@@ -1,5 +1,5 @@
 <template lang="pug">
-h4.text-center 基本設定
+.backH4.text-h4.text-center 基本設定
 
 q-form(@submit="editUser")
   .q-mx-auto(style="width: 50%")
