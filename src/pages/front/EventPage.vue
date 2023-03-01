@@ -4,7 +4,7 @@
     img(src="../../assets/images/活動公告v2_animated.svg")
 
     #event-all.row
-      router-link.event.q-ma-md(v-for="info in events" :key="info._id" :to="'/event/' + info._id")
+      router-link.event.q-ma-md(v-for="info in events" :key="info._id" :to="'/event/' + info._id" data-aos="flip-left")
         q-img(:src="info.image" height="180px")
         .row.q-pa-md.items-center
           .col-3
@@ -18,9 +18,10 @@
 
 <script setup>
 import { api } from 'src/boot/axios'
-import { reactive } from 'vue'
+import { reactive, nextTick } from 'vue'
 import Swal from 'sweetalert2'
 import { useRouter } from 'vue-router'
+import AOS from 'aos'
 
 const router = useRouter();
 
@@ -28,6 +29,8 @@ const router = useRouter();
   try {
     const { data } = await api.get('/events')
     events.push(...data.result)
+    await nextTick()
+    AOS.init()
   } catch (error) {
     Swal.fire({
       toast: true,

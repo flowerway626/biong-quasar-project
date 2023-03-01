@@ -1,31 +1,23 @@
-<template>
-  <div class="fullscreen bg-blue text-white text-center q-pa-md flex flex-center">
-    <div>
-      <div style="font-size: 30vh">
-        404
-      </div>
+<template lang="pug">
+#page404.fullscreen.text-white.text-center.q-pa-md.flex.flex-center
+  div
+    div.text404(style='font-size: 30vh') 404
+    .text-h2(style='opacity:.4') Oops. 什麼都沒有...
+    q-btn.q-mt-xl(color='white' text-color='black' unelevated to='/' label='Go Home' no-caps)
 
-      <div class="text-h2" style="opacity:.4">
-        Oops. Nothing here...
-      </div>
-
-      <q-btn
-        class="q-mt-xl"
-        color="white"
-        text-color="blue"
-        unelevated
-        to="/"
-        label="Go Home"
-        no-caps
-      />
-    </div>
-  </div>
 </template>
 
-<script>
-import { defineComponent } from 'vue'
+<style lang="scss">
+#page404 {
+  background: #111;
+  .text-h2 {
+    color: $warning;
+  }
+  .text404 {
+    background: linear-gradient(135deg, #53C2BA 0%, #C0538A 100%);
+    color: transparent;
+    background-clip: text;
+  }
+}
 
-export default defineComponent({
-  name: 'ErrorNotFound'
-})
-</script>
+</style>
