@@ -1,7 +1,7 @@
 <template lang="pug">
-#setting-cart.q-pa-md
-  q-table.cart-table(title="購物車" :rows='carts' :columns='columns' row-key="_id"
-  :filter="filter" virtual-scroll flat :loading="loading")
+#cart.q-pa-md
+  .text-center.text-h4.backH4 購物車
+  q-table.cart-table(:rows='carts' :columns='columns' row-key="_id" :filter="filter" virtual-scroll flat :loading="loading")
     q-btn(icon="delete" round unelevated size="sm" color='pink' @click='updateCart(props.row._id, props.row.quantity*-1)')
 
     template(v-slot:body-cell-image='props')
@@ -173,7 +173,8 @@ const createOrder = async () => {
 </script>
 
 <style lang="sass">
-#setting-cart
+#cart
+  min-height: calc(100vh - 58px)
   .cart-table
     max-height: calc(100vh - 150px)
 

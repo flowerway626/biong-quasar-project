@@ -101,10 +101,10 @@ const routes = [
       },
       {
         path: 'cart',
-        name: 'setting-cart',
+        name: 'cart',
         component: () => import('@/pages/front/CartPage.vue'),
         meta: {
-          title: 'Biong Biong | Setting - Cart'
+          title: 'Biong Biong | Cart'
         }
       }
     ]

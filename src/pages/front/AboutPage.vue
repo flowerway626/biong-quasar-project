@@ -19,34 +19,35 @@
         q-icon(font-awesome-icon name="fa-solid fa-angles-right" color="black" size="30px")
 
   .about-right
-      #INFO(v-if="tab === 1")
+      q-select.q-mb-xl(rounded outlined v-model='model' :options='options' label='選擇類別')
+      #INFO(v-if="model.tab === 1")
         .row
-          .col-auto.q-px-md
+          .col-12.col-md-4.q-px-md.text-center
             q-img(src="@/assets/images/poster.jpg" width="300px")
-          .col.q-px-md
+          .col-12.col-md-8.q-px-md
             .column
-                .col.text-h6.text-center.q-mb-md 企劃介紹
+              .col.text-h6.bg-warning.text-center.q-mb-md 企劃介紹
 
-                .col.text-subtitle1.text-justify.text-indent 在地球看不到的月球背面，有個玉皇大帝經營的休息站，休息站最熱門的商店"宇宙年糕店"，宇宙年糕店中有銷售一等的功臣—兔兔，因為受不了頻繁的加班，因此興起了逃往地球的念頭。發現兔子寫了辭職信逃往地球的玉皇大帝震怒，下令抓到兔子的人將給予豐厚的獎金。為了得到豐厚的獎金，由四位來自平行宇宙地球的勇士就這樣出動了。
-                .col.q-mt-xl
-                  .text-h6.text-center.q-mb-md 播出資訊
-                  .row
-                    .text-subtitle1 &nbsp; 播出時間 &nbsp;|
-                    .text-subtitle1 &nbsp;&nbsp;&nbsp;2022年6月24日－2022年9月16日
-                  .row
-                    .text-subtitle1 &nbsp; 總&nbsp;&nbsp;導&nbsp;&nbsp; 演 &nbsp;|
-                    .text-subtitle1 &nbsp;&nbsp;&nbsp;羅䁐錫、朴賢勇
-                  .row
-                    .text-subtitle1 &nbsp; 主&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;演 &nbsp;|
-                    .text-subtitle1 &nbsp;&nbsp;&nbsp;李恩智、MIMI、李泳知、安俞真
-                  .row
-                    .text-subtitle1 &nbsp; 集&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;數 &nbsp;|
-                    .text-subtitle1 &nbsp;&nbsp;&nbsp;第一季 12 集、第二季 錄製中
-                  .row
-                    .text-subtitle1 &nbsp; 串流平台 &nbsp;|
-                    .text-subtitle1 &nbsp;&nbsp;&nbsp;LINE TV、friDay
+              .col.text-subtitle1.text-justify.text-indent 在地球看不到的月球背面，有個玉皇大帝經營的休息站，休息站最熱門的商店"宇宙年糕店"，宇宙年糕店中有銷售一等的功臣—兔兔，因為受不了頻繁的加班，因此興起了逃往地球的念頭。發現兔子寫了辭職信逃往地球的玉皇大帝震怒，下令抓到兔子的人將給予豐厚的獎金。為了得到豐厚的獎金，由四位來自平行宇宙地球的勇士就這樣出動了。
+              .col.q-mt-xl
+                .text-h6.bg-warning.text-center.q-mb-md 播出資訊
+                .row
+                  .text-subtitle1 &nbsp; 播出時間 &nbsp; |
+                  .text-subtitle1 &nbsp;&nbsp;&nbsp;2022年6月24日－2022年9月16日
+                .row
+                  .text-subtitle1 &nbsp; 總&nbsp;導&nbsp; 演 &nbsp;|
+                  .text-subtitle1 &nbsp;&nbsp;&nbsp;羅䁐錫、朴賢勇
+                .row
+                  .text-subtitle1 &nbsp; 主&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;演 &nbsp;|
+                  .text-subtitle1 &nbsp;&nbsp;&nbsp;李恩智、MIMI、李泳知、安俞真
+                .row
+                  .text-subtitle1 &nbsp; 集&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;數 &nbsp;|
+                  .text-subtitle1 &nbsp;&nbsp;&nbsp;第一季 12 集、第二季 錄製中
+                .row
+                  .text-subtitle1 &nbsp; 串流平台 &nbsp; |
+                  .text-subtitle1 &nbsp;&nbsp;&nbsp;LINE TV、friDay
 
-      #PROFILE(v-if="tab === 2")
+      #PROFILE(v-if="model.tab === 2")
         .row
           .memberInfo.col-5.col-md
             .text-h5 LEE YOUNG JI
@@ -114,7 +115,7 @@
               | 老么的狡黠魅力讓姐姐們戀愛了♥
               | “職業 idol ”宥真的反差開始了！
 
-      #GALLERY(v-if="tab === 3")
+      #GALLERY(v-if="model.tab === 3")
         .text-h5 最新上傳
         .q-pa-md
           swiper(v-bind="swiperOptions")
@@ -135,7 +136,7 @@
                   .text-subtitle1.text-ellipsis {{ photo.name }}
                   .text-subtitle2 {{ new Date(photo.date).toLocaleString() }}
 
-      #VIDEO(v-if="tab === 4")
+      #VIDEO(v-if="model.tab === 4")
         q-expansion-item.q-my-sm.shadow-1.overflow-hidden(default-opened group="ablum" style='border-radius: 10px' icon='album' label='HIGHLIGHT' header-class='bg-warning text-black text-weight-bold' expand-icon-class='text-black')
           .row.justify-evenly
             q-card.my-card.col-3.q-mx-sm.q-my-md
@@ -238,11 +239,33 @@ import { api } from 'src/boot/axios'
 import { useRouter } from 'vue-router'
 import 'swiper/css/bundle'
 
-const tab = ref(1)
+const tab = ref(0)
 const dialog = ref(false)
 const dialogidx = ref(0)
-const photos = reactive([])
 const router = useRouter()
+const photos = reactive([])
+const options = reactive([
+  {
+    label: '節目企劃',
+    value: '節目企劃',
+    tab: 1
+  },
+  {
+    label: '人物介紹',
+    value: '人物介紹',
+    tab: 2
+  },
+  {
+    label: '現場照片',
+    value: '現場照片',
+    tab: 3
+  },
+  {
+    label: '影片合集',
+    value: '影片合集',
+    tab: 4
+  }])
+const model = ref(options[0])
 const swiperDialog = (idx) => {
   dialog.value = true
   dialogidx.value = idx
@@ -295,13 +318,14 @@ onMounted(() => {
   const about = document.querySelectorAll('.about')
   const h5 = document.querySelectorAll('.text-h5')
   const h3 = document.querySelectorAll('.text-h3')
+
   h3.forEach((h, idx) => {
     h.style.display = 'none'
     h5[idx].style.color = 'grey'
   })
   h3[0].style.display = 'block'
   h5[0].style.display = 'none'
-  about[0].style.background = 'linear-gradient(135deg, #fff 0%, #F2C037 100%)'
+  about[0].style.background = 'linear-gradient(135deg, #53C2BA 0%, #fff 50%, #C0538A 100%)'
 
   about.forEach((a, idx) => {
     a.addEventListener('click', function () {
@@ -313,8 +337,8 @@ onMounted(() => {
         h5[idx].style.display = 'block'
         h5[idx].style.color = 'grey'
       })
-      tab.value = idx + 1
-      this.style.background = 'linear-gradient(135deg, #fff 0%, #F2C037 100%)'
+      model.value = options[idx]
+      this.style.background = 'linear-gradient(135deg, #53C2BA 0%, #fff 50%, #C0538A 100%)'
       this.style.height = 'calc(31vh - 58px)'
       this.style.display = 'block'
       h5[idx].style.display = 'none'
@@ -349,7 +373,7 @@ onMounted(() => {
     height: calc(100vh - 70px);
     margin-top: 58px;
     width: 230px;
-
+    display: none;
   .about {
     background: #000;
     transition: 0.3s;
@@ -362,7 +386,6 @@ onMounted(() => {
   }
   }
   .about-right {
-    width: calc(100vw - 230px);
     min-height: calc(100vh - 58px);
     margin-left: auto;
     padding: 25px 36px;
@@ -380,6 +403,17 @@ onMounted(() => {
     height: 50px;
     background: $secondary;
     margin-right: 10px;
+  }
+  @media (min-width: 1024px) {
+    .about-left {
+      display: block;
+    }
+    .about-right {
+      width: calc(100vw - 230px);
+      .q-select {
+        display: none;
+      }
+    }
   }
 
 }

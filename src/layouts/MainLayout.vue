@@ -3,6 +3,7 @@
   q-layout(view="hHh Lpr lff")
     q-header#bgTrans
       q-toolbar.q-py-sm
+        img.big(src="../assets/images/logo.png" height="35" width="90")
         q-btn.little(flat @click='drawerLeft = !drawerLeft' round dense icon='menu')
         q-btn.big(label="首頁" flat to="/")
         q-btn.big(label="關於地娛室" flat to='/about')
@@ -11,7 +12,6 @@
         q-btn.big(label="活動公告" flat to='/event')
         q-space
 
-        //- .text-subtitle1(v-if="isLogin") {{ name }}
         q-btn(v-if="isLogin && !isAdmin" icon="mdi-cart" flat round to='/cart')
           q-badge(floating round color="warning") {{ cart }}
           q-tooltip(anchor="bottom middle" self="top middle") 購物車
@@ -25,7 +25,7 @@
         q-btn(v-if="!isLogin" icon="login" flat round to='/login')
           q-tooltip(anchor="bottom middle" self="top middle") 登入
 
-        q-btn.q-mr-sm(v-if="isLogin" icon="logout" flat round @click="logout")
+        q-btn.logout.q-mr-sm(v-if="isLogin" icon="logout" flat round @click="logout")
           q-tooltip(anchor="bottom middle" self="top middle") 登出
 
     q-page-container
@@ -147,7 +147,8 @@ onMounted(() => {
     overflow: auto;
   }
 
-  .big {
+  .big,
+  .logout {
     display: none;
   }
 
@@ -167,7 +168,11 @@ onMounted(() => {
       .little {
         display: none;
       }
-
+  }
+  @media (min-width: 1024px) {
+    .logout {
+      display: flex;
+    }
   }
 }
 </style>

@@ -5,6 +5,7 @@ q-page
     q-img.little(fit src="@/assets/images/banner2.jpg")
     q-btn.arrow_down(round flat @click='anchor')
       q-icon(name='keyboard_arrow_down' size='50px')
+
   section#text.row.flex-center
     .text-subtitle1.text-justify.q-mb-md 在地球看不到的月球背面，有個玉皇大帝經營的休息站，休息站最熱門的商店"宇宙年糕店"，宇宙年糕店中有銷售一等的功臣 — 兔瓏，因為受不了頻繁的加班，因此興起了逃往地球的念頭。
     .text-subtitle1.text-justify 發現兔瓏寫了辭職信逃往地球的玉皇大帝震怒，下令抓到兔瓏的人將給予豐厚的獎金。為了得到豐厚的獎金，由四位來自平行宇宙地球的勇士就這樣出動了...
@@ -98,7 +99,7 @@ q-page
 </template>
 
 <script setup>
-import { reactive, ref, nextTick, onMounted } from 'vue'
+import { reactive, nextTick } from 'vue'
 import { api } from 'src/boot/axios'
 import Swal from 'sweetalert2'
 import { Swiper, SwiperSlide } from 'swiper/vue'
@@ -278,7 +279,7 @@ const swiperOptions = {
   }
 }
 
-#Event  .event {
+#Event .event {
   width: 250px;
   background: #eee;
   color: #000;

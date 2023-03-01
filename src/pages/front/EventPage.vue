@@ -1,20 +1,19 @@
 <template lang="pug">
-#event-all.q-ma-md
-  .text-center.q-ma-xl
+#event-list
+  .text-center.q-my-xl
     img(src="../../assets/images/活動公告v2_animated.svg")
 
-    .q-mx-auto
-      .row
-        .event.q-ma-md.cursor-pointer(v-for="info in events" :key="info._id" @click="router.push('/event/' + info._id)")
-          q-img(:src="info.image" height="180px")
-          .row.q-pa-md.items-center
-            .col-3
-              .text-body2 {{ info.dateStart.replace(/-/g, '.').substr(5, 5) }}
-              .text-body(style= "color: #F2C037") ▼
-              .text-body2 {{ info.dateEnd.replace(/-/g, '.').substr(5, 5) }}
-            .col-8
-              .text-subtitle1.text-ellipsis.text-left {{ info.name }}
-              .text-body2.text-ellipsis.text-justify {{ info.description }}
+    #event-all.row
+      router-link.event.q-ma-md(v-for="info in events" :key="info._id" :to="'/event/' + info._id")
+        q-img(:src="info.image" height="180px")
+        .row.q-pa-md.items-center
+          .col-3
+            .text-body2 {{ info.dateStart.replace(/-/g, '.').substr(5, 5) }}
+            .text-body(style= "color: #F2C037") ▼
+            .text-body2 {{ info.dateEnd.replace(/-/g, '.').substr(5, 5) }}
+          .col-8
+            .text-subtitle1.text-ellipsis.text-left {{ info.name }}
+            .text-body2.text-ellipsis.text-justify {{ info.description }}
 </template>
 
 <script setup>
@@ -46,19 +45,24 @@ const events = reactive([])
 </script>
 
 <style lang="scss">
-#event-all {
-  .event {
+#event-list {
+  #event-all {
     width: 330px;
-    background: #eee;
-    color: #000;
-    border-radius: 30px;
-    box-shadow: 0px 0px 5px inset;
-    transition: .5s;
-    .q-img {
-      box-shadow: 0px 0px 10px inset;
-      border-top-left-radius: 30px;
-      border-top-right-radius: 30px;
-    }
+    margin: auto;
+
+    .event {
+      width: 330px;
+      background: #eee;
+      color: #000;
+      border-radius: 30px;
+      box-shadow: 0px 0px 5px inset;
+      transition: .5s;
+      text-decoration: none;
+      .q-img {
+        box-shadow: 0px 0px 10px inset;
+        border-top-left-radius: 30px;
+        border-top-right-radius: 30px;
+      }
       .text-subtitle1 {
         -webkit-line-clamp: 1;
       }
@@ -72,5 +76,20 @@ const events = reactive([])
       }
     }
   }
+
+  @media (min-width: 600px) {
+    #event-all {
+      width: 724px;
+      margin: auto;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    #event-all {
+      width: 1086px;
+      margin: auto;
+    }
+  }
+}
 
   </style>

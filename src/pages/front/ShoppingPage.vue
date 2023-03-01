@@ -1,9 +1,9 @@
 <template lang="pug">
-.text-center.q-pt-xl
-    img(src="../../assets/images/周邊商品_animated.svg")
-.q-ma-auto
-  .row
-    .col-xs-12.col-sm-4.col-md-3.q-mx-xl.q-my-md(v-for="product in products" :key="product.id")
+#shopping
+  .text-center.q-pt-xl
+      img(src="../../assets/images/周邊商品_animated.svg")
+  .product.row
+    .col-12.col-sm-6.col-md-3(v-for="product in products" :key="product.id")
       ProductCard(v-bind="product")
 </template>
 
@@ -29,7 +29,10 @@ const products = reactive([]);
 })()
 </script>
 
-<style lang="sass" scoped>
-.product-Info
-  width: 100%
+<style lang="sass">
+#shopping
+  .product
+    margin: 20px 100px
+    .product-Info
+      width: 100%
 </style>

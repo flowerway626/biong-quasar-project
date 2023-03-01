@@ -1,5 +1,5 @@
 <template lang="pug">
-.product-Info(style="width:300px")
+.product-Info(style="width:200px;margin: 25px auto")
   //- div.mask
   q-img.cursor-pointer(:src="image" @click="router.push('/shopping/' + _id)")
   .text-center.text-body1 {{ name }}
