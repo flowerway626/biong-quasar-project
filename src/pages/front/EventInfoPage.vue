@@ -83,8 +83,8 @@ const eventInfo = reactive({
     eventInfo.place = data.result.place
     eventInfo.image = data.result.image
     eventInfo.number = data.result.number
-    eventInfo.member = data.result.member
     loading.value = false
+    document.title = 'Biong Biong | ' + eventInfo.name
   } catch (error) {
     Swal.fire({
       toast: true,

@@ -40,15 +40,7 @@ const routes = [
         name: 'about',
         component: () => import('@/pages/front/AboutPage.vue'),
         meta: {
-          title: 'Biong Biong | About'
-        }
-      },
-      {
-        path: 'about/:id',
-        name: 'about-photo',
-        component: () => import('@/pages/front/PhotoPage.vue'),
-        meta: {
-          title: 'Biong Biong | About'
+          title: 'Biong Biong | 關於地娛室'
         }
       },
       {
@@ -56,23 +48,20 @@ const routes = [
         name: 'news',
         component: () => import('@/pages/front/NewsPage.vue'),
         meta: {
-          title: 'Biong Biong | New'
+          title: 'Biong Biong | 最新消息'
         }
       },
       {
         path: 'news/:id',
         name: 'newsInfo',
-        component: () => import('@/pages/front/NewInfoPage.vue'),
-        meta: {
-          title: 'Biong Biong | NewInfo'
-        }
+        component: () => import('@/pages/front/NewInfoPage.vue')
       },
       {
         path: 'shopping',
         name: 'shopping',
         component: () => import('@/pages/front/ShoppingPage.vue'),
         meta: {
-          title: 'Biong Biong | Shopping'
+          title: 'Biong Biong | 周邊商品'
         }
       },
       {
@@ -80,31 +69,25 @@ const routes = [
         name: 'event',
         component: () => import('@/pages/front/EventPage.vue'),
         meta: {
-          title: 'Biong Biong | Event'
+          title: 'Biong Biong | 活動公告'
         }
       },
       {
         path: 'event/:id',
         name: 'eventInfo',
-        component: () => import('@/pages/front/EventInfoPage.vue'),
-        meta: {
-          title: 'Biong Biong | EventInfo'
-        }
+        component: () => import('@/pages/front/EventInfoPage.vue')
       },
       {
         path: 'shopping/:id',
         name: 'product',
-        component: () => import('@/pages/front/ProductPage.vue'),
-        meta: {
-          title: 'Biong Biong | Product'
-        }
+        component: () => import('@/pages/front/ProductPage.vue')
       },
       {
         path: 'cart',
         name: 'cart',
         component: () => import('@/pages/front/CartPage.vue'),
         meta: {
-          title: 'Biong Biong | Cart'
+          title: 'Biong Biong | 購物車'
         }
       }
     ]
@@ -129,7 +112,7 @@ const routes = [
         name: 'admin-view',
         component: () => import('@/pages/admin/ViewPage.vue'),
         meta: {
-          title: 'Biong Biong | admin - view'
+          title: 'Biong Biong | admin - 頁面管理'
         }
       },
       {
@@ -137,7 +120,7 @@ const routes = [
         name: 'admin-product',
         component: () => import('@/pages/admin/ProductsPage.vue'),
         meta: {
-          title: 'Biong Biong | admin - product'
+          title: 'Biong Biong | admin - 商品管理'
         }
       },
       {
@@ -145,7 +128,7 @@ const routes = [
         name: 'admin-order',
         component: () => import('@/pages/admin/OrdersPage.vue'),
         meta: {
-          title: 'Biong Biong | admin - order'
+          title: 'Biong Biong | admin - 訂單管理'
         }
       }
     ]
@@ -155,7 +138,7 @@ const routes = [
     name: 'setting',
     component: SettingLayout,
     meta: {
-      title: 'Biong Biong | Setting',
+      title: 'Biong Biong | 會員專區',
       login: true,
       admin: false
     },
@@ -165,7 +148,7 @@ const routes = [
         name: 'setting',
         component: () => import('@/pages/setting/HomePage.vue'),
         meta: {
-          title: 'Biong Biong | Setting'
+          title: 'Biong Biong | 會員專區'
         }
       },
       {
@@ -173,7 +156,7 @@ const routes = [
         name: 'setting-order',
         component: () => import('@/pages/setting/OrdersPage.vue'),
         meta: {
-          title: 'Biong Biong | Setting - Orders'
+          title: 'Biong Biong | 會員專區 - 訂單明細'
         }
       },
       {
@@ -181,7 +164,7 @@ const routes = [
         name: 'setting-event',
         component: () => import('@/pages/setting/EventsPage.vue'),
         meta: {
-          title: 'Biong Biong | Setting - Event'
+          title: 'Biong Biong | 會員專區 - 報名活動'
         }
       }
     ]

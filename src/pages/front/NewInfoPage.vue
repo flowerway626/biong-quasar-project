@@ -70,6 +70,7 @@ const newInfo = reactive({
     newInfo.image = results[0].data.result.image
     latesThree.push(...results[1].data.result)
     loading.value = false
+    document.title = 'Biong Biong | ' + newInfo.title
   } catch (error) {
     Swal.fire({
       toast: true,
@@ -91,6 +92,7 @@ const changeInfo = async (lates) => {
   newInfo.content = lates.content
   newInfo.date = lates.date
   newInfo.image = lates.image
+  document.title = 'Biong Biong | ' + newInfo.title
   latesThree.splice(0, latesThree.length)
   latesThree.push(...data.result)
 }

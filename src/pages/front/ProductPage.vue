@@ -137,7 +137,7 @@ const changeInfo = (pd) => {
     product.sell = result[0].data.result.sell
     recom.push(...result[1].data.result)
     loading.value = false
-
+    document.title = 'Biong Biong | ' + product.name
     setTimeout(() => {
       more.value = true
     }, 3000)
