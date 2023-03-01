@@ -74,7 +74,7 @@ const columns = [
     name: 'account',
     required: true,
     label: 'ACCOUNT',
-    field: row => row.name,
+    field: row => row.account,
     sortable: true
   },
   {
