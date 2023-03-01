@@ -10,7 +10,7 @@
 
     template(v-slot:body-cell-product="props")
       q-td
-        template(v-for="product in props.row?.products")
+        template(v-for="product in props.row.products")
           ul.q-pl-xs.text-left
             li {{ product?.quantity }} x &nbsp; &nbsp; {{ product.p_id?.name }}
 </template>

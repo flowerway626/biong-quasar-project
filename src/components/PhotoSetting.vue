@@ -3,7 +3,7 @@
   q-table.photo-table(:rows="photos" :columns="columns" row-key="_id" :filter="filter" :loading="loading")
     template(v-slot:body-cell-image="props")
         q-td
-          img(:src="props.row?.image" :width="130" :height='100' style="object-fit: cover;")
+          img(:src="props.row.image" :width="130" :height='100' style="object-fit: cover;")
 
     template(v-slot:top-left)
       q-btn(label="新增相簿" color="secondary" outline @click="dialogEdit(-1)")
