@@ -5,16 +5,16 @@
           :filter="filter" virtual-scroll flat :loading="loading")
     template(v-slot:body-cell-image='props')
       q-td
-        img(:src="props.row.image" :width="130" :height="100")
+        img(:src="props.row?.image" :width="130" :height="100")
 
     template(v-slot:body-cell-category='props')
       q-td
-        q-btn(:label="props.row.category" rounded)
+        q-btn(:label="props.row?.category" rounded)
 
     template(v-slot:body-cell-sell='props')
       q-td
-        q-toggle(v-if="edit" v-model='props.row.sell' checked-icon='check' color='warning' unchecked-icon='clear')
-        q-toggle(v-if="!edit" v-model='props.row.sell' disable checked-icon='check' color='warning' unchecked-icon='clear')
+        q-toggle(v-if="edit" v-model='props.row?.sell' checked-icon='check' color='warning' unchecked-icon='clear')
+        q-toggle(v-if="!edit" v-model='props.row?.sell' disable checked-icon='check' color='warning' unchecked-icon='clear')
 
     template(v-slot:body-cell-other='props')
       q-td.q-gutter-sm

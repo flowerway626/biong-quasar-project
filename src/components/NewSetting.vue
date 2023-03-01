@@ -3,7 +3,7 @@
   q-table.new-table(:rows="news" :columns="columns" row-key="_id" :filter="filter" :loading="loading")
     template(v-slot:body-cell-image="props")
         q-td
-          img(:src="props.row.image" :width="100" :height='100')
+          img(:src="props.row?.image" :width="100" :height='100')
 
     template(v-slot:top-left)
       q-btn(label="新增公告" color="secondary" outline @click="dialogEdit(-1)")

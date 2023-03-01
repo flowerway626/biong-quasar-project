@@ -5,22 +5,22 @@
       q-icon(size='1.5em' name='chevron_right' color='grey')
     q-breadcrumbs-el(label='首頁' icon='mdi-home' to="/")
     q-breadcrumbs-el(label='最新消息' icon='mdi-newspaper-variant-multiple-outline' to="/news")
-    q-breadcrumbs-el(:label='newInfo.title' icon='mdi-new-box')
+    q-breadcrumbs-el(:label='newInfo?.title' icon='mdi-new-box')
 
   .row.q-mx-xl.q-my-md(v-if="!loading")
     .col-12.col-md-8.q-pa-md
       .text-center
-        img(:src="newInfo.image" style="max-width: 600px;max-height:400px")
-      .text-h4.q-my-md {{ newInfo.title }}
-      p {{ new Date(newInfo.date).toLocaleString() }}
-      .text-body1.pre {{ newInfo.content }}
+        img(:src="newInfo?.image" style="max-width: 600px;max-height:400px")
+      .text-h4.q-my-md {{ newInfo?.title }}
+      p {{ new Date(newInfo?.date).toLocaleString() }}
+      .text-body1.pre {{ newInfo?.content }}
 
     .col-12.col-md-4.q-px-md(v-if="!loading")
       .text-h6.q-my-md MORE ...
       #latesThree(v-for="lates in latesThree" :key="lates._id" @click="changeInfo(lates)")
-        .text-body2 {{ new Date(lates.date).toLocaleString() }}
-        .text-body1.q-my-md {{ lates.title }}
-        .text-body2.pre.text-ellipsis {{ lates.content }}
+        .text-body2 {{ new Date(lates?.date).toLocaleString() }}
+        .text-body1.q-my-md {{ lates?.title }}
+        .text-body2.pre.text-ellipsis {{ lates?.content }}
         q-separator.q-my-md
 
   .row.q-mx-xl.q-my-md(v-if="loading")
