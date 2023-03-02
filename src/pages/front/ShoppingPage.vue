@@ -34,9 +34,9 @@ const products = reactive([]);
 
 <style lang="sass">
 #shopping
-  height: calc(100vh - 58px)
+  min-height: 100vh
   .product
-    margin: 20px 100px
+    padding: 20px 100px
     .product-Info
       width: 100%
 </style>

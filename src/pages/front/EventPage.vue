@@ -1,6 +1,6 @@
 <template lang="pug">
 #event-list
-  .text-center.q-my-xl
+  .text-center.q-py-xl
     img(src="../../assets/images/活動公告v2_animated.svg")
 
     #event-all.row
