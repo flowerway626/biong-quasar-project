@@ -63,7 +63,7 @@ const route = useRoute()
 const { logout } = user
 const { account, avatar, currentRoute } = storeToRefs(user)
 const drawer = ref(false)
-const link = route.name
+const link = ref('settings')
 </script>
 
 <style lang="sass">

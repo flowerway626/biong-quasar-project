@@ -35,7 +35,7 @@ const columns = [
     required: true,
     label: '訂購人',
     align: 'center',
-    field: row => row.u_id.name
+    field: 'u_id?.name'
   },
   {
     name: 'date',
@@ -69,7 +69,6 @@ const columns = [
       order.totalPrice = order.products.reduce((total, current) => total + current.p_id.price * current.quantity, 0)
       return order
     }))
-    console.log(orders)
   } catch (error) {
     Swal.fire({
       toast: true,

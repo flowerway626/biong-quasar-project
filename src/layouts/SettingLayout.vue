@@ -52,7 +52,6 @@ const user = useUserStore()
 const { logout } = user
 const { name, avatar } = storeToRefs(user)
 const link = ref('settings')
-// const link = route.name
 const drawer = ref(false)
 
 </script>

@@ -31,7 +31,7 @@
           q-tooltip(anchor="bottom middle" self="top middle") 登出
 
     q-page-container
-      router-view
+      router-view(:key="$route.fullPath")
       q-page-scroller(position='bottom-right' :scroll-offset='150' :offset='[18, 18]')
         q-btn(fab icon='keyboard_arrow_up' color='warning')
 
