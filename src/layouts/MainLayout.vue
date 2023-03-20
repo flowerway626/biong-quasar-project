@@ -149,6 +149,10 @@ onMounted(() => {
     display: none;
   }
 
+  .big {
+    text-shadow: 0px 0px 4px #333;
+  }
+
   .little {
     display: block;
   }

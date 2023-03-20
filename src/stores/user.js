@@ -2,22 +2,7 @@ import { defineStore } from 'pinia'
 import { computed, reactive, ref } from 'vue'
 import { api, apiAuth } from 'src/boot/axios'
 import Swal from 'sweetalert2'
-import { Notify } from 'quasar'
-import { useRouter } from 'vue-router'
-
-export const useCounterStore = defineStore('counter', {
-  state: () => ({
-    counter: 0
-  }),
-  getters: {
-    doubleCount: (state) => state.counter * 2
-  },
-  actions: {
-    increment () {
-      this.counter++
-    }
-  }
-})
+import { Notify, Loading, QSpinnerPie } from 'quasar'
 
 export const useUserStore = defineStore('user', () => {
   const account = ref('')
@@ -205,9 +190,16 @@ export const useUserStore = defineStore('user', () => {
       this.router.push('/login')
       return
     }
+    Loading.show({
+      spinner: QSpinnerPie,
+      spinnerColor: 'warning',
+      spinnerSize: 100,
+      backgroundColor: 'black',
+      message: 'loading...',
+      messageColor: 'white'
+    })
     try {
-      console.log(userPhone)
-      const { data } = await apiAuth.patch('/users/event/' + eventId, { phone: userPhone })
+      await apiAuth.patch('/users/event/' + eventId, { phone: userPhone })
       await apiAuth.patch('/events/user/' + eventId)
       Notify.create({
         type: 'positive',
@@ -226,6 +218,7 @@ export const useUserStore = defineStore('user', () => {
         text: error?.response?.data?.message || '報名錯誤！'
       })
     }
+    Loading.hide()
   }
 
   return {

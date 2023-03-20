@@ -10,13 +10,15 @@
         .col-auto
           q-img.text-center(:src="pd.p_id.image" style="width:100px")
         .col-7.q-ml-md
-          .text-h6.q-mb-md {{ pd.p_id.name }}
-          span 數量：
-          q-btn(icon="mdi-minus" round outline unelevated size="sm" color='warning' @click='updateCart(idx, -1)')
-          span &nbsp;&nbsp;{{ pd.quantity }} &nbsp;&nbsp;
-          q-btn(icon="mdi-plus" round outline unelevated size="sm" color='warning' @click='updateCart(idx, 1)')
+          .text-h6 {{ pd.p_id.name }}
+          .text-body1.q-mb-md.text-grey $ {{ pd.p_id.price }}
+          .text-body1
+            span 數量：
+            q-btn(icon="mdi-minus" round outline unelevated size="8px" color='warning' @click='updateCart(idx, -1)')
+            span &nbsp;&nbsp;{{ pd.quantity }} &nbsp;&nbsp;
+            q-btn(icon="mdi-plus" round outline unelevated size="8px" color='warning' @click='updateCart(idx, 1)')
         .col-auto.column.items-end.q-ml-auto
-          .col.text-h5 $ {{ pd.p_id.price }}
+          .col.text-h6 $ {{ pd.p_id.price * pd.quantity }}
           .col
             q-btn(icon="delete" round unelevated size="10px" color='pink' @click='updateCart(idx, pd.quantity*-1)')
 
