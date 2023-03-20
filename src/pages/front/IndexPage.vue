@@ -104,12 +104,10 @@ import { api } from 'src/boot/axios'
 import Swal from 'sweetalert2'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { Navigation, Pagination, Scrollbar } from 'swiper'
-import { useQuasar } from 'quasar'
 import { useRouter } from 'vue-router'
 import AOS from 'aos'
 
 const modules = [Navigation, Pagination, Scrollbar]
-const $q = useQuasar()
 const router = useRouter()
 const products = reactive([])
 const events = reactive([])
