@@ -13,6 +13,10 @@
         template(v-for="product in props.row.products")
           ul.q-pl-xs.text-left
             li {{ product?.quantity }} x &nbsp; &nbsp; {{ product.p_id?.name }}
+
+    template(v-slot:body-cell-name="props")
+      q-td
+        span {{ props.row.u_id?.name }}
 </template>
 
 <script setup>
@@ -34,8 +38,7 @@ const columns = [
     name: 'name',
     required: true,
     label: '訂購人',
-    align: 'center',
-    field: 'u_id?.name'
+    align: 'center'
   },
   {
     name: 'date',
