@@ -283,6 +283,10 @@ const albumOptions = {
     draggable: true
   }
 }
+
+// Vue 的生命週期(beforeCreate(setup()) → created(setup()) → beforeMount(onbeforeCreate) → mounted(onMounted)) 中
+// 在 setup 階段 Vue 實體剛建立，狀態事件剛初始化完成，但資料尚未被擋定
+// 在 onMounted 階段才綁定好網頁的 DOM 和節點到 Vue 的實體，所以在這時候才可進行操作 DOM
 onMounted(() => {
   const about = document.querySelectorAll('.about')
   const h5 = document.querySelectorAll('.text-h5')
