@@ -162,6 +162,16 @@ const routes = [
           login: true,
           admin: true
         }
+      },
+      {
+        path: 'data',
+        name: 'admin-data',
+        component: () => import('@/pages/admin/DataPage.vue'),
+        meta: {
+          title: 'Biong Biong | admin - 資料統計',
+          login: true,
+          admin: true
+        }
       }
     ]
   },
