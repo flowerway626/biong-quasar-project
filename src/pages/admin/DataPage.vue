@@ -1,26 +1,25 @@
 <template lang="pug">
-#data.q-pa-md
+#data.q-ma-md
+  .backH4.text-h4.text-center 資料統計
   .row
     .q-mb-md.q-ma-md-md.col-12.col-md-7
       Line.area(:data="ratingsData" :options="ratingsOptions" :style="style")
     .q-mb-md.q-ma-md-md.col-12.col-md
-      //- Line.area(:data="ratingsData" :options="ratingsOptions" :style="style")
-      q-table.table(title="收視統計" hide-bottom :pagination="pagination" :rows-per-page-options="[0]" :columns="columns" :rows="rows" row-key="ep")
-  //- Pie(v-if="loaded" :data="eventData" :options="eventOptions"  :style="style")
+      q-table.table(title="收視表" hide-bottom :pagination="pagination" :rows-per-page-options="[0]" :columns="columns" :rows="rows" row-key="ep")
   .row
     .q-mb-md.q-ma-md-md.col-12.col-md
       Pie.area(v-if="loaded" :data="eventData" :options="eventOptions" :style="style")
     .q-mb-md.q-ma-md-md.col-12.col-md
-      Pie.area(v-if="loaded" :data="eventData" :options="eventOptions" :style="style")
+      Bar.area(v-if="loaded" :data="productData" :options="productOptions" :style="style")
 </template>
 
 <script setup>
-import { Chart as ChartJS, ArcElement, Tooltip, Title, Legend, Colors, CategoryScale, LinearScale, PointElement, LineElement } from 'chart.js'
-import { Pie, Line } from 'vue-chartjs'
+import { Chart as ChartJS, ArcElement, Tooltip, Title, Legend, Colors, BarElement, CategoryScale, LinearScale, PointElement, LineElement } from 'chart.js'
+import { Pie, Line, Bar } from 'vue-chartjs'
 import { apiAuth } from 'src/boot/axios'
 import { ref } from 'vue'
 
-ChartJS.register(ArcElement, Tooltip, Title, Legend, Colors, CategoryScale, LinearScale, PointElement, LineElement)
+ChartJS.register(ArcElement, Tooltip, Title, Legend, Colors, BarElement, CategoryScale, LinearScale, PointElement, LineElement)
 ChartJS.defaults.color = '#fff'
 ChartJS.defaults.plugins.title.font.size = '20px'
 ChartJS.defaults.borderColor = '#555'
@@ -32,7 +31,6 @@ const eventData = {
     }
   ]
 }
-
 const ratingsData = {
   labels: ['ep.1', 'ep.2', 'ep.3', 'ep.4', 'ep.5', 'ep.6', 'ep.7', 'ep.8', 'ep.9', 'ep.10', 'ep.11', 'ep.12'],
   datasets: [
@@ -43,6 +41,24 @@ const ratingsData = {
     {
       label: '第二季',
       data: [2.105, 1.460, 0.544, 1.652, 2.554, 5.225, 1.642, 3.523, 4.908, 2.813, 4.544, 4.441]
+    }
+  ]
+}
+const productData = {
+  labels: [],
+  datasets: [
+    {
+      axis: 'y',
+      data: [],
+      backgroundColor: [
+        'rgba(255, 99, 132)',
+        'rgba(255, 159, 64)',
+        'rgba(255, 205, 86)',
+        'rgba(75, 192, 192)',
+        'rgba(54, 162, 235)',
+        'rgba(153, 102, 255)',
+        'rgba(201, 203, 207)'
+      ]
     }
   ]
 }
@@ -78,12 +94,13 @@ for (let i = 0; i < ratingsData.labels.length; i++) {
     s2: ratingsData.datasets[1].data[i]
   })
 }
+
 const eventOptions = {
   responsive: true,
   maintainAspectRatio: false,
   plugins: {
     legend: {
-      position: 'right'
+      position: 'left'
     },
     title: {
       display: true,
@@ -97,7 +114,21 @@ const ratingsOptions = {
   plugins: {
     title: {
       display: true,
-      text: '收視率統計'
+      text: '收視率折線圖'
+    }
+  }
+}
+const productOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  indexAxis: 'y',
+  plugins: {
+    legend: {
+      display: false
+    },
+    title: {
+      display: true,
+      text: '商品售出數量'
     }
   }
 }
@@ -112,10 +143,16 @@ const loaded = ref(false);
 (async () => {
   try {
     loaded.value = false
-    const { data: chartData } = await apiAuth.get('/events/chart')
-    for (const eve of chartData.result) {
+    const result = await Promise.all([apiAuth.get('/events/chart'), apiAuth.get('/orders/all')])
+    for (const eve of result[0].data.result) {
       eventData.labels.push(eve.name)
       eventData.datasets[0].data.push(eve.count)
+    }
+    for (const order of result[1].data.result) {
+      for (const pd of order.products) {
+        productData.labels.push(pd.p_id.name)
+        productData.datasets[0].data.push(pd.quantity)
+      }
     }
     // api 接到資料後才顯示 chart
     loaded.value = true
@@ -127,9 +164,6 @@ const loaded = ref(false);
 
 <style lang="sass">
 #data
-  // background: #222
-  // height: calc(100vh - 70px)
-  // width: 100vw
   .area
     background: #222
     padding: 16px
@@ -142,9 +176,7 @@ const loaded = ref(false);
       z-index: 2
       background: #222
 
-    /* this will be the loading indicator */
     thead tr:last-child th
-      /* height of all previous header rows */
       top: 48px
       z-index: 3
     thead tr:first-child th
