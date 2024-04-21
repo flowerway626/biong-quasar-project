@@ -21,31 +21,56 @@
   .about-right
       q-select.q-mb-xl(rounded outlined v-model='model' :options='options' label='選擇類別' color="warning")
       #INFO(v-if="model.tab === 1")
-        .row
-          .col-12.col-md-4.q-px-md.text-center
-            q-img(src="@/assets/images/poster.jpg" width="300px")
-          .col-12.col-md-8.q-px-xl
-            .column
-              .col.text-h6.bg-warning.text-center.q-mb-md(style="border-radius: 16px") 企劃介紹
+        .q-gutter-y-md
+          .row.q-ma-md.items-end
+            .col-12.col-md-5.INFO-title 蹦蹦地球娛樂室
+            .col-12.col-md-7.text-h6.INFO-kreng 뿅뿅 지구오락실 | Earth Arcade
+          q-card
+            q-tabs.text-grey(v-if="abouts.length > 0" v-model='infoTab' dense active-color='warning'
+              indicator-color='warning' align='justify' narrow-indicator)
+              template(v-for="about in abouts" :key="about._id")
+                q-tab(:name="getTabName(about.session)" :label="getTabName(about.session)")
+              q-tab(:name="getTabName(abouts.length + 1)" :label="getTabName(abouts.length + 1)")
 
-              .col.text-subtitle1.text-justify.text-indent.q-mx-md 在地球看不到的月球背面，有個玉皇大帝經營的休息站，休息站最熱門的商店"宇宙年糕店"，宇宙年糕店中有銷售一等的功臣—兔兔，因為受不了頻繁的加班，因此興起了逃往地球的念頭。發現兔子寫了辭職信逃往地球的玉皇大帝震怒，下令抓到兔子的人將給予豐厚的獎金。為了得到豐厚的獎金，由四位來自平行宇宙地球的勇士就這樣出動了。
-              .col.q-mt-xl
-                .text-h6.bg-warning.text-center.q-mb-md(style="border-radius: 16px") 播出資訊
-                .row.q-mx-md
-                  .text-subtitle1 &nbsp; 播出時間 &nbsp; |
-                  .text-subtitle1 &nbsp;&nbsp;&nbsp;2022年6月24日－2022年9月16日
-                .row.q-mx-md
-                  .text-subtitle1 &nbsp; 總&nbsp;導&nbsp; 演 &nbsp;|
-                  .text-subtitle1 &nbsp;&nbsp;&nbsp;羅䁐錫、朴賢勇
-                .row.q-mx-md
-                  .text-subtitle1 &nbsp; 主&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;演 &nbsp;|
-                  .text-subtitle1 &nbsp;&nbsp;&nbsp;李恩智、MIMI、李泳知、安俞真
-                .row.q-mx-md
-                  .text-subtitle1 &nbsp; 集&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;數 &nbsp;|
-                  .text-subtitle1 &nbsp;&nbsp;&nbsp;第一季 12 集、第二季 錄製中
-                .row.q-mx-md
-                  .text-subtitle1 &nbsp; 串流平台 &nbsp; |
-                  .text-subtitle1 &nbsp;&nbsp;&nbsp;LINE TV、friDay
+            q-separator
+            q-tab-panels(v-if="abouts.length > 1" v-model='infoTab' animated)
+              template(v-for="about in abouts" :key="about._id")
+                q-tab-panel(:name="getTabName(about.session)")
+                  .row
+                    .col-12.col-md-4.q-px-md.text-center
+                      q-img(:src="about.image" min-width="300px" spinner-color="white")
+                    .col-12.col-md-8.q-px-xl
+                      .column
+                        .col.text-h6.bg-warning.text-center.q-mb-md(style="border-radius: 16px") 節目背景
+                        .col.text-subtitle1.text-justify.text-indent.q-mx-md {{ abouts[1].intro }}
+                        .col.q-mt-xl
+                          .text-h6.bg-warning.text-center.q-mb-md(style="border-radius: 16px") 播出資訊
+                          .row.q-mx-md
+                            .col-3.text-subtitle1 播出時間
+                            .col-9.text-subtitle1 {{ about.info.dateStart }} ~ {{ about.info.dateEnd }}
+                          .row.q-mx-md
+                            .col-3.text-subtitle1 主要來賓
+                            .col-9.text-subtitle1
+                              template(v-for="star in about.info.Starring" :key="star")
+                                span {{ star }} &nbsp;&nbsp;
+                          .row.q-mx-md
+                            .col-3.text-subtitle1 導演
+                            .col-9.text-subtitle1
+                              template(v-for="pd in abouts[1].info.director" :key="pd")
+                                span {{ pd }} &nbsp;&nbsp;
+                          .row.q-mx-md
+                            .col-3.text-subtitle1 季集數
+                            .col-9.text-subtitle1 第 {{ about.session }} 季、{{ about.info.episode }} 集
+                          .row.q-mx-md
+                            .col-3.text-subtitle1 串流平台
+                            .col-9.text-subtitle1
+                              template(v-for="ott in about.info.TWott" :key="ott")
+                                span {{ ott }} &nbsp;&nbsp;
+                  .q-mt-xl
+                    .text-h6.bg-warning.text-center.q-mb-md(style="border-radius: 16px") 節目介紹
+                    p.text-subtitle1 {{ abouts[1].info.description }}
+              q-tab-panel(:name="getTabName(abouts.length + 1)")
+                .text-h6(align="center") 地球勇士探險 ING
 
       #PROFILE(v-if="model.tab === 2")
         #youngji.row
@@ -195,12 +220,12 @@ q-dialog(v-model="dialog")
       swiper(v-bind="albumOptions")
         swiper-slide
           q-img(:src="photos[dialogidx].image" width="550px")
-        swiper-slide(v-for="p in photos[dialogidx].images" )
+        swiper-slide(v-for="p in photos[dialogidx].images" :key="p")
           q-img(:src="p")
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, nextTick } from 'vue'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { Navigation, Pagination, Scrollbar, Autoplay } from 'swiper'
 import Swal from 'sweetalert2'
@@ -213,6 +238,7 @@ const dialog = ref(false)
 const dialogidx = ref(0)
 const router = useRouter()
 const photos = reactive([])
+const abouts = reactive([])
 const options = reactive([
   {
     label: '節目企劃',
@@ -235,6 +261,7 @@ const options = reactive([
     tab: 4
   }])
 const model = ref(options[0])
+const infoTab = ref('session 1')
 const swiperDialog = (idx) => {
   dialog.value = true
   dialogidx.value = idx
@@ -284,6 +311,10 @@ const albumOptions = {
   }
 }
 
+const getTabName = (session) => {
+  return `session ${session}`
+}
+
 // Vue 的生命週期(beforeCreate(setup()) → created(setup()) → beforeMount(onbeforeCreate) → mounted(onMounted)) 中
 // 在 setup 階段 Vue 實體剛建立，狀態事件剛初始化完成，但資料尚未被擋定
 // 在 onMounted 階段才綁定好網頁的 DOM 和節點到 Vue 的實體，所以在這時候才可進行操作 DOM
@@ -322,9 +353,12 @@ onMounted(() => {
 
 (async () => {
   try {
-    const { data } = await api.get('/photos')
-    photos.push(...data.result)
+    const result = await Promise.all([api.get('/photos'), api.get('/abouts')])
+    photos.push(...result[0].data.result)
+    abouts.push(...result[1].data.result)
+    await nextTick()
     photos.reverse()
+    abouts.sort((a, b) => a.sesstion < b.sesstion ? 1 : -1)
     tab.value = 1
   } catch (error) {
     Swal.fire({
@@ -364,12 +398,27 @@ onMounted(() => {
   .about-right {
     min-height: calc(100vh - 58px);
     margin-left: auto;
-    padding: 25px 36px;
+    padding: 12px 12px;
+    .INFO-title {
+      font-size: 40px;
+      font-family: 'Cubic';
+      margin: 0;
+      text-align: center;
+    }
+    .INFO-kreng {
+      text-align: center;
+    }
   }
 
   #PROFILE {
     .text-h5 {
       font-family: 'Cubic';
+    }
+  }
+
+  #INFO {
+    p.text-subtitle1 {
+      white-space: pre-line;
     }
   }
 
@@ -392,12 +441,14 @@ onMounted(() => {
     }
     .about-right {
       width: calc(100vw - 230px);
+      padding: 12px 36px 25px;
       .q-select {
         display: none;
       }
+      .INFO-title, .INFO-kreng {
+        text-align: left;
+      }
     }
   }
-
 }
-
 </style>

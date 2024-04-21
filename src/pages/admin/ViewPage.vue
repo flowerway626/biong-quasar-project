@@ -1,6 +1,9 @@
 <template lang="pug">
 .q-ma-md.text-center
   .q-gutter-md.q-mb-md
+    q-btn(v-if="view === 'abouts'" label="資訊管理" color="secondary" size="15px" push @click="view = 'abouts'")
+    q-btn(v-else label="資訊管理" color="secondary" size="15px" outline @click="view = 'abouts'")
+
     q-btn(v-if="view === 'news'" label="公告管理" color="secondary" size="15px" push @click="view = 'news'")
     q-btn(v-else label="公告管理" color="secondary" size="15px" outline @click="view = 'news'")
 
@@ -10,6 +13,7 @@
     q-btn(v-if="view === 'photos'" label="相簿管理" color="warning" size="15px" push @click="view = 'photos'")
     q-btn(v-else label="相簿管理" color="warning" size="15px" outline @click="view = 'photos'")
 
+  AboutSetting(v-if="view === 'abouts'")
   NewSetting(v-if="view === 'news'")
   EventSetting(v-if="view === 'events'")
   PhotoSetting(v-if="view === 'photos'")
@@ -20,6 +24,7 @@ import { ref } from 'vue'
 import EventSetting from '@/components/EventSetting.vue'
 import NewSetting from '@/components/NewSetting.vue'
 import PhotoSetting from '@/components/PhotoSetting.vue'
+import AboutSetting from '@/components/AboutSetting.vue'
 
 const view = ref('news')
 </script>

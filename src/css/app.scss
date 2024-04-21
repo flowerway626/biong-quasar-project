@@ -64,3 +64,9 @@ body {
     /* 有溢出文字時最後方加上省略號... */
     text-overflow: ellipsis;
 }
+
+@media (min-width: 600px) {
+  .q-dialog__inner--minimized > div {
+      max-width: none;
+  }
+}
