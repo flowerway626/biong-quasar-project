@@ -19,7 +19,7 @@
         q-icon(font-awesome-icon name="fa-solid fa-angles-right" color="black" size="30px")
 
   .about-right
-      q-select.q-mb-xl(rounded outlined v-model='model' :options='options' label='選擇類別' color="warning")
+      q-select.q-mb-xl(v-if="model" rounded outlined v-model='model' :options='options' label='選擇類別' color="warning")
       #INFO(v-if="model.tab === 1")
         .q-gutter-y-md
           .row.q-ma-md.items-end
@@ -73,41 +73,28 @@
                 .text-h6(align="center") 地球勇士探險 ING
 
       #PROFILE(v-if="model.tab === 2")
-        #youngji.row
-          .col-12.col-md-4
-            q-img(src="@/assets/images/youngji.jpg" width="230px")
-          .col-12.col-md-8
-            .text-h5 李泳知
-            .text-subtitle1 必殺技：壓制英錫哥底線的‘獅子吼’
-            p
-            | 戰力MAX，攻擊力MAX，生命力……無法估量？！<br>史無前例的娛樂詐騙現身！<br>“英錫哥！” 以吶喊開始新的一天<br>地球戰士的代表，無限能量。<br>即使你試圖自信地走到任何地方，<br>甚至是接受FEEL時趴在光地上的非常規動作！<br>前所未見的新角色登場！<br>
+        q-card
+          q-tabs.text-grey(v-if="members.length > 0" v-model='infoTab' dense active-color='warning'
+            indicator-color='warning' align='justify' narrow-indicator)
+            template(v-for="about in abouts" :key="about._id")
+              q-tab(:name="getTabName(about.session)" :label="getTabName(about.session)")
+            q-tab(:name="getTabName(abouts.length + 1)" :label="getTabName(abouts.length + 1)")
 
-        #eunji.row
-          .col-12.col-md-4
-            q-img(src="@/assets/images/eunji.jpg" width="230px")
-          .col-12.col-md-8
-            .text-h5 李恩智
-            .text-subtitle1 必殺技：遠看是“喜劇”，近看是“瘋狂”
-            p
-            | “獻身廣播！”<br>一個舞者的靈魂被困在一個喜劇演員的身體裡！<br>才華橫溢我無意克制<br>擅長廣播舞蹈（？）頂級喜劇演員<br>我夢想成為一個有魅力的街機迷，<br>現實中，容易被弟弟妹妹罵？！<br>“老大”英雄恩地適應 Z 世代的任務開始了！
+          q-separator
+          q-tab-panels(v-if="members.length > 0" v-model='infoTab' animated)
+            template(v-for="about in abouts" :key="about._id")
+              q-tab-panel(:name="getTabName(about.session)")
+                div.column.items-center.row-md(v-for="member in members.filter(m => m.session === about.session)" :key="member._id")
+                  .col-md-4.q-mr-md
+                    q-img(:src="member.image" width="230px")
+                  .col-md-7
+                    .q-mt-md.q-mt-md-none.text-h4 {{ member.name }}
+                    .text-h5.q-my-md {{ member.features }}
+                    p(v-html="member.story" style="white-space: pre-line")
+                  hr.q-my-xl(v-if="member.num < 3")
 
-        #mimi.row
-          .col-12.col-md-4
-            q-img(src="@/assets/images/mimi.png" width="230px")
-          .col-12.col-md-8
-            .text-h5 MiMi
-            .text-subtitle1 必殺技：不分情況的“真正正能量光束”
-            p
-            | 只要你有冰淇淋，超正模式就開啟！<br>與世界無害的人類和後地球級別的親和力<br>連動物的心臟都偷走的這個地區的知情人，<br>“Oh My Mihyun”出現！<br>通過提交現實且自由奔放的錯誤答案<br>改變遊戲規則的“K-meme”揭曉！
-
-        #yujin.row
-            .col-12.col-md-4
-              q-img(src="@/assets/images/yujin.jpg" width="230px")
-            .col-12.col-md-8
-              .text-h5 安宥真
-              .text-subtitle1 必殺技：“慾望” LOVE DIVE！
-              p
-              | 今年Lv 20，食物面前<br>第N話最高能力的忙內！<br>展現出比同齡人更深沉、更豐富的“鄉土味”<br>不要錯過Ending 妖精<br>老么的狡黠魅力讓姐姐們戀愛了♥<br>“職業 idol ”宥真的反差開始了！
+            q-tab-panel(:name="getTabName(abouts.length + 1)")
+              .text-h6(align="center") 地球勇士探險 ING
 
       #GALLERY(v-if="model.tab === 3")
         .text-h5 最新上傳
@@ -239,6 +226,7 @@ const dialogidx = ref(0)
 const router = useRouter()
 const photos = reactive([])
 const abouts = reactive([])
+const members = reactive([])
 const options = reactive([
   {
     label: '節目企劃',
@@ -353,12 +341,14 @@ onMounted(() => {
 
 (async () => {
   try {
-    const result = await Promise.all([api.get('/photos'), api.get('/abouts')])
+    const result = await Promise.all([api.get('/photos'), api.get('/abouts'), api.get('/members')])
     photos.push(...result[0].data.result)
     abouts.push(...result[1].data.result)
+    members.push(...result[2].data.result)
     await nextTick()
     photos.reverse()
     abouts.sort((a, b) => a.session < b.session ? -1 : 1)
+    members.sort((a, b) => a.session !== b.session ? a.session - b.session : a.num - b.num)
     tab.value = 1
   } catch (error) {
     Swal.fire({
@@ -411,8 +401,13 @@ onMounted(() => {
   }
 
   #PROFILE {
-    .text-h5 {
+    .text-h4 {
       font-family: 'Cubic';
+      text-align: center;
+    }
+    hr {
+      width: 100%;
+      border: 1px solid #404040;
     }
   }
 
@@ -435,6 +430,7 @@ onMounted(() => {
     background: $secondary;
     margin-right: 10px;
   }
+
   @media (min-width: 1024px) {
     .about-left {
       display: block;
@@ -446,6 +442,9 @@ onMounted(() => {
         display: none;
       }
       .INFO-title, .INFO-kreng {
+        text-align: left;
+      }
+      #PROFILE .text-h4 {
         text-align: left;
       }
     }

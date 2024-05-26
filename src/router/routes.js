@@ -134,6 +134,16 @@ const routes = [
         }
       },
       {
+        path: 'about',
+        name: 'admin-about',
+        component: () => import('@/pages/admin/AboutPage.vue'),
+        meta: {
+          title: 'Biong Biong | admin - 介紹管理',
+          login: true,
+          admin: true
+        }
+      },
+      {
         path: 'view',
         name: 'admin-view',
         component: () => import('@/pages/admin/ViewPage.vue'),

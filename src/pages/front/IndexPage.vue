@@ -51,7 +51,7 @@ q-page
               .text-body2 {{ event.dateEnd.replace(/-/g, '.') }}
             .text-subtitle1.text-ellipsis.text-left {{ event.name }}
 
-  section#footer.row.q-pa-xl
+  section#footer.row.q-pa-sm.q-pa-md-xl
       .col-12.col-md-5
         q-form.q-mx-auto.q-mx-md-none(style="width: 80%")
           .row.justify-between
@@ -178,58 +178,70 @@ const swiperOptions = {
 <style lang="scss">
 #section1 {
   text-align: center;
+
   .q-img {
     top: -58px;
   }
+
   .arrow_down {
     top: -58px;
     transition: .3s;
+
     &:hover {
       top: -48px;
     }
   }
+
   .big {
-      height:65vh;
+    height: 65vh;
+    display: none;
+  }
+
+  @media (min-width: 600px) {
+    .big {
+      display: block;
+    }
+
+    .little {
       display: none;
     }
-    @media (min-width: 600px) {
-      .big {
-        display: block;
-      }
-      .little {
-        display: none;
-      }
-    }
+  }
 }
-#text {
-  margin: 0 48px 48px;
-  padding: 0 48px 48px;
 
+#text {
   .text-subtitle1 {
     text-indent: 2rem;
     width: 70%;
-    }
   }
+  @media (min-width: 1024px) {
+    margin: 0 48px 48px;
+    padding: 0 48px 48px;
+  }
+}
 
 #new {
-    list-style: none;
-    .newInfo {
-      margin: 5px auto;
-      width: 90%;
-      text-decoration: none;
-      color: white;
-      &:hover {
-        background: $pink;
-        transition: 0.3s;
-      }
+  list-style: none;
 
-      @media (min-width: 576px) {
-        width: 60%;
-      }
+  .newInfo {
+    margin: 5px auto;
+    width: 90%;
+    text-decoration: none;
+    color: white;
+
+    &:hover {
+      background: $pink;
+      transition: 0.3s;
+    }
+
+    @media (min-width: 576px) {
+      width: 60%;
     }
   }
+}
+
 #section2 {
   text-align: center;
+
   .q-img {
     height: 200px;
     border-radius: 16px;
@@ -241,6 +253,7 @@ const swiperOptions = {
       background: transparent;
       transition: 0.3s;
       opacity: 0;
+
       &:hover {
         opacity: 1;
         background: #3339;
@@ -262,11 +275,13 @@ const swiperOptions = {
   margin: auto;
   width: 100%;
   height: 100%;
+
   .mask {
     width: 100%;
     height: 100%;
     position: relative;
     background: #3339;
+
     // background: transparent;
     // opacity: 0;
     &:hover {
@@ -284,28 +299,31 @@ const swiperOptions = {
   border-radius: 16px;
   box-shadow: 0px 0px 5px inset;
   transition: .5s;
+
   .q-img {
     height: 250px;
     box-shadow: 0px 0px 10px inset;
     border-top-left-radius: 16px;
     border-top-right-radius: 16px;
   }
-    .text-subtitle1 {
-      -webkit-line-clamp: 2;
-      height: 56px;
-    }
+
+  .text-subtitle1 {
+    -webkit-line-clamp: 2;
+    height: 56px;
+  }
 }
 
 #footer {
   .map {
-    .text-body1{
+    .text-body1 {
       margin-bottom: 10px;
 
+    }
+
+    a {
+      color: grey;
+      margin-bottom: 10px;
+    }
   }
-  a {
-    color: grey;
-    margin-bottom: 10px;
-  }
-}
 }
 </style>

@@ -16,6 +16,11 @@ q-layout.shadow-2.rounded-borders(view="hHh LpR lff")
             q-icon(name="settings")
           q-item-section 會員管理
 
+        q-item(v-ripple clickable :active="link === 'about'" @click="link = 'about'" active-class="menu-link" to='/admin/about')
+          q-item-section(avatar)
+            q-icon(name="mdi-account-group-outline")
+          q-item-section 介紹管理
+
         q-item(v-ripple clickable :active="link === 'shop'" @click="link = 'shop'" active-class="menu-link" to='/admin/view')
           q-item-section(avatar)
             q-icon(name="mdi-television")
