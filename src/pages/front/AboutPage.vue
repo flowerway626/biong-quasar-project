@@ -39,7 +39,7 @@
                   .row
                     .col-12.col-md-4.q-px-md.text-center
                       q-img(:src="about.image" min-width="300px" spinner-color="white")
-                    .col-12.col-md-8.q-px-xl
+                    .col-12.col-md-8.q-pl-md-xl
                       .column
                         .col.text-h6.bg-warning.text-center.q-mb-md(style="border-radius: 16px") 節目背景
                         .col.text-subtitle1.text-justify.text-indent.q-mx-md {{ abouts[1].intro }}
@@ -68,7 +68,7 @@
                                 span {{ ott }} &nbsp;&nbsp;
                   .q-mt-xl
                     .text-h6.bg-warning.text-center.q-mb-md(style="border-radius: 16px") 節目介紹
-                    p.text-subtitle1 {{ abouts[1].info.description }}
+                    p.text-subtitle1.q-mx-md {{ abouts[1].info.description }}
               q-tab-panel(:name="getTabName(abouts.length + 1)")
                 .text-h6(align="center") 地球勇士探險 ING
 
@@ -122,7 +122,7 @@
         q-separator.q-my-md
 
         .text-h5 All
-          .row.justify-evenly
+          .row-md.justify-evenly
             .col-3.cursor-pointer.q-ma-md(v-for="(photo, idx) in photos" :key="photo._id" @click="swiperDialog(idx)")
               q-card.card
                 q-img(:src='photo.image' height="150px")
@@ -132,7 +132,7 @@
 
       #VIDEO(v-if="model.tab === 4")
         q-expansion-item.q-my-sm.shadow-1.overflow-hidden(default-opened group="ablum" style='border-radius: 16px' icon='album' label='HIGHLIGHT' header-class='bg-warning text-black text-weight-bold' expand-icon-class='text-black')
-          .row.justify-evenly
+          .row-md.justify-evenly
             q-card.my-card.col-3.q-mx-sm.q-my-md
               //- q-skeleton( width="100vh" )
               q-video(:ratio='16/9' src="https://www.youtube.com/embed/Q-NxDZLtELc")
@@ -160,7 +160,7 @@
                 .text-body2 地娛室成員首次碰面後的未公開花絮
 
         q-expansion-item.q-my-sm.shadow-1.overflow-hidden(group="ablum" style='border-radius: 16px' icon='album' label='SPECIAL' header-class='bg-warning text-black text-weight-bold' expand-icon-class='text-black')
-          .row.justify-evenly
+          .row-md.justify-evenly
             q-card.my-card.col-3.q-mx-sm.q-my-md
               q-video(:ratio='16/9' src="https://www.youtube.com/embed/Q-NxDZLtELc")
               q-card-section
@@ -187,7 +187,7 @@
                 .text-subtitle1 地娛室成員首次碰面後的未公開花絮
 
         q-expansion-item.q-my-sm.shadow-1.overflow-hidden(group="ablum" style='border-radius: 16px' icon='album' label='PREVIEW' header-class='bg-warning text-black text-weight-bold' expand-icon-class='text-black')
-          .row.justify-evenly
+          .row-md.justify-evenly
             q-card.card.col-3.q-mx-sm.q-my-md
               q-video(:ratio='16/9' src="https://www.youtube.com/embed/EFN9_cj1IfU")
               q-card-section
@@ -358,7 +358,7 @@ onMounted(() => {
     abouts.push(...result[1].data.result)
     await nextTick()
     photos.reverse()
-    abouts.sort((a, b) => a.sesstion < b.sesstion ? 1 : -1)
+    abouts.sort((a, b) => a.session < b.session ? -1 : 1)
     tab.value = 1
   } catch (error) {
     Swal.fire({
